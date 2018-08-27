@@ -146,7 +146,7 @@ namespace FolderContentManager
 
             if (spittedPathArr.Count == 1) return string.Empty;
 
-            spittedPathArr.RemoveAt(spittedPathArr.Count);
+            spittedPathArr.RemoveAt(spittedPathArr.Count -1);
             return spittedPathArr.Aggregate((i, j) => i + '/' + j);
         }
 
