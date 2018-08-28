@@ -37,7 +37,7 @@ namespace FolderContentManager
             IFolder homeFolder = new FolderObj(_homeFolderName, string.Empty, null);
             WriteJson(homeFolder);
         }
-        private bool IsFolderExist(string name, string path)
+        private bool IsFolderContentExist(string name, string path)
         {
             name = name.ToLower();
             path = path.ToLower();
@@ -77,7 +77,18 @@ namespace FolderContentManager
             }
             ValidatePath(path);
             IFolder newFolder = new FolderObj(name, path, null);
+            ValidateName(newFolder);
             CreateFolder(newFolder);
+        }
+
+        private void ValidateName(IFolderContent newFolder)
+        {
+            var parent = GetParentFolder(newFolder);
+            if (parent == null || parent.Content == null) return;
+            if (parent.Content.Any(f => f.Name == newFolder.Name && f.Type == newFolder.Type))
+            {
+                throw new Exception("The name exists in this folder!");
+            }
         }
 
         public void CreateFolder(IFolder folder)
@@ -186,7 +197,7 @@ namespace FolderContentManager
         {
             name = name.ToLower();
             path = path.ToLower();
-            return !IsFolderExist(name, path) ? null : ReadJson<RestFolderObj>(CreateJsonPath(name, path)).MapToIFolder();
+            return !IsFolderContentExist(name, path) ? null : ReadJson<RestFolderObj>(CreateJsonPath(name, path)).MapToIFolder();
         }
 
         public string GetFolderAsJson(string name, string path)
@@ -201,9 +212,13 @@ namespace FolderContentManager
 
         public void DeleteFolder(string name, string path)
         {
-            if (!IsFolderExist(name, path)) return;
+            if (!IsFolderContentExist(name, path)) return;
 
             var folder = GetFolder(name, path);
+            foreach (var folderContent in folder.Content)
+            {
+                DeleteFolder(folderContent.Name, folderContent.Path);
+            }
             var pathToFolder = CreateJsonPath(folder.Name, folder.Path);
             File.Delete(pathToFolder);
 
