@@ -18,19 +18,21 @@ namespace CloudAppServer
         [OperationContract]
         [WebInvoke(
             Method = "*",
-            //ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare,
-            //RequestFormat = WebMessageFormat.Json,
             UriTemplate = "/FolderContent/CreateFolder")]
         void CreateNewFolder(FolderContentObj newFolder);
 
         [OperationContract]
         [WebInvoke(
             Method = "*",
-            //ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare,
-            //RequestFormat = WebMessageFormat.Json,
             UriTemplate = "/FolderContent/DeleteFolder")]
         void DeleteFolder(FolderContentObj folder);
+
+        [WebInvoke(
+            Method = "*",
+            BodyStyle = WebMessageBodyStyle.Bare,
+            UriTemplate = "/FolderContent/Rename")]
+        void Rename(FolderContentObj folderContent);
     }
 }

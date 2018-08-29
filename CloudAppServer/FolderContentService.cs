@@ -1,8 +1,4 @@
-﻿using System.Collections.Specialized;
-using System.IO;
-using System.Web;
-using System.Web.Script.Serialization;
-using CloudAppServer.ServiceModel;
+﻿using CloudAppServer.ServiceModel;
 
 namespace CloudAppServer
 {
@@ -35,6 +31,13 @@ namespace CloudAppServer
         {
             if (folder == null) return;
             _folderContentManager.DeleteFolder(folder.Name, FixPath(folder.Path));
+        }
+
+        
+        public void Rename(FolderContentObj folderContent)
+        {
+            if (folderContent == null) return;
+            _folderContentManager.Rename(folderContent.Name, FixPath(folderContent.Path), folderContent.NewName);
         }
     }
 }

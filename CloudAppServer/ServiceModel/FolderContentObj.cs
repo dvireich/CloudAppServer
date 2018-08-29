@@ -16,5 +16,7 @@ namespace CloudAppServer.ServiceModel
         public string Path;
         [DataMember]
         public string Type;
+        [DataMember]
+        public string NewName;
     }
 }
