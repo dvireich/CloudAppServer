@@ -13,10 +13,13 @@ namespace FolderContentManager
     {
         private string _baseFolderPath = "C:\\foldercontentmanager";
         private readonly string _homeFolderName = "home";
+        private readonly IoHelper _ioHelper;
         private readonly JavaScriptSerializer _serializer;
+
 
         public FolderContentManager()
         {
+            _ioHelper = new IoHelper();
             _serializer = new JavaScriptSerializer();
             InitializeBaseFolder();
             InitializeHomeFolder();
@@ -35,7 +38,8 @@ namespace FolderContentManager
             Directory.CreateDirectory(homeFolderPath);
 
             IFolder homeFolder = new FolderObj(_homeFolderName, string.Empty, new IFolderContent[0]);
-            WriteJson(homeFolder);
+            var path = CreateJsonPath(homeFolder.Name, homeFolder.Path);
+            _ioHelper.WriteJson(path, homeFolder);
         }
         private bool IsFolderContentExist(string name, string path)
         {
@@ -94,7 +98,8 @@ namespace FolderContentManager
         public void CreateFolder(IFolder folder)
         {
             CreateDirectoryIfNotExists(folder);
-            WriteJson(folder);
+            var path = CreateJsonPath(folder.Name, folder.Path);
+            _ioHelper.WriteJson(path, folder);
             UpdateNewFolderInParentData(folder);
         }
 
@@ -110,12 +115,13 @@ namespace FolderContentManager
         private void UpdateNewFolderInParentData(IFolderContent folder)
         {
             var parent = GetParentFolder(folder);
+            if (parent == null) return;
 
             var contentList = parent.Content.ToList();
             contentList.Add(folder);
             parent.Content = contentList.ToArray();
-
-            WriteJson(parent);
+            var path = CreateJsonPath(parent.Name, parent.Path);
+            _ioHelper.WriteJson(path, parent);
         }
 
         private void UpdateDeleteFolderInParentData(IFolderContent folder)
@@ -130,7 +136,8 @@ namespace FolderContentManager
                                         fc.Type == folder.Type);
 
             parent.Content = contentList.ToArray();
-            WriteJson(parent);
+            var path = CreateJsonPath(parent.Name, parent.Path);
+            _ioHelper.WriteJson(path, parent);
         }
 
         private void UpdateRenameInParentData(IFolderContent folderContent, string oldName)
@@ -149,7 +156,8 @@ namespace FolderContentManager
             childContent.Name = folderContent.Name;
 
             parent.Content = contentList.ToArray();
-            WriteJson(parent);
+            var path = CreateJsonPath(parent.Name, parent.Path);
+            _ioHelper.WriteJson(path, parent);
         }
 
         private IFolder GetParentFolder(IFolderContent folder)
@@ -183,38 +191,18 @@ namespace FolderContentManager
             return spittedPathArr.Last();
         }
 
-        private T ReadJson<T>(string path)
-        {
-            path = path.ToLower();
-            using (var jsonFile = File.OpenText(path))
-            {
-                var jsonText = jsonFile.ReadToEnd();
-                var folderContent = _serializer.Deserialize<T>(jsonText);
-                return folderContent;
-            }
-        }
-
-        private void WriteJson(IFolderContent folder)
-        {
-            var serializedFolder = _serializer.Serialize(folder);
-            var path = CreateJsonPath(folder.Name, folder.Path);
-            File.Delete(path);
-            using (var jsonFile = File.CreateText(path))
-            {
-                jsonFile.Write(serializedFolder);
-            }
-        }
+        
 
         private IFolder GetFolder(string name, string path)
         {
             name = name.ToLower();
             path = path.ToLower();
-            return !IsFolderContentExist(name, path) ? null : ReadJson<RestFolderObj>(CreateJsonPath(name, path)).MapToIFolder();
+            return !IsFolderContentExist(name, path) ? null : _ioHelper.ReadJson<RestFolderObj>(CreateJsonPath(name, path)).MapToIFolder();
         }
 
         private IFolderContent GetFolderContent(string name, string path)
         {
-            return !IsFolderContentExist(name, path) ? null : ReadJson<RestFolderContent>(CreateJsonPath(name, path)).MapToIFolderContent();
+            return !IsFolderContentExist(name, path) ? null : _ioHelper.ReadJson<RestFolderContent>(CreateJsonPath(name, path)).MapToIFolderContent();
         }
 
         public string GetFolderAsJson(string name, string path)
@@ -249,43 +237,76 @@ namespace FolderContentManager
             UpdateDeleteFolderInParentData(folder);
         }
 
-        private void UpdateChildrenInRename(IFolderContent folderContent, string oldName)
+        private void UpdateChildrenInRename(IFolderContent folderContent, string newPathPrefix, string oldPathPrefix)
         {
             if (folderContent.Type != FolderContentType.Folder) return;
             var folder = GetFolder(folderContent.Name, folderContent.Path);
 
-            foreach (var fc in folder.Content)
+            foreach (var t in folder.Content)
             {
-                var pathParts = fc.Path.Split('/');
-                for(var i = 0; i < pathParts.Length; i ++)
-                {
-                    if (pathParts[i] == oldName)
-                    {
-                        pathParts[i] = folderContent.Name;
-                    }
-                }
-                var path = string.Join("/", pathParts);
-                folder.Path = path;
-                WriteJson(folder);
+                ChangePathOnRenameInParentContentList(t, oldPathPrefix, newPathPrefix);
+                ChangePathOnRenameInChildData(t, oldPathPrefix, newPathPrefix);
             }
+            var folderPath = CreateJsonPath(folder.Name, folder.Path);
+            _ioHelper.WriteJson(folderPath, folder);
+        }
+
+        private void ChangePathOnRenameInParentContentList(IFolderContent fc, string oldPathPrefix, string newPathPrefix)
+        {
+            if (!fc.Path.StartsWith(oldPathPrefix)) return;
+            var newPath = ReplacePrefixString(fc.Path, oldPathPrefix, newPathPrefix);
+            fc.Path = newPath;
+        }
+
+        private void ChangePathOnRenameInChildData(IFolderContent t, string oldPathPrefix, string newPathPrefix)
+        {
+            var fc = GetFolderIfFolderType(t);
+            fc.Path = ReplacePrefixString(fc.Path, oldPathPrefix, newPathPrefix); ;
+            var dirPath = CreateJsonPath(fc.Name, fc.Path);
+            _ioHelper.WriteJson(dirPath, fc);
+            UpdateChildrenInRename(fc, newPathPrefix, oldPathPrefix);
+        }
+
+        private IFolderContent GetFolderIfFolderType(IFolderContent folderContent)
+        {
+            return folderContent.Type == FolderContentType.Folder ? GetFolder(folderContent.Name, folderContent.Path) : folderContent;
+        }
+
+        private string ReplacePrefixString(string source, string oldPrefix, string newPrefix)
+        {
+            if (!source.StartsWith(oldPrefix)) return oldPrefix;
+
+            var suffixPath = source.Substring(oldPrefix.Length, source.Length - oldPrefix.Length);
+            return $"{newPrefix}{suffixPath}";
+
         }
         public void Rename(string name, string path, string newName)
         {
             var folderContent = GetFolderContent(name, path);
             if(folderContent == null) throw new Exception("folder content is not exists!");
             var oldName = folderContent.Name;
+            var oldPath = $"{folderContent.Path}/{oldName}";
+            var newPath = $"{folderContent.Path}/{newName}";
 
-            if (folderContent.Type == FolderContentType.Folder)
-            {
-                folderContent = GetFolder(folderContent.Name, folderContent.Path);
-            }
-
+            folderContent = GetFolderIfFolderType(folderContent);
             folderContent.Name = newName;
-
-            WriteJson(folderContent);
-
+            RenameDirectory(folderContent.Path, oldName, newName);
+            var dirPath = CreateJsonPath(folderContent.Name, folderContent.Path);
+            _ioHelper.WriteJson(dirPath, folderContent);
+            File.Delete(CreateJsonPath(oldName, folderContent.Path));
             UpdateRenameInParentData(folderContent, oldName);
-            UpdateChildrenInRename(folderContent, oldName);
+
+            
+            UpdateChildrenInRename(folderContent, newPath, oldPath);
+        }
+
+        private void RenameDirectory(string path, string oldName, string newName)
+        {
+            var newDirPath = CreateFolderPath(newName, path);
+            var oldDirPath = CreateFolderPath(oldName, path);
+
+            _ioHelper.DirectoryCopy(oldDirPath, newDirPath, true);
+            Directory.Delete(oldDirPath,true);
         }
     }
 }

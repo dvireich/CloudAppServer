@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FolderContentManager.cs" />
+    <Compile Include="IoHelper.cs" />
     <Compile Include="Model\FileObj.cs" />
     <Compile Include="Model\FolderContent.cs" />
     <Compile Include="Model\FolderContentType.cs" />
