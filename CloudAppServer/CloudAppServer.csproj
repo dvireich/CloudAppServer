@@ -50,7 +50,9 @@
     <Compile Include="IFolderContentService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FolderContentService.cs" />
+    <Compile Include="ServiceModel\FolderContentCopyObj.cs" />
     <Compile Include="ServiceModel\FolderContentObj.cs" />
+    <Compile Include="ServiceModel\FolderContentRenameObj.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

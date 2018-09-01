@@ -33,6 +33,12 @@ namespace CloudAppServer
             Method = "*",
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "/FolderContent/Rename")]
-        void Rename(FolderContentObj folderContent);
+        void Rename(FolderContentRenameObj folderContent);
+
+        [WebInvoke(
+            Method = "*",
+            BodyStyle = WebMessageBodyStyle.Bare,
+            UriTemplate = "/FolderContent/Copy")]
+        void Copy(FolderContentCopyObj folderContent);
     }
 }

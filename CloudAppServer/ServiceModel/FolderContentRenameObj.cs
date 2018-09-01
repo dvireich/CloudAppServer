@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace CloudAppServer.ServiceModel
 {
     [DataContract]
-    public class FolderContentObj
+    public class FolderContentRenameObj
     {
         [DataMember]
         public string Name;
@@ -16,5 +16,7 @@ namespace CloudAppServer.ServiceModel
         public string Path;
         [DataMember]
         public string Type;
+        [DataMember]
+        public string NewName;
     }
 }

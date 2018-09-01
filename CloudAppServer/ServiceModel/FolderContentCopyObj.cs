@@ -8,13 +8,18 @@ using System.Threading.Tasks;
 namespace CloudAppServer.ServiceModel
 {
     [DataContract]
-    public class FolderContentObj
+    public class FolderContentCopyObj
     {
         [DataMember]
-        public string Name;
+        public string FolderContentName;
         [DataMember]
-        public string Path;
+        public string FolderContentPath;
         [DataMember]
-        public string Type;
+        public string FolderContentType;
+
+        [DataMember]
+        public string CopyToName;
+        [DataMember]
+        public string CopyToPath;
     }
 }

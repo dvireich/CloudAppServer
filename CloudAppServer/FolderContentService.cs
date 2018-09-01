@@ -8,13 +8,15 @@ namespace CloudAppServer
 
         public FolderContentService()
         {
-            _folderContentManager = new FolderContentManager.FolderContentManager();;
+            _folderContentManager = new FolderContentManager.FolderContentManager();
+            ;
         }
 
         private string FixPath(string path)
         {
             return path.Replace(',', '/');
         }
+
         public string GetFolderContent(string name, string path)
         {
 
@@ -33,11 +35,18 @@ namespace CloudAppServer
             _folderContentManager.DeleteFolder(folder.Name, FixPath(folder.Path));
         }
 
-        
-        public void Rename(FolderContentObj folderContent)
+
+        public void Rename(FolderContentRenameObj folderContent)
         {
             if (folderContent == null) return;
-            _folderContentManager.Rename(folderContent.Name, FixPath(folderContent.Path), folderContent.NewName);
+            _folderContentManager.Rename(folderContent.Name, FixPath(folderContent.Path), folderContent.Type, folderContent.NewName);
+        }
+
+        public void Copy(FolderContentCopyObj folderContent)
+        {
+            if (folderContent == null) return;
+            _folderContentManager.Copy(folderContent.FolderContentName, folderContent.FolderContentPath, folderContent.FolderContentType,
+                folderContent.CopyToName, folderContent.CopyToPath);
         }
     }
 }
