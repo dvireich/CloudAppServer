@@ -242,30 +242,45 @@ namespace FolderContentManager
             if (folderContent.Type != FolderContentType.Folder) return;
             var folder = GetFolder(folderContent.Name, folderContent.Path);
 
-            foreach (var t in folder.Content)
+            if (folder.Path.StartsWith(oldPathPrefix))
             {
-                ChangePathOnRenameInParentContentList(t, oldPathPrefix, newPathPrefix);
-                ChangePathOnRenameInChildData(t, oldPathPrefix, newPathPrefix);
+                var newPath = ReplacePrefixString(folder.Path, oldPathPrefix, newPathPrefix);
+                folder.Path = newPath;
             }
+
+            foreach (var fc in folder.Content)
+            {
+                if (!fc.Path.StartsWith(oldPathPrefix)) continue;
+                var newPath = ReplacePrefixString(fc.Path, oldPathPrefix, newPathPrefix);
+                fc.Path = newPath;
+            }
+
             var folderPath = CreateJsonPath(folder.Name, folder.Path, folder.Type);
             _ioHelper.WriteJson(folderPath, folder);
+
+            foreach (var fc in folder.Content)
+            {
+                UpdateChildrenPath(fc, newPathPrefix, oldPathPrefix);
+            }
+
         }
 
-        private void ChangePathOnRenameInParentContentList(IFolderContent fc, string oldPathPrefix, string newPathPrefix)
-        {
-            if (!fc.Path.StartsWith(oldPathPrefix)) return;
-            var newPath = ReplacePrefixString(fc.Path, oldPathPrefix, newPathPrefix);
-            fc.Path = newPath;
-        }
+        //private void ChangePathOnRenameInParentContentList(IFolderContent fc, string oldPathPrefix, string newPathPrefix)
+        //{
+        //    if (!fc.Path.StartsWith(oldPathPrefix)) return;
+        //    var newPath = ReplacePrefixString(fc.Path, oldPathPrefix, newPathPrefix);
+        //    fc.Path = newPath;
+        //}
 
-        private void ChangePathOnRenameInChildData(IFolderContent t, string oldPathPrefix, string newPathPrefix)
-        {
-            var fc = GetFolderIfFolderType(t);
-            fc.Path = ReplacePrefixString(fc.Path, oldPathPrefix, newPathPrefix);
-            var dirPath = CreateJsonPath(fc.Name, fc.Path, fc.Type);
-            _ioHelper.WriteJson(dirPath, fc);
-            UpdateChildrenPath(fc, newPathPrefix, oldPathPrefix);
-        }
+        //private void ChangePathOnRenameInChildData(IFolderContent t, string oldPathPrefix, string newPathPrefix)
+        //{
+        //    var fc = GetFolderIfFolderType(t);
+        //    fc.Path = ReplacePrefixString(fc.Path, oldPathPrefix, newPathPrefix);
+        //    var dirPath = CreateJsonPath(fc.Name, fc.Path, fc.Type);
+        //    UpdateChildrenPath(fc, newPathPrefix, oldPathPrefix);
+        //    _ioHelper.WriteJson(dirPath, fc);
+            
+        //}
 
         private IFolderContent GetFolderIfFolderType(IFolderContent folderContent)
         {
@@ -313,35 +328,44 @@ namespace FolderContentManager
         public void Copy(string copyObjName, string copyObjPath, string copyObjTypeStr, string copyToName,
             string copyToPath)
         {
+            //Validate folder to copy to
             var folderToCopyTo = GetFolder(copyToName, copyToPath);
             if(folderToCopyTo == null) throw new Exception("The folder you are trying to copy to does not exists!");
 
+            //Validate folder to copy
             Enum.TryParse(copyObjTypeStr, true, out FolderContentType copyObjType);
-
             var folderContentToCopy = GetFolderContent(copyObjName, copyObjPath, copyObjType);
             if(folderContentToCopy == null) throw new Exception("The folder content you are trying to copy does not exists!");
 
+            //Add the new folder content and fix the path
             var contentList = folderToCopyTo.Content.ToList();
+            var folderContentToCopyOldPath = folderContentToCopy.Path;
+            folderContentToCopy.Path = string.IsNullOrEmpty(folderToCopyTo.Path) ? folderToCopyTo.Name :
+                                       $"{folderToCopyTo.Path}/{folderToCopyTo.Name}";
             contentList.Add(folderContentToCopy);
             folderToCopyTo.Content = contentList.ToArray();
-
             _ioHelper.WriteJson(CreateJsonPath(folderToCopyTo.Name, folderToCopyTo.Path, folderToCopyTo.Type),
                                 folderToCopyTo);
 
+            //Fix the path in the folder content json file
+            folderContentToCopy.Path = folderContentToCopyOldPath;
             folderContentToCopy = GetFolderIfFolderType(folderContentToCopy);
-            var folderContentToCopyOldPath = folderContentToCopy.Path;
             folderContentToCopy.Path = string.IsNullOrEmpty(folderToCopyTo.Path) ? folderToCopyTo.Name :
                                                                                    $"{folderToCopyTo.Path}/{folderToCopyTo.Name}";
             _ioHelper.WriteJson(CreateJsonPath(folderContentToCopy.Name, folderContentToCopy.Path, folderContentToCopy.Type),
                                 folderContentToCopy);
 
+            //Fix the children path and move the directory
             if (folderContentToCopy.Type == FolderContentType.Folder)
             {
                 _ioHelper.DirectoryCopy(CreateFolderPath(folderContentToCopy.Name, folderContentToCopyOldPath),
                                         $"{CreateFolderPath(folderToCopyTo.Name, folderToCopyTo.Path)}\\{folderContentToCopy.Name}",
                                         true);
 
-                UpdateChildrenPath(folderContentToCopy, folderContentToCopy.Path, folderContentToCopyOldPath);
+               
+                UpdateChildrenPath(folderContentToCopy,
+                                   $"{folderContentToCopy.Path}/{folderContentToCopy.Name}",
+                                   $"{folderContentToCopyOldPath}/{folderContentToCopy.Name}");
             }
 
         }
