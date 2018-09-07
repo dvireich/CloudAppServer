@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace FolderContentManager
         private readonly IoHelper _ioHelper;
         private readonly JavaScriptSerializer _serializer;
 
+        
 
         public FolderContentManager()
         {
@@ -124,7 +126,7 @@ namespace FolderContentManager
             _ioHelper.WriteJson(path, parent);
         }
 
-        private void UpdateDeleteFolderInParentData(IFolderContent folder)
+        private void UpdateDeleteFolderContentInParentData(IFolderContent folder)
         {
             var parent = GetParentFolder(folder);
 
@@ -193,7 +195,7 @@ namespace FolderContentManager
 
         
 
-        private IFolder GetFolder(string name, string path)
+        public IFolder GetFolder(string name, string path)
         {
             name = name.ToLower();
             path = path.ToLower();
@@ -203,16 +205,6 @@ namespace FolderContentManager
         private IFolderContent GetFolderContent(string name, string path, FolderContentType type)
         {
             return !IsFolderContentExist(name, path, type) ? null : _ioHelper.ReadJson<RestFolderContent>(CreateJsonPath(name, path, type)).MapToIFolderContent();
-        }
-
-        public string GetFolderAsJson(string name, string path)
-        {
-            name = name.Replace("\"", "");
-            path = path.Replace("\"", "");
-            var folder = GetFolder(name, path);
-            if (folder == null) return null;
-            var serializeFolder = _serializer.Serialize(folder);
-            return serializeFolder;
         }
 
         public void DeleteFolder(string name, string path)
@@ -234,7 +226,7 @@ namespace FolderContentManager
                 Directory.Delete(pathToFolder,true);
             }
 
-            UpdateDeleteFolderInParentData(folder);
+            UpdateDeleteFolderContentInParentData(folder);
         }
 
         private void UpdateChildrenPath(IFolderContent folderContent, string newPathPrefix, string oldPathPrefix)
@@ -264,23 +256,6 @@ namespace FolderContentManager
             }
 
         }
-
-        //private void ChangePathOnRenameInParentContentList(IFolderContent fc, string oldPathPrefix, string newPathPrefix)
-        //{
-        //    if (!fc.Path.StartsWith(oldPathPrefix)) return;
-        //    var newPath = ReplacePrefixString(fc.Path, oldPathPrefix, newPathPrefix);
-        //    fc.Path = newPath;
-        //}
-
-        //private void ChangePathOnRenameInChildData(IFolderContent t, string oldPathPrefix, string newPathPrefix)
-        //{
-        //    var fc = GetFolderIfFolderType(t);
-        //    fc.Path = ReplacePrefixString(fc.Path, oldPathPrefix, newPathPrefix);
-        //    var dirPath = CreateJsonPath(fc.Name, fc.Path, fc.Type);
-        //    UpdateChildrenPath(fc, newPathPrefix, oldPathPrefix);
-        //    _ioHelper.WriteJson(dirPath, fc);
-            
-        //}
 
         private IFolderContent GetFolderIfFolderType(IFolderContent folderContent)
         {
@@ -368,6 +343,34 @@ namespace FolderContentManager
                                    $"{folderContentToCopyOldPath}/{folderContentToCopy.Name}");
             }
 
+        }
+
+        public void CreateFile(string name, string path, string fileType, string[] value)
+        {
+            var file = new FileObj(name, path, fileType, value);
+
+            _ioHelper.WriteJson(CreateJsonPath(name, path, FolderContentType.File),
+                                file);
+
+            var parent = GetParentFolder(file);
+            var parentContent = parent.Content.ToList();
+            parentContent.Add(file);
+            parent.Content = parentContent.ToArray();
+
+            _ioHelper.WriteJson(CreateJsonPath(parent.Name, parent.Path, parent.Type),
+                                parent);
+        }
+
+        public void DeleteFile(string name, string path)
+        {
+            if (!IsFolderContentExist(name, path, FolderContentType.File)) return;
+
+            var file = GetFolderContent(name, path, FolderContentType.File);
+            
+            var pathToFolderJson = CreateJsonPath(file.Name, file.Path, file.Type);
+            File.Delete(pathToFolderJson);
+
+            UpdateDeleteFolderContentInParentData(file);
         }
     }
 }

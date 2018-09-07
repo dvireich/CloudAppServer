@@ -11,5 +11,7 @@ namespace CloudAppServer.Model
 
     public interface IFile : IFolderContent
     {
+        string FileType { get; set; }
+        string[] Value { get; set; }
     }
 }

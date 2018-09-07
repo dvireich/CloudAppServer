@@ -9,8 +9,14 @@ namespace CloudAppServer.Model
 {
     public class FileObj : FolderContent, IFile
     {
-        public FileObj(string name, string path) : base(name, path, FolderContentType.File)
+
+        public string FileType { get; set; }
+        public string[] Value { get; set; }
+
+        public FileObj(string name, string path, string fileType, string[] value) : base(name, path, FolderContentType.File)
         {
+            FileType = fileType;
+            Value = value;
         }
 
         public FileObj() : base(null, null, FolderContentType.File)

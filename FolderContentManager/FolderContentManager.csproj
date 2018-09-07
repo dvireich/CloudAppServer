@@ -47,7 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileService.cs" />
     <Compile Include="FolderContentManager.cs" />
+    <Compile Include="IFileService.cs" />
     <Compile Include="IoHelper.cs" />
     <Compile Include="Model\FileObj.cs" />
     <Compile Include="Model\FolderContent.cs" />
