@@ -41,6 +41,43 @@ namespace FolderContentManager
             }
         }
 
+        public void WriteFileContent(string path, string[] value)
+        {
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+
+            using (var file = new BinaryWriter(File.Create(path)))
+            {
+                foreach (var s in value)
+                {
+                    var bytesToWrite = Convert.FromBase64String(s);
+                    file.Write(bytesToWrite);
+                    file.Flush();
+                }
+            }
+        }
+
+        public Stream GetFile(string path)
+        {
+            //WebOperationContext.Current.OutgoingResponse.ContentType = "application/txt";
+
+            var f = new FileStream(path, FileMode.Open);
+            int length = (int) f.Length;
+            //WebOperationContext.Current.OutgoingResponse.ContentLength = length;
+            byte[] buffer = new byte[length];
+            int sum = 0;
+            int count;
+            while ((count = f.Read(buffer, sum, length - sum)) > 0)
+            {
+                sum += count;
+            }
+
+            f.Close();
+            return new MemoryStream(buffer);
+        }
+
         public void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
         {
             // Get the subdirectories for the specified directory.

@@ -57,6 +57,13 @@ namespace FolderContentManager
             return string.IsNullOrEmpty(path) ? $"{_baseFolderPath}\\{name}{type.ToString()}.json" : $"{_baseFolderPath}\\{path}\\{name}{type.ToString()}.json";
         }
 
+        private string CreateFilePath(string name, string path)
+        {
+            name = name.ToLower();
+            path = path.ToLower().Replace('/', '\\');
+            return string.IsNullOrEmpty(path) ? $"{_baseFolderPath}\\{name}" : $"{_baseFolderPath}\\{path}\\{name}";
+        }
+
         private string CreateFolderPath(string name, string path)
         {
             name = name.ToLower();
@@ -347,10 +354,15 @@ namespace FolderContentManager
 
         public void CreateFile(string name, string path, string fileType, string[] value)
         {
-            var file = new FileObj(name, path, fileType, value);
+            var file = new FolderContent(name, path, FolderContentType.File);
+
+            ValidateName(file);
 
             _ioHelper.WriteJson(CreateJsonPath(name, path, FolderContentType.File),
                                 file);
+
+            _ioHelper.WriteFileContent(CreateFilePath(name, path),
+                                       value);
 
             var parent = GetParentFolder(file);
             var parentContent = parent.Content.ToList();
@@ -359,6 +371,11 @@ namespace FolderContentManager
 
             _ioHelper.WriteJson(CreateJsonPath(parent.Name, parent.Path, parent.Type),
                                 parent);
+        }
+
+        public Stream GetFile(string name, string path)
+        {
+            return _ioHelper.GetFile(CreateFilePath(name, path));
         }
 
         public void DeleteFile(string name, string path)

@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using System.IO;
+using System.ServiceModel;
 using System.ServiceModel.Web;
 using CloudAppServer.ServiceModel;
 
@@ -67,5 +68,22 @@ namespace CloudAppServer
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "/FolderContent/UpdateFileContent")]
         void UpdateFileContent(CreateFolderContentFileObj folderContent);
+
+        [WebInvoke(
+            Method = "*",
+            BodyStyle = WebMessageBodyStyle.Bare,
+            UriTemplate = "/FolderContent/FinishUploadFileContent")]
+        void FinishUploadFileContent(int requestId);
+
+        [WebInvoke(
+            Method = "*",
+            BodyStyle = WebMessageBodyStyle.Bare,
+            UriTemplate = "/FolderContent/Cancel")]
+        void Cancel(int requestId);
+
+        [OperationContract]
+        [WebGet(
+            UriTemplate = "/FolderContent/GetFile/name={name}&path={path}")]
+        Stream GetFile(string name, string path);
     }
 }

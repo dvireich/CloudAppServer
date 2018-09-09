@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.ServiceModel.Web;
 using System.Web.Script.Serialization;
 using CloudAppServer.Model;
 using CloudAppServer.ServiceModel;
@@ -84,10 +86,33 @@ namespace CloudAppServer
             _fileService.UpdateFileValue(folderContent.RequestId, folderContent.NewValueIndex , folderContent.NewValue);
 
             if (!_fileService.IsFileFullyUploaded(folderContent.RequestId)) return;
-
+            
             var file =_fileService.GetFile(folderContent.RequestId);
+            if(file == null) return;
+
             _folderContentManager.CreateFile(file.Name, file.Path, file.FileType, file.Value);
-            _fileService.Finish(folderContent.RequestId);
+        }
+
+        public void FinishUploadFileContent(int requestId)
+        {
+            _fileService.Finish(requestId);
+        }
+
+        public void Cancel(int requestId)
+        {
+            _fileService.Finish(requestId);
+        }
+
+        public Stream GetFile(string name, string path)
+        {
+            name = name.Replace("\"", "");
+            path = path.Replace("\"", "");
+            var file = _folderContentManager.GetFile(name, path);
+            WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Disposition", "attachment; filename=" + name);
+            //WebOperationContext.Current.OutgoingResponse.ContentType = "text/plain";
+            WebOperationContext.Current.OutgoingResponse.ContentLength = file.Length;
+
+            return file;
         }
     }
 }

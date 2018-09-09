@@ -40,17 +40,35 @@ namespace FolderContentManager
 
         public void UpdateFileValue(int requestId, int index,  string value)
         {
-            var file = _requestIdToFiles[requestId];
-            file.Value[index] = value;
+            try
+            {
+                var file = _requestIdToFiles[requestId];
+                file.Value[index] = value;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Could not Update request id: {requestId} for file value content with the following exception: {e.Message}");
+            }
         }
 
         public IFile GetFile(int requestId)
         {
-            return _requestIdToFiles[requestId];
+            try
+            {
+                return _requestIdToFiles[requestId];
+            }
+            catch (Exception e)
+            {
+                var message = $"Could not find the file for request id: {requestId}... with the following error: {e.Message}";
+                Console.WriteLine(message);
+                return null;
+            }
+            
         }
 
         public void Finish(int requestId)
         {
+            Console.WriteLine($"Finishing upload by removing the request id: {requestId}");
             _requestIdToFiles.TryRemove(requestId, out var file);
         }
 
