@@ -73,10 +73,15 @@ namespace CloudAppServer
         public void CreateFile(CreateFolderContentFileObj folderContent)
         {
             if (folderContent == null) return;
+            var values = new string[folderContent.NumOfChunks];
+            for (var i = 0; i < values.Length; i++)
+            {
+                values[i] = null;
+            }
             _fileService.CreateFile(folderContent.RequestId, new FileObj(folderContent.Name, 
                                                                          folderContent.Path, 
                                                                          folderContent.FileType,
-                                                                         new string[folderContent.NumOfChunks]));
+                                                                         values));
         }
 
         public void UpdateFileContent(CreateFolderContentFileObj folderContent)
@@ -93,12 +98,7 @@ namespace CloudAppServer
             _folderContentManager.CreateFile(file.Name, file.Path, file.FileType, file.Value);
         }
 
-        public void FinishUploadFileContent(int requestId)
-        {
-            _fileService.Finish(requestId);
-        }
-
-        public void Cancel(int requestId)
+        public void ClearUpload(int requestId)
         {
             _fileService.Finish(requestId);
         }
@@ -107,9 +107,8 @@ namespace CloudAppServer
         {
             name = name.Replace("\"", "");
             path = path.Replace("\"", "");
-            var file = _folderContentManager.GetFile(name, path);
+            var file = _folderContentManager.GetFile(name, FixPath(path));
             WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Disposition", "attachment; filename=" + name);
-            //WebOperationContext.Current.OutgoingResponse.ContentType = "text/plain";
             WebOperationContext.Current.OutgoingResponse.ContentLength = file.Length;
 
             return file;

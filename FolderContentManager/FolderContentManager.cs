@@ -57,6 +57,7 @@ namespace FolderContentManager
             return string.IsNullOrEmpty(path) ? $"{_baseFolderPath}\\{name}{type.ToString()}.json" : $"{_baseFolderPath}\\{path}\\{name}{type.ToString()}.json";
         }
 
+
         private string CreateFilePath(string name, string path)
         {
             name = name.ToLower();
@@ -288,7 +289,19 @@ namespace FolderContentManager
 
             folderContent = GetFolderIfFolderType(folderContent);
             folderContent.Name = newName;
-            RenameDirectory(folderContent.Path, oldName, newName);
+
+            if (folderContent.Type == FolderContentType.Folder)
+            {
+                RenameDirectory(folderContent.Path, oldName, newName);
+            }
+
+            if (folderContent.Type == FolderContentType.File)
+            {
+                var oldNameFullPath = CreateFilePath(oldName, folderContent.Path);
+                var newNameFullPath = CreateFilePath(newName, folderContent.Path);
+                File.Move(oldNameFullPath, newNameFullPath);
+            }
+            
             var dirPath = CreateJsonPath(folderContent.Name, folderContent.Path, folderContent.Type);
             _ioHelper.WriteJson(dirPath, folderContent);
             File.Delete(CreateJsonPath(oldName, folderContent.Path, folderContent.Type));
@@ -350,6 +363,11 @@ namespace FolderContentManager
                                    $"{folderContentToCopyOldPath}/{folderContentToCopy.Name}");
             }
 
+            if (folderContentToCopy.Type == FolderContentType.File)
+            {
+                File.Copy(CreateFilePath(folderContentToCopy.Name, folderContentToCopyOldPath),
+                          CreateFilePath(folderContentToCopy.Name, folderContentToCopy.Path));
+            }
         }
 
         public void CreateFile(string name, string path, string fileType, string[] value)
@@ -386,6 +404,9 @@ namespace FolderContentManager
             
             var pathToFolderJson = CreateJsonPath(file.Name, file.Path, file.Type);
             File.Delete(pathToFolderJson);
+
+            var pathToFile = CreateFilePath(file.Name, file.Path);
+            File.Delete(pathToFile);
 
             UpdateDeleteFolderContentInParentData(file);
         }

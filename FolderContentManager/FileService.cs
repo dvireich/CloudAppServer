@@ -95,7 +95,7 @@ namespace FolderContentManager
             if (!_requestIdToFiles.ContainsKey(requestId)) return true;
 
             var file = _requestIdToFiles[requestId];
-            return file.Value.All(element => !string.IsNullOrEmpty(element));
+            return file.Value.All(element => element != null);
         }
     }
 }

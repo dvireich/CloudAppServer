@@ -72,14 +72,8 @@ namespace CloudAppServer
         [WebInvoke(
             Method = "*",
             BodyStyle = WebMessageBodyStyle.Bare,
-            UriTemplate = "/FolderContent/FinishUploadFileContent")]
-        void FinishUploadFileContent(int requestId);
-
-        [WebInvoke(
-            Method = "*",
-            BodyStyle = WebMessageBodyStyle.Bare,
-            UriTemplate = "/FolderContent/Cancel")]
-        void Cancel(int requestId);
+            UriTemplate = "/FolderContent/ClearUpload")]
+        void ClearUpload(int requestId);
 
         [OperationContract]
         [WebGet(
