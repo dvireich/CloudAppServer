@@ -10,6 +10,7 @@ namespace CloudAppServer.Model
     public enum FolderContentType
     {
         File,
-        Folder
+        Folder,
+        FolderPage
     }
 }

@@ -14,16 +14,18 @@ namespace CloudAppServer.Model
         public RestFolderObj()
         {
             Type = FolderContentType.Folder;
+            NumOfPages = NextPageToWrite = 1;
         }
 
         public string Name { get; set; }
         public string Path { get; set; }
         public FolderContentType Type { get; set; }
-        public FolderContent[] Content { get; set; }
+        public int NumOfPages { get; set; }
+        public int NextPageToWrite { get; set; }
 
         public IFolder MapToIFolder()
         {
-            return new FolderObj(Name, Path, Content);
+            return new FolderObj(Name, Path, NumOfPages, NextPageToWrite);
         }
     }
 }

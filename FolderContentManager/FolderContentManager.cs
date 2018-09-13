@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using CloudAppServer.Model;
+using FolderContentManager.Model;
+using FolderContentManager.Model.RestObject;
 
 namespace FolderContentManager
 {
@@ -15,17 +17,31 @@ namespace FolderContentManager
         private string _baseFolderPath = "C:\\foldercontentmanager";
         private readonly string _homeFolderName = "home";
         private readonly IoHelper _ioHelper;
-        private readonly JavaScriptSerializer _serializer;
 
-        
+        private readonly int _maxFolderContentOnPage = 10;
 
-        public FolderContentManager()
+        #region Singelton
+        private static FolderContentManager _instance = null;
+        private static readonly object Padlock = new object();
+        private FolderContentManager()
         {
             _ioHelper = new IoHelper();
-            _serializer = new JavaScriptSerializer();
             InitializeBaseFolder();
             InitializeHomeFolder();
         }
+
+        public static FolderContentManager Instance
+        {
+            get
+            {
+                lock (Padlock)
+                {
+                    return _instance ?? (_instance = new FolderContentManager());
+                }
+            }
+        }
+
+        #endregion Singelton
 
         private void InitializeBaseFolder()
         {
@@ -39,9 +55,11 @@ namespace FolderContentManager
             if (Directory.Exists(homeFolderPath)) return;
             Directory.CreateDirectory(homeFolderPath);
 
-            IFolder homeFolder = new FolderObj(_homeFolderName, string.Empty, new IFolderContent[0]);
-            var path = CreateJsonPath(homeFolder.Name, homeFolder.Path, FolderContentType.Folder);
-            _ioHelper.WriteJson(path, homeFolder);
+            IFolder homeFolder = new FolderObj(_homeFolderName, string.Empty);
+            var jsonPath = CreateJsonPath(homeFolder.Name, homeFolder.Path, FolderContentType.Folder);
+            _ioHelper.WriteJson(jsonPath, homeFolder);
+
+            CreateNewFolderPage(1, homeFolder);
         }
         private bool IsFolderContentExist(string name, string path, FolderContentType type)
         {
@@ -50,11 +68,27 @@ namespace FolderContentManager
             return File.Exists(CreateJsonPath(name, path, type));
         }
 
+        private bool IsFolderPageExist(string name, string path, int page)
+        {
+            name = name.ToLower();
+            path = path.ToLower();
+            return File.Exists(CreateFolderPageJsonPath(name, path, page));
+        }
+
         private string CreateJsonPath(string name, string path, FolderContentType type)
         {
             name = name.ToLower();
             path = path.ToLower().Replace('/','\\');
             return string.IsNullOrEmpty(path) ? $"{_baseFolderPath}\\{name}{type.ToString()}.json" : $"{_baseFolderPath}\\{path}\\{name}{type.ToString()}.json";
+        }
+
+        private string CreateFolderPageJsonPath(string name, string path, int page)
+        {
+            name = name.ToLower();
+            path = path.ToLower().Replace('/', '\\');
+            return string.IsNullOrEmpty(path) ? 
+                $"{_baseFolderPath}\\{name}{FolderContentType.FolderPage.ToString()}.{page}.json" : 
+                $"{_baseFolderPath}\\{path}\\{name}{FolderContentType.FolderPage.ToString()}.{page}.json";
         }
 
 
@@ -90,7 +124,7 @@ namespace FolderContentManager
                 path = new string(listOfChars.ToArray());
             }
             ValidatePath(path);
-            IFolder newFolder = new FolderObj(name, path, new IFolderContent[0]);
+            IFolder newFolder = new FolderObj(name, path);
             ValidateName(newFolder);
             CreateFolder(newFolder);
         }
@@ -98,18 +132,25 @@ namespace FolderContentManager
         private void ValidateName(IFolderContent newFolder)
         {
             var parent = GetParentFolder(newFolder);
-            if (parent == null || parent.Content == null) return;
-            if (parent.Content.Any(f => f.Name == newFolder.Name && f.Type == newFolder.Type))
+            if (parent == null) return;
+
+            for (var i = 1; i <= parent.NumOfPages; i++)
             {
-                throw new Exception("The name exists in this folder!");
+                var page = GetFolderPage(parent, i);
+                if (page.Content.Any(f => f.Name == newFolder.Name && f.Type == newFolder.Type))
+                {
+                    throw new Exception("The name exists in this folder!");
+                }
             }
         }
 
         public void CreateFolder(IFolder folder)
         {
             CreateDirectoryIfNotExists(folder);
-            var path = CreateJsonPath(folder.Name, folder.Path, FolderContentType.Folder);
-            _ioHelper.WriteJson(path, folder);
+            var jsonPath = CreateJsonPath(folder.Name, folder.Path, FolderContentType.Folder);
+            _ioHelper.WriteJson(jsonPath, folder);
+
+            CreateNewFolderPage(1, folder);
             UpdateNewFolderInParentData(folder);
         }
 
@@ -122,52 +163,100 @@ namespace FolderContentManager
             }
         }
 
+        private void AddToFolderPage(int pageNum ,IFolderPage pageToWriteContent, IFolderContent folderContent)
+        {
+            var contentList = pageToWriteContent.Content.ToList();
+            contentList.Add(folderContent);
+            pageToWriteContent.Content = contentList.ToArray();
+
+            var jsonPagePath = CreateFolderPageJsonPath(pageToWriteContent.Name, pageToWriteContent.Path, pageNum);
+            _ioHelper.WriteJson(jsonPagePath, pageToWriteContent);
+        }
+
+        private void CreateNewFolderPage(int pageNum, IFolder folder)
+        {
+            IFolderPage page = new FolderPage(folder.Name, folder.Path, new IFolderContent[0]);
+            var jsonPagePath = CreateFolderPageJsonPath(folder.Name, folder.Path, pageNum);
+            _ioHelper.WriteJson(jsonPagePath, page);
+        }
+
+
         private void UpdateNewFolderInParentData(IFolderContent folder)
         {
             var parent = GetParentFolder(folder);
             if (parent == null) return;
 
-            var contentList = parent.Content.ToList();
-            contentList.Add(folder);
-            parent.Content = contentList.ToArray();
-            var path = CreateJsonPath(parent.Name, parent.Path, parent.Type);
-            _ioHelper.WriteJson(path, parent);
+            UpdateNextPageToWrite(parent);
+
+            var pageToWriteContent = GetFolderPage(parent, parent.NextPageToWrite);
+            AddToFolderPage(parent.NextPageToWrite, pageToWriteContent, folder);
         }
 
-        private void UpdateDeleteFolderContentInParentData(IFolderContent folder)
+        private int GetNextPageToWrite(IFolder folder)
+        {
+            for (var i = 1; i <= folder.NumOfPages; i++)
+            {
+                var page = GetFolderPage(folder, i);
+                if (page.Content.Length < _maxFolderContentOnPage) return i;
+            }
+
+            return folder.NumOfPages + 1;
+        }
+
+        private void UpdateNextPageToWrite(IFolder folder)
+        {
+            folder.NextPageToWrite = GetNextPageToWrite(folder);
+            if (folder.NextPageToWrite > folder.NumOfPages)
+            {
+                folder.NumOfPages++;
+                CreateNewFolderPage(folder.NextPageToWrite, folder);
+            }
+            var path = CreateJsonPath(folder.Name, folder.Path, folder.Type);
+            _ioHelper.WriteJson(path, folder);
+        }
+
+        private void UpdateDeleteFolderContentInParentData(IFolderContent folder, int page)
         {
             var parent = GetParentFolder(folder);
+            var folderPage = GetFolderPage(parent, page);
 
-            if (parent.Content == null) return;
+            if (folderPage.Content == null) return;
 
-            var contentList = parent.Content.ToList();
+            var contentList = folderPage.Content.ToList();
             contentList.RemoveAll(fc => fc.Name == folder.Name &&
                                         fc.Path == folder.Path &&
                                         fc.Type == folder.Type);
 
-            parent.Content = contentList.ToArray();
-            var path = CreateJsonPath(parent.Name, parent.Path, parent.Type);
-            _ioHelper.WriteJson(path, parent);
+            folderPage.Content = contentList.ToArray();
+            var pathToPage = CreateFolderPageJsonPath(parent.Name, parent.Path, page);
+            _ioHelper.WriteJson(pathToPage, folderPage);
+
+            PerformPageCompression(parent);
+            //UpdateNextPageToWrite(parent);
         }
 
         private void UpdateRenameInParentData(IFolderContent folderContent, string oldName)
         {
             var parent = GetParentFolder(folderContent);
 
-            if (parent.Content == null) return;
+            for (var i = 1; i <= parent.NumOfPages; i++)
+            {
+                var page = GetFolderPage(parent, i);
+                if (page.Content == null) continue;
 
-            var contentList = parent.Content.ToList();
-            var childContent = contentList.FirstOrDefault(fc => fc.Name == oldName &&
-                                        fc.Path == folderContent.Path &&
-                                        fc.Type == folderContent.Type);
+                var contentList = page.Content.ToList();
+                var childContent = contentList.FirstOrDefault(fc => fc.Name == oldName &&
+                                                                    fc.Path == folderContent.Path &&
+                                                                    fc.Type == folderContent.Type);
 
-            if (childContent == null) return;
+                if (childContent == null) continue;
 
-            childContent.Name = folderContent.Name;
+                childContent.Name = folderContent.Name;
 
-            parent.Content = contentList.ToArray();
-            var path = CreateJsonPath(parent.Name, parent.Path, parent.Type);
-            _ioHelper.WriteJson(path, parent);
+                page.Content = contentList.ToArray();
+                var path = CreateFolderPageJsonPath(parent.Name, parent.Path, i);
+                _ioHelper.WriteJson(path, page);
+            }
         }
 
         private IFolder GetParentFolder(IFolderContent folder)
@@ -215,26 +304,49 @@ namespace FolderContentManager
             return !IsFolderContentExist(name, path, type) ? null : _ioHelper.ReadJson<RestFolderContent>(CreateJsonPath(name, path, type)).MapToIFolderContent();
         }
 
-        public void DeleteFolder(string name, string path)
+        private IFolderPage GetFolderPage(IFolder folder, int page)
+        {
+            return !IsFolderPageExist(folder.Name, folder.Path, page) ? 
+                null : 
+                _ioHelper.ReadJson<RestFolderPageObj>(CreateFolderPageJsonPath(folder.Name, folder.Path, page)).MapToIFolderPage();
+        }
+
+        public IFolderPage GetFolderPage(string name, string path, int page)
+        {
+            var folder = GetFolder(name, path);
+
+            //Return the highest page that exists
+            page = page < folder.NumOfPages ? page : folder.NumOfPages;
+
+            var folderPage = GetFolderPage(folder, page);
+            return folderPage;
+        }
+
+        public void DeleteFolder(string name, string path, int page)
         {
             if (!IsFolderContentExist(name, path, FolderContentType.Folder)) return;
 
             var folder = GetFolder(name, path);
-            foreach (var folderContent in folder.Content)
+            for (var i = 1; i <= folder.NumOfPages; i++)
             {
-                DeleteFolder(folderContent.Name, folderContent.Path);
+                var folderPage = GetFolderPage(folder, i);
+                foreach (var folderContent in folderPage.Content)
+                {
+                    DeleteFolder(folderContent.Name, folderContent.Path, page);
+                }
+                var pathToFolderJson = CreateJsonPath(folder.Name, folder.Path, folder.Type);
+                File.Delete(pathToFolderJson);
+                var pathToPage = CreateFolderPageJsonPath(folderPage.Name, folderPage.Path, i);
+                File.Delete(pathToPage);
             }
-            var pathToFolderJson = CreateJsonPath(folder.Name, folder.Path, folder.Type);
-            File.Delete(pathToFolderJson);
-
-
+            
             var pathToFolder = CreateFolderPath(folder.Name, folder.Path);
             if (Directory.Exists(pathToFolder))
             {
                 Directory.Delete(pathToFolder,true);
             }
 
-            UpdateDeleteFolderContentInParentData(folder);
+            UpdateDeleteFolderContentInParentData(folder, page);
         }
 
         private void UpdateChildrenPath(IFolderContent folderContent, string newPathPrefix, string oldPathPrefix)
@@ -248,21 +360,33 @@ namespace FolderContentManager
                 folder.Path = newPath;
             }
 
-            foreach (var fc in folder.Content)
-            {
-                if (!fc.Path.StartsWith(oldPathPrefix)) continue;
-                var newPath = ReplacePrefixString(fc.Path, oldPathPrefix, newPathPrefix);
-                fc.Path = newPath;
-            }
-
             var folderPath = CreateJsonPath(folder.Name, folder.Path, folder.Type);
             _ioHelper.WriteJson(folderPath, folder);
 
-            foreach (var fc in folder.Content)
+            for (var i = 1; i <= folder.NumOfPages; i++)
             {
-                UpdateChildrenPath(fc, newPathPrefix, oldPathPrefix);
-            }
+                var page = GetFolderPage(folder, i);
 
+                if (page.Path.StartsWith(oldPathPrefix))
+                {
+                    var newPath = ReplacePrefixString(page.Path, oldPathPrefix, newPathPrefix);
+                    page.Path = newPath;
+                }
+                foreach (var fc in page.Content)
+                {
+                    if (!fc.Path.StartsWith(oldPathPrefix)) continue;
+                    var newPath = ReplacePrefixString(fc.Path, oldPathPrefix, newPathPrefix);
+                    fc.Path = newPath;
+                }
+
+                var pathToPage = CreateFolderPageJsonPath(page.Name, page.Path, i);
+                _ioHelper.WriteJson(pathToPage, page);
+
+                foreach (var fc in page.Content)
+                {
+                    UpdateChildrenPath(fc, newPathPrefix, oldPathPrefix);
+                }
+            }
         }
 
         private IFolderContent GetFolderIfFolderType(IFolderContent folderContent)
@@ -293,6 +417,8 @@ namespace FolderContentManager
             if (folderContent.Type == FolderContentType.Folder)
             {
                 RenameDirectory(folderContent.Path, oldName, newName);
+                RenameFolderPagesJsonFiles(folderContent as IFolder, oldName, newName);
+                RenameFolderPageInternalName(folderContent as IFolder, newName);
             }
 
             if (folderContent.Type == FolderContentType.File)
@@ -305,10 +431,34 @@ namespace FolderContentManager
             var dirPath = CreateJsonPath(folderContent.Name, folderContent.Path, folderContent.Type);
             _ioHelper.WriteJson(dirPath, folderContent);
             File.Delete(CreateJsonPath(oldName, folderContent.Path, folderContent.Type));
+
+
+
             UpdateRenameInParentData(folderContent, oldName);
 
-            
             UpdateChildrenPath(folderContent, newPath, oldPath);
+        }
+
+        private void RenameFolderPagesJsonFiles(IFolder folder,string oldName, string newName)
+        {
+            for (var i = 1; i <= folder.NumOfPages; i++)
+            {
+                var oldNameFullPath = CreateFolderPageJsonPath(oldName, folder.Path, i);
+                var newNameFullPath = CreateFolderPageJsonPath(newName, folder.Path, i);
+                File.Move(oldNameFullPath, newNameFullPath);
+                File.Delete(oldNameFullPath);
+            }
+        }
+
+        private void RenameFolderPageInternalName(IFolder folder, string newName)
+        {
+            for (var i = 1; i <= folder.NumOfPages; i++)
+            {
+                var page = GetFolderPage(folder, i);
+                page.Name = newName;
+                var path = CreateFolderPageJsonPath(folder.Name, folder.Path, i);
+                _ioHelper.WriteJson(path, page);
+            }
         }
 
         private void RenameDirectory(string path, string oldName, string newName)
@@ -325,6 +475,7 @@ namespace FolderContentManager
         {
             //Validate folder to copy to
             var folderToCopyTo = GetFolder(copyToName, copyToPath);
+            UpdateNextPageToWrite(folderToCopyTo);
             if(folderToCopyTo == null) throw new Exception("The folder you are trying to copy to does not exists!");
 
             //Validate folder to copy
@@ -333,14 +484,18 @@ namespace FolderContentManager
             if(folderContentToCopy == null) throw new Exception("The folder content you are trying to copy does not exists!");
 
             //Add the new folder content and fix the path
-            var contentList = folderToCopyTo.Content.ToList();
+            var pageOfFolderToCopyTo = GetFolderPage(folderToCopyTo, folderToCopyTo.NextPageToWrite);
+            var contentList = pageOfFolderToCopyTo.Content.ToList();
             var folderContentToCopyOldPath = folderContentToCopy.Path;
             folderContentToCopy.Path = string.IsNullOrEmpty(folderToCopyTo.Path) ? folderToCopyTo.Name :
                                        $"{folderToCopyTo.Path}/{folderToCopyTo.Name}";
             contentList.Add(folderContentToCopy);
-            folderToCopyTo.Content = contentList.ToArray();
-            _ioHelper.WriteJson(CreateJsonPath(folderToCopyTo.Name, folderToCopyTo.Path, folderToCopyTo.Type),
-                                folderToCopyTo);
+
+            pageOfFolderToCopyTo.Content = contentList.ToArray();
+            _ioHelper.WriteJson(CreateFolderPageJsonPath(pageOfFolderToCopyTo.Name, pageOfFolderToCopyTo.Path, folderToCopyTo.NextPageToWrite),
+                                pageOfFolderToCopyTo);
+
+            //UpdateNextPageToWrite(folderToCopyTo);
 
             //Fix the path in the folder content json file
             folderContentToCopy.Path = folderContentToCopyOldPath;
@@ -383,12 +538,16 @@ namespace FolderContentManager
                                        value);
 
             var parent = GetParentFolder(file);
-            var parentContent = parent.Content.ToList();
-            parentContent.Add(file);
-            parent.Content = parentContent.ToArray();
 
-            _ioHelper.WriteJson(CreateJsonPath(parent.Name, parent.Path, parent.Type),
-                                parent);
+            UpdateNextPageToWrite(parent);
+
+            var page = GetFolderPage(parent, parent.NextPageToWrite);
+            var parentContent = page.Content.ToList();
+            parentContent.Add(file);
+            page.Content = parentContent.ToArray();
+
+            _ioHelper.WriteJson(CreateFolderPageJsonPath(page.Name, page.Path, parent.NextPageToWrite),
+                                                         page);
         }
 
         public Stream GetFile(string name, string path)
@@ -396,7 +555,7 @@ namespace FolderContentManager
             return _ioHelper.GetFile(CreateFilePath(name, path));
         }
 
-        public void DeleteFile(string name, string path)
+        public void DeleteFile(string name, string path, int page)
         {
             if (!IsFolderContentExist(name, path, FolderContentType.File)) return;
 
@@ -408,7 +567,60 @@ namespace FolderContentManager
             var pathToFile = CreateFilePath(file.Name, file.Path);
             File.Delete(pathToFile);
 
-            UpdateDeleteFolderContentInParentData(file);
+            UpdateDeleteFolderContentInParentData(file, page);
+        }
+
+        private void PerformPageCompression(IFolder folder)
+        {
+            for (var i = 1; i <= folder.NumOfPages; i++)
+            {
+                var page = GetFolderPage(folder, i);
+                if(page.Content.Length == _maxFolderContentOnPage) continue;
+
+                //Delete empty pages
+                if (page.Content.Length == 0)
+                {
+                    var pageToDeletePath = CreateFolderPageJsonPath(page.Name, page.Path, i);
+                    File.Delete(pageToDeletePath);
+                    folder.NumOfPages--;
+                    continue;
+                }
+
+                //This is the last page and it is not full -> its ok
+                if(i == folder.NumOfPages) continue;
+
+                var nextPage = GetFolderPage(folder, i + 1);
+                var numOfElementsToMove = _maxFolderContentOnPage - page.Content.Length;
+
+                //Calculate the elements to move 
+                var elementToMove = new HashSet<IFolderContent>();
+                for (var j = 0; j < numOfElementsToMove && j < nextPage.Content.Length; j++)
+                {
+                    elementToMove.Add(nextPage.Content[j]);
+                }
+
+                //Delete the elements to move from the next page
+                var nextPageContentList = nextPage.Content.ToList();
+                nextPageContentList.RemoveAll(element => elementToMove.Contains(element));
+                nextPage.Content = nextPageContentList.ToArray();
+
+                //Add the elements to move to the current page
+                var pageContentList = page.Content.ToList();
+                pageContentList.AddRange(elementToMove);
+                page.Content = pageContentList.ToArray();
+
+                //Save the next page
+                var nextPagePath = CreateFolderPageJsonPath(nextPage.Name, nextPage.Path, i + 1);
+                _ioHelper.WriteJson(nextPagePath, nextPage);
+
+                //Save the current page
+                var pagePath = CreateFolderPageJsonPath(page.Name, page.Path, i);
+                _ioHelper.WriteJson(pagePath, page);
+            }
+
+            //Save changes in the num of pages
+            var pathToFolder = CreateJsonPath(folder.Name, folder.Path, folder.Type);
+            _ioHelper.WriteJson(pathToFolder, folder);
         }
     }
 }

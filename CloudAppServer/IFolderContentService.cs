@@ -13,8 +13,16 @@ namespace CloudAppServer
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare,
             RequestFormat = WebMessageFormat.Json,
-            UriTemplate = "/FolderContent/name={name}&path={path}")]
-        string GetFolderContent(string name, string path);
+            UriTemplate = "/FolderContent/name={name}&path={path}&page={page}")]
+        string GetFolderContent(string name, string path, string page);
+
+        [OperationContract]
+        [WebGet(
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare,
+            RequestFormat = WebMessageFormat.Json,
+            UriTemplate = "/FolderContent/NumberOfPages/name={name}&path={path}")]
+        int GetNumOfFolderPages(string name, string path);
 
         [OperationContract]
         [WebGet(

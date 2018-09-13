@@ -10,6 +10,7 @@ namespace CloudAppServer.Model
 {
     public interface IFolder : IFolderContent
     {
-        IFolderContent[] Content { get; set; }
+        int NumOfPages { get; set; }
+        int NextPageToWrite { get; set; }
     }
 }

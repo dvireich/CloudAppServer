@@ -17,7 +17,7 @@ namespace CloudAppServer
         public FolderContentService()
         {
             _fileService = FileService.Instance;
-            _folderContentManager = new FolderContentManager.FolderContentManager();
+            _folderContentManager = FolderContentManager.FolderContentManager.Instance;
         }
 
         private string FixPath(string path)
@@ -25,12 +25,20 @@ namespace CloudAppServer
             return path.Replace(',', '/');
         }
 
-        public string GetFolderContent(string name, string path)
+        public string GetFolderContent(string name, string path, string page)
         {
             name = name.Replace("\"", "");
             path = path.Replace("\"", "");
-            var folderContent = _folderContentManager.GetFolder(name, path);
-            return folderContent == null ? null : _serializer.Serialize(folderContent);
+            var folderPage = _folderContentManager.GetFolderPage(name, FixPath(path), int.Parse(page));
+            return folderPage == null ? null : _serializer.Serialize(folderPage);
+        }
+
+        public int GetNumOfFolderPages(string name, string path)
+        {
+            name = name.Replace("\"", "");
+            path = path.Replace("\"", "");
+            var folder = _folderContentManager.GetFolder(name, FixPath(path));
+            return folder?.NumOfPages ?? -1;
         }
 
         public int GetRequestId()
@@ -47,13 +55,13 @@ namespace CloudAppServer
         public void DeleteFolder(FolderContentObj folder)
         {
             if (folder == null) return;
-            _folderContentManager.DeleteFolder(folder.Name, FixPath(folder.Path));
+            _folderContentManager.DeleteFolder(folder.Name, FixPath(folder.Path), folder.Page);
         }
 
         public void DeleteFile(FolderContentObj file)
         {
             if (file == null) return;
-            _folderContentManager.DeleteFile(file.Name, FixPath(file.Path));
+            _folderContentManager.DeleteFile(file.Name, FixPath(file.Path), file.Page);
         }
 
 

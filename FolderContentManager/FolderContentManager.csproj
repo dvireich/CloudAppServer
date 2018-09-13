@@ -55,12 +55,15 @@
     <Compile Include="Model\FolderContent.cs" />
     <Compile Include="Model\FolderContentType.cs" />
     <Compile Include="Model\FolderObj.cs" />
+    <Compile Include="Model\FolderPage.cs" />
     <Compile Include="Model\IFile.cs" />
     <Compile Include="Model\IFolder.cs" />
     <Compile Include="Model\IFolderContent.cs" />
+    <Compile Include="Model\IFolderPage.cs" />
     <Compile Include="Model\RestObject\RestFileObj.cs" />
     <Compile Include="Model\RestObject\RestFolderContent.cs" />
     <Compile Include="Model\RestObject\RestFolderObj.cs" />
+    <Compile Include="Model\RestObject\RestFolderPageObj.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
