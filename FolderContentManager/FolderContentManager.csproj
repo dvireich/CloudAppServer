@@ -57,8 +57,10 @@
     <Compile Include="Model\FolderObj.cs" />
     <Compile Include="Model\FolderPage.cs" />
     <Compile Include="Model\IFile.cs" />
+    <Compile Include="Model\IFileTrackInfo.cs" />
     <Compile Include="Model\IFolder.cs" />
     <Compile Include="Model\IFolderContent.cs" />
+    <Compile Include="Model\IFolderContentTrackInfo.cs" />
     <Compile Include="Model\IFolderPage.cs" />
     <Compile Include="Model\RestObject\RestFileObj.cs" />
     <Compile Include="Model\RestObject\RestFolderContent.cs" />

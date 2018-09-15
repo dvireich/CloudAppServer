@@ -18,7 +18,7 @@ namespace FolderContentManager
         private readonly string _homeFolderName = "home";
         private readonly IoHelper _ioHelper;
 
-        private readonly int _maxFolderContentOnPage = 10;
+        private readonly int _maxFolderContentOnPage = 136;
 
         #region Singelton
         private static FolderContentManager _instance = null;
@@ -525,9 +525,9 @@ namespace FolderContentManager
             }
         }
 
-        public void CreateFile(string name, string path, string fileType, string[] value)
+        public void CreateFile(string name, string path, string fileType, string[] value, long size)
         {
-            var file = new FolderContent(name, path, FolderContentType.File);
+            var file = new FileObj(name, path, fileType, new string[0] , size);
 
             ValidateName(file);
 
@@ -577,8 +577,8 @@ namespace FolderContentManager
                 var page = GetFolderPage(folder, i);
                 if(page.Content.Length == _maxFolderContentOnPage) continue;
 
-                //Delete empty pages
-                if (page.Content.Length == 0)
+                //Delete empty pages, but do not delete the first page
+                if (page.Content.Length == 0 && i != 1)
                 {
                     var pageToDeletePath = CreateFolderPageJsonPath(page.Name, page.Path, i);
                     File.Delete(pageToDeletePath);

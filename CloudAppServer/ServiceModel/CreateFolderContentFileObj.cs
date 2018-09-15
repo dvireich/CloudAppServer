@@ -24,5 +24,7 @@ namespace CloudAppServer.ServiceModel
         public int NewValueIndex;
         [DataMember]
         public int NumOfChunks;
+        [DataMember]
+        public long Size;
     }
 }

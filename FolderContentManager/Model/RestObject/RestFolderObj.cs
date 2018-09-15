@@ -22,10 +22,12 @@ namespace CloudAppServer.Model
         public FolderContentType Type { get; set; }
         public int NumOfPages { get; set; }
         public int NextPageToWrite { get; set; }
+        DateTime CreationTime { get; set; }
+        DateTime ModificationTime { get; set; }
 
         public IFolder MapToIFolder()
         {
-            return new FolderObj(Name, Path, NumOfPages, NextPageToWrite);
+            return new FolderObj(Name, Path, NumOfPages, NextPageToWrite, CreationTime, ModificationTime);
         }
     }
 }

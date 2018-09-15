@@ -13,16 +13,26 @@ namespace CloudAppServer.Model
         public string FileType { get; set; }
         public string[] Value { get; set; }
 
-        public FileObj(string name, string path, string fileType, string[] value) : base(name, path, FolderContentType.File)
+        public FileObj(string name, string path, string fileType, string[] value, long size, string creationTime, string modificationTime) : 
+            base(name, path, FolderContentType.File, creationTime, modificationTime)
         {
             FileType = fileType;
             Value = value;
+            Size = size;
         }
 
-        public FileObj() : base(null, null, FolderContentType.File)
+        public FileObj(string name, string path, string fileType, string[] value, long size) :
+            base(name, path, FolderContentType.File)
         {
-
+            FileType = fileType;
+            Value = value;
+            Size = size;
         }
 
+        public FileObj() : base(null, null, FolderContentType.File, DateTime.Now.ToLongDateString(), DateTime.Now.ToLongDateString())
+        {
+        }
+
+        public long Size { get; set; }
     }
 }

@@ -4,4 +4,3 @@ C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\bin\Debug\Folder
 C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\bin\Debug\FolderContentManager.pdb
 C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\obj\Debug\FolderContentManager.dll
 C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\obj\Debug\FolderContentManager.pdb
-C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\obj\Debug\FolderContentManager.csprojAssemblyReference.cache

@@ -16,11 +16,17 @@ namespace FolderContentManager.Model.RestObject
         public string Name { get; set; }
         public string Path { get; set; }
         public FolderContentType Type { get; set; }
-        public FolderContent[] Content { get; set; }
+        public RestFolderContent[] Content { get; set; }
 
         public IFolderPage MapToIFolderPage()
         {
-            return new FolderPage(Name, Path, Content);
+            var content = new IFolderContent[Content.Length];
+
+            for (var i = 0; i < Content.Length; i++)
+            {
+                content[i] = Content[i].MapToIFolderContent();
+            }
+            return new FolderPage(Name, Path, content);
         }
     }
 }

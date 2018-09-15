@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.ServiceModel.Web;
 using System.Web.Script.Serialization;
 using CloudAppServer.Model;
@@ -86,10 +87,12 @@ namespace CloudAppServer
             {
                 values[i] = null;
             }
-            _fileService.CreateFile(folderContent.RequestId, new FileObj(folderContent.Name, 
-                                                                         folderContent.Path, 
-                                                                         folderContent.FileType,
-                                                                         values));
+
+            _fileService.CreateFile(folderContent.RequestId, new FileObj(folderContent.Name,
+                folderContent.Path,
+                folderContent.FileType,
+                values,
+                folderContent.Size));
         }
 
         public void UpdateFileContent(CreateFolderContentFileObj folderContent)
@@ -103,7 +106,7 @@ namespace CloudAppServer
             var file =_fileService.GetFile(folderContent.RequestId);
             if(file == null) return;
 
-            _folderContentManager.CreateFile(file.Name, file.Path, file.FileType, file.Value);
+            _folderContentManager.CreateFile(file.Name, file.Path, file.FileType, file.Value, file.Size);
         }
 
         public void ClearUpload(int requestId)

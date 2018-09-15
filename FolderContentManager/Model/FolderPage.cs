@@ -27,5 +27,7 @@ namespace FolderContentManager.Model
         public string Path { get; set; }
         public FolderContentType Type { get; set; }
         public IFolderContent[] Content { get; set; }
+        public string CreationTime { get; set; }
+        public string ModificationTime { get; set; }
     }
 }
