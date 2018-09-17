@@ -19,8 +19,8 @@ namespace CloudAppServer.Model
             Name = name;
             Path = path;
             Type = type;
-            CreationTime = DateTime.Now.ToLongDateString();
-            ModificationTime = DateTime.Now.ToLongDateString();
+            CreationTime = string.Format("{0:G}", DateTime.Now);
+            ModificationTime = string.Format("{0:G}", DateTime.Now);
         }
 
         public FolderContent()

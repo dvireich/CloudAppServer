@@ -232,7 +232,6 @@ namespace FolderContentManager
             _ioHelper.WriteJson(pathToPage, folderPage);
 
             PerformPageCompression(parent);
-            //UpdateNextPageToWrite(parent);
         }
 
         private void UpdateRenameInParentData(IFolderContent folderContent, string oldName)

@@ -16,8 +16,8 @@ namespace CloudAppServer.Model
             Path = path;
             NumOfPages = numOfPages;
             NextPageToWrite = nextPageToWrite;
-            CreationTime = creationTime.ToLongDateString();
-            ModificationTime = modificationTime.ToLongDateString();
+            CreationTime = creationTime.ToString("{0:G}");
+            ModificationTime = modificationTime.ToString("{0:G}");
             Type = FolderContentType.Folder;
         }
 
@@ -25,22 +25,22 @@ namespace CloudAppServer.Model
         {
             Name = name;
             Path = path;
-            CreationTime = creationTime.ToLongDateString();
-            ModificationTime = modificationTime.ToLongDateString();
+            CreationTime = string.Format("{0:G}", creationTime);
+            ModificationTime = string.Format("{0:G}", modificationTime);
         }
 
         public FolderObj(string name, string path) : this()
         {
             Name = name;
             Path = path;
-            CreationTime = DateTime.Now.ToLongDateString();
-            ModificationTime = DateTime.Now.ToLongDateString();
+            CreationTime = string.Format("{0:G}", DateTime.Now);
+            ModificationTime = string.Format("{0:G}", DateTime.Now);
         }
 
         public FolderObj()
         {
-            CreationTime = DateTime.Now.ToLongDateString();
-            ModificationTime = DateTime.Now.ToLongDateString();
+            CreationTime = string.Format("{0:G}", DateTime.Now);
+            ModificationTime = string.Format("{0:G}", DateTime.Now);
             Type = FolderContentType.Folder;
             NumOfPages = NextPageToWrite = 1;
         }
