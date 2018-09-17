@@ -16,7 +16,6 @@ C:\Users\dvire\source\repos\CloudAppServer\ServiceLoader\bin\Debug\System.Net.Ht
 C:\Users\dvire\source\repos\CloudAppServer\ServiceLoader\bin\Debug\System.Web.Http.xml
 C:\Users\dvire\source\repos\CloudAppServer\ServiceLoader\bin\Debug\System.Web.Http.Cors.xml
 C:\Users\dvire\source\repos\CloudAppServer\ServiceLoader\bin\Debug\FolderContentManager.pdb
-C:\Users\dvire\source\repos\CloudAppServer\ServiceLoader\bin\Debug\FolderContentManager.dll.config
 C:\Users\dvire\source\repos\CloudAppServer\ServiceLoader\obj\Debug\ServiceLoader.csproj.CopyComplete
 C:\Users\dvire\source\repos\CloudAppServer\ServiceLoader\obj\Debug\ServiceLoader.dll
 C:\Users\dvire\source\repos\CloudAppServer\ServiceLoader\obj\Debug\ServiceLoader.pdb

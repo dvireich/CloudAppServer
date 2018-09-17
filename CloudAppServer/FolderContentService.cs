@@ -6,12 +6,13 @@ using System.Web.Script.Serialization;
 using CloudAppServer.Model;
 using CloudAppServer.ServiceModel;
 using FolderContentManager;
+using FolderContentManager.Interfaces;
 
 namespace CloudAppServer
 {
     public class FolderContentService : IFolderContentService
     {
-        private readonly FolderContentManager.FolderContentManager _folderContentManager;
+        private readonly IFolderContentManager _folderContentManager;
         private readonly JavaScriptSerializer _serializer = new JavaScriptSerializer();
         private readonly IFileService _fileService;
 
@@ -26,20 +27,23 @@ namespace CloudAppServer
             return path.Replace(',', '/');
         }
 
+        private void FixNameAndPath(string name, string path, out string fixedNamed, out string fixedPath)
+        {
+            fixedNamed = name.Replace("\"", "");
+            fixedPath = path.Replace("\"", "");
+        }
+
         public string GetFolderContent(string name, string path, string page)
         {
-            name = name.Replace("\"", "");
-            path = path.Replace("\"", "");
-            var folderPage = _folderContentManager.GetFolderPage(name, FixPath(path), int.Parse(page));
+            FixNameAndPath(name, path, out var fixedName, out var fixedPath);
+            var folderPage = _folderContentManager.GetFolderPage(fixedName, FixPath(fixedPath), int.Parse(page));
             return folderPage == null ? null : _serializer.Serialize(folderPage);
         }
 
         public int GetNumOfFolderPages(string name, string path)
         {
-            name = name.Replace("\"", "");
-            path = path.Replace("\"", "");
-            var folder = _folderContentManager.GetFolder(name, FixPath(path));
-            return folder?.NumOfPages ?? -1;
+            FixNameAndPath(name, path, out var fixedName, out var fixedPath);
+            return  _folderContentManager.GetNumOfFolderPages(fixedName, FixPath(fixedPath));
         }
 
         public int GetRequestId()
@@ -116,10 +120,9 @@ namespace CloudAppServer
 
         public Stream GetFile(string name, string path)
         {
-            name = name.Replace("\"", "");
-            path = path.Replace("\"", "");
-            var file = _folderContentManager.GetFile(name, FixPath(path));
-            WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Disposition", "attachment; filename=" + name);
+            FixNameAndPath(name, path, out var fixedName, out var fixedPath);
+            var file = _folderContentManager.GetFile(fixedName, FixPath(fixedPath));
+            WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Disposition", "attachment; filename=" + fixedName);
             WebOperationContext.Current.OutgoingResponse.ContentLength = file.Length;
 
             return file;

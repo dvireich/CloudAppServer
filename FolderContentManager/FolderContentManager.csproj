@@ -47,10 +47,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constance.cs" />
+    <Compile Include="DirectoryManager.cs" />
     <Compile Include="FileService.cs" />
+    <Compile Include="FolderContentFolderManager.cs" />
     <Compile Include="FolderContentManager.cs" />
-    <Compile Include="IFileService.cs" />
-    <Compile Include="IoHelper.cs" />
+    <Compile Include="FolderContentFileManager.cs" />
+    <Compile Include="FolderContentPageManager.cs" />
+    <Compile Include="Interfaces\IConstance.cs" />
+    <Compile Include="Interfaces\IDirectoryManager.cs" />
+    <Compile Include="Interfaces\IFileService.cs" />
+    <Compile Include="Interfaces\IFileManager.cs" />
+    <Compile Include="FileManager.cs" />
+    <Compile Include="Interfaces\IFolderContentFileManager.cs" />
+    <Compile Include="Interfaces\IFolderContentFolderManager.cs" />
+    <Compile Include="Interfaces\IFolderContentManager.cs" />
+    <Compile Include="Interfaces\IFolderContentPageManager.cs" />
+    <Compile Include="Interfaces\IJsonManager.cs" />
+    <Compile Include="JsonManager.cs" />
     <Compile Include="Model\FileObj.cs" />
     <Compile Include="Model\FolderContent.cs" />
     <Compile Include="Model\FolderContentType.cs" />
@@ -67,9 +81,6 @@
     <Compile Include="Model\RestObject\RestFolderObj.cs" />
     <Compile Include="Model\RestObject\RestFolderPageObj.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

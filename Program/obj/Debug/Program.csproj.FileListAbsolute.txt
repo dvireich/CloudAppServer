@@ -9,7 +9,6 @@ C:\Users\dvire\source\repos\CloudAppServer\Program\bin\Debug\ServiceLoader.pdb
 C:\Users\dvire\source\repos\CloudAppServer\Program\bin\Debug\ServiceLoader.dll.config
 C:\Users\dvire\source\repos\CloudAppServer\Program\bin\Debug\CloudAppServer.dll.config
 C:\Users\dvire\source\repos\CloudAppServer\Program\bin\Debug\FolderContentManager.pdb
-C:\Users\dvire\source\repos\CloudAppServer\Program\bin\Debug\FolderContentManager.dll.config
 C:\Users\dvire\source\repos\CloudAppServer\Program\obj\Debug\Program.csprojAssemblyReference.cache
 C:\Users\dvire\source\repos\CloudAppServer\Program\obj\Debug\Program.csproj.CopyComplete
 C:\Users\dvire\source\repos\CloudAppServer\Program\obj\Debug\Program.exe

@@ -5,7 +5,6 @@ C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\bin\Debug\CloudAppServ
 C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\bin\Debug\CloudAppServer.pdb
 C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\bin\Debug\FolderContentManager.dll
 C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\bin\Debug\FolderContentManager.pdb
-C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\bin\Debug\FolderContentManager.dll.config
 C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\obj\Debug\CloudAppServer.csproj.CopyComplete
 C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\obj\Debug\CloudAppServer.dll
 C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\obj\Debug\CloudAppServer.pdb
