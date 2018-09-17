@@ -251,7 +251,7 @@ namespace FolderContentManager
                 if (childContent == null) continue;
 
                 childContent.Name = folderContent.Name;
-
+                childContent.ModificationTime = $"{DateTime.Now:G}";
                 page.Content = contentList.ToArray();
                 var path = CreateFolderPageJsonPath(parent.Name, parent.Path, i);
                 _ioHelper.WriteJson(path, page);
@@ -412,6 +412,7 @@ namespace FolderContentManager
 
             folderContent = GetFolderIfFolderType(folderContent);
             folderContent.Name = newName;
+            folderContent.ModificationTime = $"{DateTime.Now:G}";
 
             if (folderContent.Type == FolderContentType.Folder)
             {
