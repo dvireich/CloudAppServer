@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using AuthenticationService;
@@ -16,11 +17,16 @@ namespace ServiceLoader
             InitializeCORESServiceReferences<Authentication, IAuthentication>("CloudAppServer/Authentication");
         }
 
-        public static void LoadCloudAppService(string id)
+        public static void LoadCloudAppService(string id, Action onRemove)
         {
             FolderContentManagerToClient.Instance.AddClient(id);
             var sh =InitializeCORESServiceReferences<FolderContentService, IFolderContentService>($"CloudAppServer/{id}");
-            FolderContentManagerToClient.Instance.AddOnRemoveCallBack(id, ()=> {sh.Close();});
+            FolderContentManagerToClient.Instance.AddOnRemoveCallBack(id, () =>
+            {
+                OpenChannels.Remove(sh);
+                sh.Close();
+                onRemove();
+            });
         }
 
         private static void InitializeBasicHttpServiceReferences<TC, TI>(string endpointName)

@@ -50,8 +50,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Downloads\ShellTrasferServer-master\ShellTrasferServer-master\DBManager\DBManager.csproj">
-      <Project>{0A326781-5F8E-418C-ACAF-F7F3EF16A434}</Project>
+    <ProjectReference Include="..\DBManager\DBManager.csproj">
+      <Project>{0a326781-5f8e-418c-acaf-f7f3ef16a434}</Project>
       <Name>DBManager</Name>
     </ProjectReference>
     <ProjectReference Include="..\ServiceLoader\ServiceLoader.csproj">

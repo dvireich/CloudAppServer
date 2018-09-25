@@ -13,17 +13,23 @@ namespace AuthenticationService
     {
         private readonly IUserRepositoryFactory _userRepositoryFactory;
         private readonly ITaskQueue _taskQueue;
-        
-        public AuthenticationManager(IUserRepositoryFactory userRepositoryFactory, ITaskQueue taskQueue)
+        private readonly IConnectecClients _connectecClients;
+
+        public AuthenticationManager(
+            IUserRepositoryFactory userRepositoryFactory, 
+            ITaskQueue taskQueue,
+            IConnectecClients connectecClients)
         {
             _userRepositoryFactory = userRepositoryFactory;
             _taskQueue = taskQueue;
+            _connectecClients = connectecClients;
         }
 
         public AuthenticationManager()
         {
             _taskQueue = TaskQueue.Instance;
             _userRepositoryFactory = new UserRepositoryFactory();
+            _connectecClients = ConnectecClients.Instance;
         }
 
         public string Authenticate(string userName, string password)
@@ -34,7 +40,20 @@ namespace AuthenticationService
                 throw new Exception("User name or password is incorrect!");
             }
 
-            _taskQueue.AddToTaskQueue(user.Id);
+            if (_connectecClients.Contains(user.Id))
+            {
+                throw new Exception("You already connected!. please logout and try again...");
+            }
+
+            _connectecClients.Add(user.Id);
+            _taskQueue.AddToTaskQueue(new UserData()
+            {
+                Id = user.Id,
+                OnRemove = () =>
+                {
+                    _connectecClients.Remove(user.Id);
+                }
+            });
             return user.Id;
         }
 

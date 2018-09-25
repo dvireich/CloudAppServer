@@ -8,14 +8,14 @@ namespace ServiceLoadTaskQueue
         private static volatile TaskQueue _instance;
         private static readonly object SyncRoot = new object();
 
-        private readonly ConcurrentQueue<string> _taskQueue = new ConcurrentQueue<string>();
+        private readonly ConcurrentQueue<UserData> _taskQueue = new ConcurrentQueue<UserData>();
 
-        public void AddToTaskQueue(string id)
+        public void AddToTaskQueue(UserData data)
         {
-            _taskQueue.Enqueue(id);
+            _taskQueue.Enqueue(data);
         }
 
-        public string GetNextTask()
+        public UserData GetNextTask()
         {
             _taskQueue.TryDequeue(out var task);
             return task;

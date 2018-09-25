@@ -48,8 +48,10 @@
     <Compile Include="AuthenticationManager.cs" />
     <Compile Include="AuthenticationModel\RegisterUserArgs.cs" />
     <Compile Include="AuthenticationService.cs" />
+    <Compile Include="ConnectecClients.cs" />
     <Compile Include="IAuthentication.cs" />
     <Compile Include="IAuthenticationManager.cs" />
+    <Compile Include="IConnectecClients.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -59,7 +61,7 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Downloads\ShellTrasferServer-master\ShellTrasferServer-master\DBManager\DBManager.csproj">
+    <ProjectReference Include="..\DBManager\DBManager.csproj">
       <Project>{0a326781-5f8e-418c-acaf-f7f3ef16a434}</Project>
       <Name>DBManager</Name>
     </ProjectReference>

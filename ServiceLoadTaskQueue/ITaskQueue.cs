@@ -8,9 +8,9 @@ namespace ServiceLoadTaskQueue
 {
     public interface ITaskQueue
     {
-        void AddToTaskQueue(string id);
+        void AddToTaskQueue(UserData data);
 
-        string GetNextTask();
+        UserData GetNextTask();
 
         bool Any();
     }
