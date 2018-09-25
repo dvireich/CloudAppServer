@@ -42,7 +42,7 @@ namespace AuthenticationService
 
             if (_connectecClients.Contains(user.Id))
             {
-                throw new Exception("You already connected!. please logout and try again...");
+                throw new Exception("You already connected!. please logout and wait a few seconds and try again...");
             }
 
             _connectecClients.Add(user.Id);
