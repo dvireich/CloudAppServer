@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CloudAppServer.Model;
-using FolderContentManager.Interfaces;
-using FolderContentManager.Model;
+using FolderContentHelper.Interfaces;
+using FolderContentHelper.Model;
 
-namespace FolderContentManager
+namespace FolderContentHelper
 {
     public class FolderContentFolderManager : IFolderContentFolderManager
     {
@@ -32,34 +32,14 @@ namespace FolderContentManager
             _constance = constance;
         }
 
-        #region Singelnton
-
-        private static FolderContentFolderManager _instance = null;
-        private static readonly object Padlock = new object();
-
-        private FolderContentFolderManager()
+        public FolderContentFolderManager(IConstance constance)
         {
-            _constance = new Constance();
-            _folderContentPageManager = FolderContentPageManager.Instance;
+            _folderContentPageManager = new FolderContentPageManager(constance);
+            _jsonManager = new JsonManager(constance);
             _directoryManager = new DirectoryManager();
             _fileManager = new FileManager();
-            _jsonManager = new JsonManager();
+            _constance = constance;
         }
-
-        public static FolderContentFolderManager Instance
-        {
-            get
-            {
-                lock (Padlock)
-                {
-                    return _instance ?? (_instance = new FolderContentFolderManager());
-                }
-            }
-        }
-
-
-        #endregion
-
 
         private string ReplacePrefixString(string source, string oldPrefix, string newPrefix)
         {
@@ -159,7 +139,7 @@ namespace FolderContentManager
         {
             name = name.ToLower();
             path = path.ToLower().Replace('/', '\\');
-            return string.IsNullOrEmpty(path) ? $"{_jsonManager.BaseFolderPath}\\{name}" : $"{_jsonManager.BaseFolderPath}\\{path}\\{name}";
+            return string.IsNullOrEmpty(path) ? $"{_constance.BaseFolderPath}\\{name}" : $"{_constance.BaseFolderPath}\\{path}\\{name}";
         }
 
         public void RenameDirectory(string path, string oldName, string newName)

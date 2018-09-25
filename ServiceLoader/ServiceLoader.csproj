@@ -78,6 +78,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AuthenticationService\AuthenticationService.csproj">
+      <Project>{0DD465CE-D9B0-4072-9F04-3CB4F9850BB0}</Project>
+      <Name>AuthenticationService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CloudAppServer\CloudAppServer.csproj">
       <Project>{2462ACB9-307D-4820-9254-68547FA9DC4C}</Project>
       <Name>CloudAppServer</Name>

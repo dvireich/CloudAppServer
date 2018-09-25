@@ -9,12 +9,36 @@ namespace CloudAppServer
     public interface IFolderContentService
     {
         [OperationContract]
+        [WebGet(
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare,
+            RequestFormat = WebMessageFormat.Json,
+            UriTemplate = "/FolderContent/ping")]
+        bool Ping();
+
+        [OperationContract]
+        [WebGet(
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare,
+            RequestFormat = WebMessageFormat.Json,
+            UriTemplate = "/FolderContent/Logout")]
+        void Logout();
+
+        [OperationContract]
         [WebGet (
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare,
             RequestFormat = WebMessageFormat.Json,
             UriTemplate = "/FolderContent/name={name}&path={path}&page={page}")]
         string GetFolderContent(string name, string path, string page);
+
+        [OperationContract]
+        [WebGet(
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare,
+            RequestFormat = WebMessageFormat.Json,
+            UriTemplate = "/FolderContent/Search/name={name}&page={page}")]
+        string Search(string name, string page);
 
         [OperationContract]
         [WebGet(

@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FolderContentManager.Interfaces;
+using FolderContentHelper.Interfaces;
 
-namespace FolderContentManager
+namespace FolderContentHelper
 {
     public class DirectoryManager : IDirectoryManager
     {

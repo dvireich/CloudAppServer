@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CloudAppServer.Model;
 
-namespace FolderContentManager.Interfaces
+namespace FolderContentHelper.Interfaces
 {
     public interface IFolderContentFolderManager
     {

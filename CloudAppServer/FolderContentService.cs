@@ -1,12 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Web.Script.Serialization;
 using CloudAppServer.Model;
 using CloudAppServer.ServiceModel;
-using FolderContentManager;
-using FolderContentManager.Interfaces;
+using FolderContentHelper;
+using FolderContentHelper.Interfaces;
+using FolderContentHelper.Model;
 
 namespace CloudAppServer
 {
@@ -19,11 +21,14 @@ namespace CloudAppServer
         public FolderContentService()
         {
             _fileService = FileService.Instance;
-            _folderContentManager = FolderContentManager.FolderContentManager.Instance;
+            var endpoint = OperationContext.Current.EndpointDispatcher.EndpointAddress.ToString();
+            var userId = endpoint.Split('/').Last();
+            _folderContentManager = FolderContentManagerToClient.Instance.GetClient(userId);
         }
 
         private T Perform<T>(Func<T> task)
         {
+            
             try
             {
                 return task();
@@ -55,6 +60,18 @@ namespace CloudAppServer
         {
             fixedNamed = name.Replace("\"", "");
             fixedPath = path.Replace("\"", "");
+        }
+
+        public bool Ping()
+        {
+            return true;
+        }
+
+        public void Logout()
+        {
+            var endpoint = OperationContext.Current.EndpointDispatcher.EndpointAddress.ToString();
+            var userId = endpoint.Split('/').Last();
+            FolderContentManagerToClient.Instance.RemoveClient(userId);
         }
 
         public string GetFolderContent(string name, string path, string page)
@@ -187,6 +204,17 @@ namespace CloudAppServer
                 WebOperationContext.Current.OutgoingResponse.ContentLength = file.Length;
 
                 return file;
+            });
+        }
+
+        public string Search(string name, string page)
+        {
+            return Perform(() =>
+            {
+                FixNameAndPath(name, page, out var fixedName, out var fixedPage);
+                var result = _folderContentManager.Search(fixedName, int.Parse(fixedPage));
+                var folderPage = new FolderPageSearchResult(fixedName, result);
+                return _serializer.Serialize(folderPage);
             });
         }
     }

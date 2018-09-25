@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CloudAppServer.Model;
 
-namespace FolderContentManager.Model.RestObject
+namespace FolderContentHelper.Model.RestObject
 {
     public class RestFolderPageObj
     {

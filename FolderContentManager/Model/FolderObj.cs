@@ -25,22 +25,22 @@ namespace CloudAppServer.Model
         {
             Name = name;
             Path = path;
-            CreationTime = string.Format("{0:G}", creationTime);
-            ModificationTime = string.Format("{0:G}", modificationTime);
+            CreationTime = $"{creationTime:G}";
+            ModificationTime = $"{modificationTime:G}";
         }
 
         public FolderObj(string name, string path) : this()
         {
             Name = name;
             Path = path;
-            CreationTime = string.Format("{0:G}", DateTime.Now);
-            ModificationTime = string.Format("{0:G}", DateTime.Now);
+            CreationTime = $"{DateTime.Now:G}";
+            ModificationTime = $"{DateTime.Now:G}";
         }
 
         public FolderObj()
         {
-            CreationTime = string.Format("{0:G}", DateTime.Now);
-            ModificationTime = string.Format("{0:G}", DateTime.Now);
+            CreationTime = $"{DateTime.Now:G}";
+            ModificationTime = $"{DateTime.Now:G}";
             Type = FolderContentType.Folder;
             NumOfPages = NextPageToWrite = 1;
         }

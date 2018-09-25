@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CloudAppServer.Model;
 
-namespace FolderContentManager
+namespace FolderContentHelper
 {
     public sealed class FileService : IFileService
     {

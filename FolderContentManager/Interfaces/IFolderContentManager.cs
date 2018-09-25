@@ -4,9 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FolderContentManager.Model;
+using CloudAppServer.Model;
+using FolderContentHelper.Model;
 
-namespace FolderContentManager.Interfaces
+namespace FolderContentHelper.Interfaces
 {
     public interface IFolderContentManager
     {
@@ -28,5 +29,7 @@ namespace FolderContentManager.Interfaces
         int GetNumOfFolderPages(string name, string path);
 
         IFolderPage GetFolderPage(string name, string path, int page);
+
+        IFolderContent[] Search(string name, int page);
     }
 }

@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using CloudAppServer.Model;
-using FolderContentManager.Model;
+using FolderContentHelper.Model;
 
 namespace CloudAppServer.Model
 {

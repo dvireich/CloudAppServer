@@ -50,9 +50,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Downloads\ShellTrasferServer-master\ShellTrasferServer-master\DBManager\DBManager.csproj">
+      <Project>{0A326781-5F8E-418C-ACAF-F7F3EF16A434}</Project>
+      <Name>DBManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ServiceLoader\ServiceLoader.csproj">
       <Project>{1c43a315-7565-4897-9104-90d3f90420af}</Project>
       <Name>ServiceLoader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServiceLoadTaskQueue\ServiceLoadTaskQueue.csproj">
+      <Project>{3bc43e4d-baa6-48f9-af82-850854d209d9}</Project>
+      <Name>ServiceLoadTaskQueue</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -4,27 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CloudAppServer.Model;
-using FolderContentManager.Interfaces;
-using FolderContentManager.Model;
-using FolderContentManager.Model.RestObject;
+using FolderContentHelper.Interfaces;
+using FolderContentHelper.Model;
+using FolderContentHelper.Model.RestObject;
 
-namespace FolderContentManager
+namespace FolderContentHelper
 {
     public class JsonManager : IJsonManager
     {
         private IFileManager _fileManager;
+        private IConstance _constance;
 
-        public JsonManager(IFileManager fileManager)
+        public JsonManager(IFileManager fileManager, IConstance constance)
         {
             _fileManager = fileManager;
+            _constance = constance;
         }
 
-        public JsonManager()
+        public JsonManager(IConstance constance)
         {
+            _constance = constance;
             _fileManager = new FileManager();
         }
-
-        public string BaseFolderPath { get; } = "C:\\foldercontentmanager";
 
         public IFolder GetFolder(string name, string path)
         {
@@ -68,7 +69,7 @@ namespace FolderContentManager
         {
             name = name.ToLower();
             path = path.ToLower().Replace('/', '\\');
-            return string.IsNullOrEmpty(path) ? $"{BaseFolderPath}\\{name}{type.ToString()}.json" : $"{BaseFolderPath}\\{path}\\{name}{type.ToString()}.json";
+            return string.IsNullOrEmpty(path) ? $"{_constance.BaseFolderPath}\\{name}{type.ToString()}.json" : $"{_constance.BaseFolderPath}\\{path}\\{name}{type.ToString()}.json";
         }
 
         public string CreateFolderPageJsonPath(string name, string path, int page)
@@ -76,8 +77,8 @@ namespace FolderContentManager
             name = name.ToLower();
             path = path.ToLower().Replace('/', '\\');
             return string.IsNullOrEmpty(path) ?
-                $"{BaseFolderPath}\\{name}{FolderContentType.FolderPage.ToString()}.{page}.json" :
-                $"{BaseFolderPath}\\{path}\\{name}{FolderContentType.FolderPage.ToString()}.{page}.json";
+                $"{_constance.BaseFolderPath}\\{name}{FolderContentType.FolderPage.ToString()}.{page}.json" :
+                $"{_constance.BaseFolderPath}\\{path}\\{name}{FolderContentType.FolderPage.ToString()}.{page}.json";
         }
     }
 }

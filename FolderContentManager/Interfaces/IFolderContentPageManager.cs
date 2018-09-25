@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CloudAppServer.Model;
-using FolderContentManager.Model;
+using FolderContentHelper.Model;
 
-namespace FolderContentManager.Interfaces
+namespace FolderContentHelper.Interfaces
 {
     public interface IFolderContentPageManager
     {

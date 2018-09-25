@@ -1,0 +1,14 @@
+C:\Users\dvire\source\repos\CloudAppServer\AuthenticationService\bin\Debug\AuthenticationService.dll.config
+C:\Users\dvire\source\repos\CloudAppServer\AuthenticationService\bin\Debug\AuthenticationService.dll
+C:\Users\dvire\source\repos\CloudAppServer\AuthenticationService\bin\Debug\AuthenticationService.pdb
+C:\Users\dvire\source\repos\CloudAppServer\AuthenticationService\bin\Debug\DBManager.dll
+C:\Users\dvire\source\repos\CloudAppServer\AuthenticationService\bin\Debug\ServiceLoadTaskQueue.dll
+C:\Users\dvire\source\repos\CloudAppServer\AuthenticationService\bin\Debug\DBManager.pdb
+C:\Users\dvire\source\repos\CloudAppServer\AuthenticationService\bin\Debug\DBManager.dll.config
+C:\Users\dvire\source\repos\CloudAppServer\AuthenticationService\bin\Debug\ServiceLoadTaskQueue.pdb
+C:\Users\dvire\source\repos\CloudAppServer\AuthenticationService\bin\Debug\ServiceLoadTaskQueue.dll.config
+C:\Users\dvire\source\repos\CloudAppServer\AuthenticationService\obj\Debug\AuthenticationService.csprojAssemblyReference.cache
+C:\Users\dvire\source\repos\CloudAppServer\AuthenticationService\obj\Debug\AuthenticationService.csproj.CoreCompileInputs.cache
+C:\Users\dvire\source\repos\CloudAppServer\AuthenticationService\obj\Debug\AuthenticationService.csproj.CopyComplete
+C:\Users\dvire\source\repos\CloudAppServer\AuthenticationService\obj\Debug\AuthenticationService.dll
+C:\Users\dvire\source\repos\CloudAppServer\AuthenticationService\obj\Debug\AuthenticationService.pdb

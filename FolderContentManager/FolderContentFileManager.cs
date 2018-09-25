@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CloudAppServer.Model;
-using FolderContentManager.Interfaces;
+using FolderContentHelper.Interfaces;
 
-namespace FolderContentManager
+namespace FolderContentHelper
 {
     public class FolderContentFileManager : IFolderContentFileManager
     {
@@ -14,42 +14,29 @@ namespace FolderContentManager
         private readonly IJsonManager _jsonManager;
         private readonly IFolderContentFolderManager _folderContentFolderManager;
         private readonly IFolderContentPageManager _folderContentPageManager;
+        private readonly IConstance _constance;
         public FolderContentFileManager(
             IFileManager fileManager, 
             IJsonManager jsonManager, 
             IFolderContentFolderManager folderContentFolderManager, 
-            IFolderContentPageManager folderContentPageManager)
+            IFolderContentPageManager folderContentPageManager, IConstance constance)
         {
             _fileManager = fileManager;
             _jsonManager = jsonManager;
             _folderContentFolderManager = folderContentFolderManager;
             _folderContentPageManager = folderContentPageManager;
+            _constance = constance;
         }
-        #region Singelton
 
-        private static FolderContentFileManager _instance = null;
-        private static readonly object Padlock = new object();
-
-        private FolderContentFileManager()
+        public FolderContentFileManager(IConstance constance)
         {
-            _folderContentPageManager = FolderContentPageManager.Instance;
-            _folderContentFolderManager = FolderContentFolderManager.Instance;
-            _jsonManager = new JsonManager();
+            _constance = constance;
+            _folderContentPageManager = new FolderContentPageManager(constance);
+            _folderContentFolderManager = new FolderContentFolderManager(constance);
+            _jsonManager = new JsonManager(constance);
             _fileManager = new FileManager();
         }
 
-        public static FolderContentFileManager Instance
-        {
-            get
-            {
-                lock (Padlock)
-                {
-                    return _instance ?? (_instance = new FolderContentFileManager());
-                }
-            }
-        }
-
-        #endregion Singelton
         public void CreateFile(string name, string path, string fileType, string[] value, long size)
         {
             var file = new FileObj(name, path, fileType, new string[0], size);
@@ -93,7 +80,7 @@ namespace FolderContentManager
         {
             name = name.ToLower();
             path = path.ToLower().Replace('/', '\\');
-            return string.IsNullOrEmpty(path) ? $"{_jsonManager.BaseFolderPath}\\{name}" : $"{_jsonManager.BaseFolderPath}\\{path}\\{name}";
+            return string.IsNullOrEmpty(path) ? $"{_constance.BaseFolderPath}\\{name}" : $"{_constance.BaseFolderPath}\\{path}\\{name}";
         }
     }
 }

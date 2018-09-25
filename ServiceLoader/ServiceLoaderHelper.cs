@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.ServiceModel.Description;
+using AuthenticationService;
 using CloudAppServer;
 
 namespace ServiceLoader
@@ -12,7 +13,14 @@ namespace ServiceLoader
 
         public static void LoadBasicServices()
         {
-            InitializeCORESServiceReferences<FolderContentService, IFolderContentService>("CloudAppServer");
+            InitializeCORESServiceReferences<Authentication, IAuthentication>("CloudAppServer/Authentication");
+        }
+
+        public static void LoadCloudAppService(string id)
+        {
+            FolderContentManagerToClient.Instance.AddClient(id);
+            var sh =InitializeCORESServiceReferences<FolderContentService, IFolderContentService>($"CloudAppServer/{id}");
+            FolderContentManagerToClient.Instance.AddOnRemoveCallBack(id, ()=> {sh.Close();});
         }
 
         private static void InitializeBasicHttpServiceReferences<TC, TI>(string endpointName)
@@ -42,7 +50,7 @@ namespace ServiceLoader
             OpenChannels.Add(serviceHost);
         }
 
-        private static void InitializeCORESServiceReferences<TC, TI>(string endpointName)
+        private static ServiceHost InitializeCORESServiceReferences<TC, TI>(string endpointName)
         {
             //Put Public ip of the server computer
             var endpoint = $"http://localhost:80/{endpointName}";
@@ -51,6 +59,7 @@ namespace ServiceLoader
             var serviceHost = new CorsEnabledServiceHost(typeof(TC), new []{uri});
             serviceHost.Open();
             OpenChannels.Add(serviceHost);
+            return serviceHost;
         }
 
         private static void InitializeWebHttpServiceReferences<TC, TI>(string endpointName)

@@ -1,10 +1,10 @@
-C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\obj\Debug\CloudAppServer.csprojAssemblyReference.cache
-C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\obj\Debug\CloudAppServer.csproj.CoreCompileInputs.cache
 C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\bin\Debug\CloudAppServer.dll.config
 C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\bin\Debug\CloudAppServer.dll
 C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\bin\Debug\CloudAppServer.pdb
 C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\bin\Debug\FolderContentManager.dll
 C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\bin\Debug\FolderContentManager.pdb
+C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\obj\Debug\CloudAppServer.csprojAssemblyReference.cache
+C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\obj\Debug\CloudAppServer.csproj.CoreCompileInputs.cache
 C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\obj\Debug\CloudAppServer.csproj.CopyComplete
 C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\obj\Debug\CloudAppServer.dll
 C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\obj\Debug\CloudAppServer.pdb

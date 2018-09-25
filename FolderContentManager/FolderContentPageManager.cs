@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CloudAppServer.Model;
-using FolderContentManager.Interfaces;
-using FolderContentManager.Model;
+using FolderContentHelper.Interfaces;
+using FolderContentHelper.Model;
 
-namespace FolderContentManager
+namespace FolderContentHelper
 {
     public class FolderContentPageManager : IFolderContentPageManager
     {
@@ -23,30 +23,14 @@ namespace FolderContentManager
             _jsonManager = jsonManager;
             _constance = constance;
         }
-        #region Singelton
 
-        private static FolderContentPageManager _instance = null;
-        private static readonly object Padlock = new object();
-
-        private FolderContentPageManager()
+        public FolderContentPageManager(IConstance constance)
         {
-            _constance = new Constance();
-            _jsonManager = new JsonManager();
+            _constance = constance;
+            _jsonManager = new JsonManager(constance);
             _fileManager = new FileManager();
         }
 
-        public static FolderContentPageManager Instance
-        {
-            get
-            {
-                lock (Padlock)
-                {
-                    return _instance ?? (_instance = new FolderContentPageManager());
-                }
-            }
-        }
-
-        #endregion ingelton
 
         public void AddToFolderPage(int pageNum, IFolderPage pageToWriteContent, IFolderContent folderContent)
         {

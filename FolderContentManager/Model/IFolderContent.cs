@@ -1,5 +1,5 @@
 ﻿using System.Runtime.Serialization;
-using FolderContentManager.Model;
+using FolderContentHelper.Model;
 
 namespace CloudAppServer.Model
 {

@@ -64,23 +64,27 @@
     <Compile Include="Interfaces\IFolderContentManager.cs" />
     <Compile Include="Interfaces\IFolderContentPageManager.cs" />
     <Compile Include="Interfaces\IJsonManager.cs" />
+    <Compile Include="Interfaces\ISearchCache.cs" />
     <Compile Include="JsonManager.cs" />
     <Compile Include="Model\FileObj.cs" />
     <Compile Include="Model\FolderContent.cs" />
     <Compile Include="Model\FolderContentType.cs" />
     <Compile Include="Model\FolderObj.cs" />
     <Compile Include="Model\FolderPage.cs" />
+    <Compile Include="Model\FolderPageSearchResult.cs" />
     <Compile Include="Model\IFile.cs" />
     <Compile Include="Model\IFileTrackInfo.cs" />
     <Compile Include="Model\IFolder.cs" />
     <Compile Include="Model\IFolderContent.cs" />
     <Compile Include="Model\IFolderContentTrackInfo.cs" />
     <Compile Include="Model\IFolderPage.cs" />
+    <Compile Include="Model\IFolderPageSearchResult.cs" />
     <Compile Include="Model\RestObject\RestFileObj.cs" />
     <Compile Include="Model\RestObject\RestFolderContent.cs" />
     <Compile Include="Model\RestObject\RestFolderObj.cs" />
     <Compile Include="Model\RestObject\RestFolderPageObj.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SearchCache.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

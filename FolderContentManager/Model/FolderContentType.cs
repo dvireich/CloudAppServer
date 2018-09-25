@@ -11,6 +11,7 @@ namespace CloudAppServer.Model
     {
         File,
         Folder,
+        FolderPageResult,
         FolderPage
     }
 }
