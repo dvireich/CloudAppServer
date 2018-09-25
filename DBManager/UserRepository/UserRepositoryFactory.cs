@@ -1,0 +1,17 @@
+﻿using DBManager.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DBManager
+{
+    public class UserRepositoryFactory : IUserRepositoryFactory
+    {
+        public IUserRepository GetUserRepository()
+        {
+            return new UserRepository();
+        }
+    }
+}

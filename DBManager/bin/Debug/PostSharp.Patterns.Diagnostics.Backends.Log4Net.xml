@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>PostSharp.Patterns.Diagnostics.Backends.Log4Net</name>
+  </assembly>
+  <members>
+    <member name="T:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackend">
+      <summary>
+            Logging back-end for log4net.
+            </summary>
+    </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackend.#ctor">
+      <summary>
+            Initializes a new <see cref="T:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackend" />.
+            </summary>
+    </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackend.CreateRecordBuilder">
+      <summary>
+            Creates a new <see cref="T:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder" />.
+            </summary>
+      <returns>A new <see cref="T:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder" />.</returns>
+    </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackend.CreateTypeSource(PostSharp.Patterns.Diagnostics.LoggingNamespaceSource,System.Type)">
+      <summary>
+            Creates <see cref="T:PostSharp.Patterns.Diagnostics.LoggingTypeSource" /> for the given role and type.
+            </summary>
+      <param name="parent">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>parent</parameter>
+            <parameter>M:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackend.CreateTypeSource(PostSharp.Patterns.Diagnostics.LoggingNamespaceSource,System.Type)</parameter>
+          </include>
+        </markup>
+      </param>
+      <param name="type">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>type</parameter>
+            <parameter>M:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackend.CreateTypeSource(PostSharp.Patterns.Diagnostics.LoggingNamespaceSource,System.Type)</parameter>
+          </include>
+        </markup>
+      </param>
+      <returns>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>returns</parameter>
+            <parameter>M:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackend.CreateTypeSource(PostSharp.Patterns.Diagnostics.LoggingNamespaceSource,System.Type)</parameter>
+          </include>
+        </markup>
+      </returns>
+    </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackend.GetTextBackendOptions">
+      <summary>
+            Gets the options.
+            </summary>
+      <returns>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>returns</parameter>
+            <parameter>M:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackend.GetTextBackendOptions</parameter>
+          </include>
+        </markup>
+      </returns>
+    </member>
+    <member name="P:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackend.Options">
+      <summary>
+            Gets the back-end options.
+            </summary>
+    </member>
+    <member name="T:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackendOptions">
+      <summary>
+            Options for <see cref="T:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackend" />.
+            </summary>
+    </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackendOptions.#ctor">
+      <summary>
+        <markup>
+          <include item="SMCAutoDocConstructor">
+            <parameter>PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackendOptions</parameter>
+          </include>
+        </markup>
+      </summary>
+    </member>
+    <member name="P:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackendOptions.GetLogger">
+      <summary>
+            Function that returns a Log4Net <c>ILog</c> for a given <see cref="T:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingTypeSource" />.
+            The default implementation is to call <c>LogManager.GetLogger( typeSource.Role )</c>.
+            </summary>
+    </member>
+    <member name="T:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingTypeSource">
+      <summary>
+        <see cref="T:PostSharp.Patterns.Diagnostics.LoggingTypeSource" /> for <see cref="T:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackend" />.
+            </summary>
+    </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingTypeSource.#ctor(PostSharp.Patterns.Diagnostics.LoggingNamespaceSource,System.Type)">
+      <summary>
+            Initializes a new <see cref="T:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingTypeSource" />.
+            </summary>
+      <param name="parent">The parent <see cref="T:PostSharp.Patterns.Diagnostics.LoggingNamespaceSource" />.</param>
+      <param name="type">The source <see cref="T:System.Type" />.</param>
+    </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingTypeSource.IsBackendEnabled(PostSharp.Patterns.Diagnostics.LogLevel)">
+      <summary>
+            Checks whether logging is enabled in the back-end for the given level.
+            </summary>
+      <param name="level">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>level</parameter>
+            <parameter>M:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingTypeSource.IsBackendEnabled(PostSharp.Patterns.Diagnostics.LogLevel)</parameter>
+          </include>
+        </markup>
+      </param>
+      <returns>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>returns</parameter>
+            <parameter>M:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingTypeSource.IsBackendEnabled(PostSharp.Patterns.Diagnostics.LogLevel)</parameter>
+          </include>
+        </markup>
+      </returns>
+    </member>
+    <member name="T:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLogRecordBuilder">
+      <summary>
+        <see cref="T:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder" /> for <see cref="T:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackend" />.
+            </summary>
+    </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLogRecordBuilder.#ctor(PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackend)">
+      <summary>
+            Initializes a new <see cref="T:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackend" />.
+            </summary>
+      <param name="backend">The parent <see cref="T:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackend" />.</param>
+    </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLogRecordBuilder.Write(PostSharp.Patterns.Formatters.UnsafeString)">
+      <summary>
+            Writes the final message to the back-end.
+            </summary>
+      <param name="message">The final message.</param>
+    </member>
+  </members>
+</doc>

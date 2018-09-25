@@ -1,0 +1,44 @@
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\DBManager\bin\Debug\DBManager.dll.config
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\DBManager\bin\Debug\DBManager.dll
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\DBManager\bin\Debug\DBManager.pdb
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\DBManager\bin\Debug\log4net.dll
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\DBManager\bin\Debug\log4net.xml
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\DBManager\obj\Debug\DBManager.csproj.CoreCompileInputs.cache
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\DBManager\obj\Debug\DBManager.csproj.CopyComplete
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\DBManager\obj\Debug\DBManager.dll
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\DBManager\obj\Debug\DBManager.pdb
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\DBManager\bin\Debug\PostSharp.dll
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\DBManager\bin\Debug\PostSharp.Patterns.Common.dll
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\DBManager\bin\Debug\PostSharp.Patterns.Diagnostics.Backends.Log4Net.dll
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\DBManager\bin\Debug\PostSharp.Patterns.Diagnostics.dll
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\DBManager\bin\Debug\PostSharp.xml
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\DBManager\bin\Debug\PostSharp.Patterns.Common.xml
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\DBManager\bin\Debug\PostSharp.Patterns.Diagnostics.xml
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\DBManager\bin\Debug\PostSharp.Patterns.Diagnostics.Backends.Log4Net.xml
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\DBManager\bin\Debug\PostSharp.Patterns.Aggregation.dll
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\DBManager\bin\Debug\PostSharp.Patterns.Threading.dll
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\DBManager\bin\Debug\PostSharp.Patterns.Aggregation.xml
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\DBManager\bin\Debug\PostSharp.Patterns.Threading.xml
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\DBManager\bin\Debug\DBManager.pssym
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\DBManager\obj\Debug\DBManager.dll.postsharp
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\DBManager\obj\Debug\PostSharpHost.config
+C:\Users\dvire\Downloads\ShellTrasferServer-master\ShellTrasferServer-master\DBManager\obj\Debug\DBManager.csproj.CoreCompileInputs.cache
+C:\Users\dvire\Downloads\ShellTrasferServer-master\ShellTrasferServer-master\DBManager\obj\Debug\DBManager.dll
+C:\Users\dvire\Downloads\ShellTrasferServer-master\ShellTrasferServer-master\DBManager\obj\Debug\DBManager.pdb
+C:\Users\dvire\Downloads\ShellTrasferServer-master\ShellTrasferServer-master\DBManager\bin\Debug\DBManager.dll.config
+C:\Users\dvire\Downloads\ShellTrasferServer-master\ShellTrasferServer-master\DBManager\bin\Debug\DBManager.dll
+C:\Users\dvire\Downloads\ShellTrasferServer-master\ShellTrasferServer-master\DBManager\bin\Debug\DBManager.pdb
+C:\Users\dvire\Downloads\ShellTrasferServer-master\ShellTrasferServer-master\DBManager\bin\Debug\log4net.dll
+C:\Users\dvire\Downloads\ShellTrasferServer-master\ShellTrasferServer-master\DBManager\bin\Debug\log4net.xml
+C:\Users\dvire\Downloads\ShellTrasferServer-master\ShellTrasferServer-master\DBManager\bin\Debug\DBManager.pssym
+C:\Users\dvire\Downloads\ShellTrasferServer-master\ShellTrasferServer-master\DBManager\obj\Debug\DBManager.csproj.CopyComplete
+C:\Users\dvire\Downloads\ShellTrasferServer-master\ShellTrasferServer-master\DBManager\obj\Debug\DBManager.dll.postsharp
+C:\Users\dvire\Downloads\ShellTrasferServer-master\ShellTrasferServer-master\DBManager\obj\Debug\PostSharpHost.config
+C:\Users\dvire\Downloads\ShellTrasferServer-master\ShellTrasferServer-master\DBManager\obj\Debug\DBManager.csprojAssemblyReference.cache
+C:\Users\dvire\source\repos\CloudAppServer\DBManager\obj\Debug\DBManager.dll
+C:\Users\dvire\source\repos\CloudAppServer\DBManager\obj\Debug\DBManager.pdb
+C:\Users\dvire\source\repos\CloudAppServer\DBManager\bin\Debug\DBManager.dll.config
+C:\Users\dvire\source\repos\CloudAppServer\DBManager\bin\Debug\DBManager.dll
+C:\Users\dvire\source\repos\CloudAppServer\DBManager\bin\Debug\DBManager.pdb
+C:\Users\dvire\source\repos\CloudAppServer\DBManager\obj\Debug\DBManager.csprojAssemblyReference.cache
+C:\Users\dvire\source\repos\CloudAppServer\DBManager\obj\Debug\DBManager.csproj.CoreCompileInputs.cache

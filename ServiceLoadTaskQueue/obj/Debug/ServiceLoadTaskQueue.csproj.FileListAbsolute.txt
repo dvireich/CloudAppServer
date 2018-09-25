@@ -4,4 +4,3 @@ C:\Users\dvire\source\repos\CloudAppServer\ServiceLoadTaskQueue\bin\Debug\Servic
 C:\Users\dvire\source\repos\CloudAppServer\ServiceLoadTaskQueue\obj\Debug\ServiceLoadTaskQueue.csproj.CoreCompileInputs.cache
 C:\Users\dvire\source\repos\CloudAppServer\ServiceLoadTaskQueue\obj\Debug\ServiceLoadTaskQueue.dll
 C:\Users\dvire\source\repos\CloudAppServer\ServiceLoadTaskQueue\obj\Debug\ServiceLoadTaskQueue.pdb
-C:\Users\dvire\source\repos\CloudAppServer\ServiceLoadTaskQueue\obj\Debug\ServiceLoadTaskQueue.csprojAssemblyReference.cache
