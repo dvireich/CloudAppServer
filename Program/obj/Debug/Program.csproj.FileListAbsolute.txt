@@ -23,3 +23,4 @@ C:\Users\dvire\source\repos\CloudAppServer\Program\bin\Debug\AuthenticationServi
 C:\Users\dvire\source\repos\CloudAppServer\Program\bin\Debug\AuthenticationService.dll.config
 C:\Users\dvire\source\repos\CloudAppServer\Program\bin\Debug\DBManager.pdb
 C:\Users\dvire\source\repos\CloudAppServer\Program\bin\Debug\DBManager.dll.config
+C:\Users\dvire\source\repos\CloudAppServer\Program\bin\Debug\Pri.LongPath.dll

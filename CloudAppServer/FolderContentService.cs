@@ -9,6 +9,7 @@ using CloudAppServer.ServiceModel;
 using FolderContentHelper;
 using FolderContentHelper.Interfaces;
 using FolderContentHelper.Model;
+using FolderContentManager.Model;
 
 namespace CloudAppServer
 {
@@ -74,21 +75,23 @@ namespace CloudAppServer
             FolderContentManagerToClient.Instance.RemoveClient(userId);
         }
 
-        public string GetFolderContent(string name, string path, string page)
+        public string GetFolderContent(PageRequest pageRequest)
         {
+            if (pageRequest == null) return string.Empty;
             return Perform(() =>
             {
-                FixNameAndPath(name, path, out var fixedName, out var fixedPath);
-                var folderPage = _folderContentManager.GetFolderPage(fixedName, FixPath(fixedPath), int.Parse(page));
+                FixNameAndPath(pageRequest.Name, pageRequest.Path, out var fixedName, out var fixedPath);
+                var folderPage = _folderContentManager.GetFolderPage(fixedName, FixPath(fixedPath), int.Parse(pageRequest.Page));
                 return folderPage == null ? null : _serializer.Serialize(folderPage);
             });
         }
 
-        public int GetNumOfFolderPages(string name, string path)
+        public int GetNumberOfPage(NumberOfPageRequest numberOfPageRequest)
         {
+            if (numberOfPageRequest == null) return -1;
             return Perform(() =>
             {
-                FixNameAndPath(name, path, out var fixedName, out var fixedPath);
+                FixNameAndPath(numberOfPageRequest.Name, numberOfPageRequest.Path, out var fixedName, out var fixedPath);
                 return _folderContentManager.GetNumOfFolderPages(fixedName, FixPath(fixedPath));
             });
         }
@@ -193,25 +196,42 @@ namespace CloudAppServer
             });
         }
 
-        public Stream GetFile(string name, string path)
+        public int GetFileRequestId(GetFileRequest getFileRequest)
         {
+            if (getFileRequest == null) return -1;
             return Perform(() =>
             {
-                FixNameAndPath(name, path, out var fixedName, out var fixedPath);
+                FixNameAndPath(getFileRequest.Name, getFileRequest.Path, out var fixedName, out var fixedPath);
                 var file = _folderContentManager.GetFile(fixedName, FixPath(fixedPath));
-                WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Disposition",
-                    "attachment; filename=" + fixedName);
-                WebOperationContext.Current.OutgoingResponse.ContentLength = file.Length;
+                var requestId = _fileService.GetRequestIdForDownload();
+                var downloadData = new FileDownloadData()
+                {
+                    FileName = fixedName,
+                    FileStream = file
+                };
+                _fileService.PrepareFileToDownload(requestId, downloadData);
 
-                return file;
+                return requestId;
             });
         }
 
-        public string Search(string name, string page)
+        public Stream GetFile(string requestId)
         {
+            requestId = requestId.Replace("\"", "");
+            var downloadData = _fileService.GetDownloadFileData(int.Parse(requestId));
+            WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Disposition",
+                "attachment; filename=" + downloadData.FileName);
+            WebOperationContext.Current.OutgoingResponse.ContentLength = downloadData.FileStream.Length;
+
+            return downloadData.FileStream;
+        }
+
+        public string Search(SearchRequest searchRequest)
+        {
+            if (searchRequest == null) return string.Empty;
             return Perform(() =>
             {
-                FixNameAndPath(name, page, out var fixedName, out var fixedPage);
+                FixNameAndPath(searchRequest.Name, searchRequest.Page, out var fixedName, out var fixedPage);
                 var result = _folderContentManager.Search(fixedName, int.Parse(fixedPage));
                 var folderPage = new FolderPageSearchResult(fixedName, result);
                 return _serializer.Serialize(folderPage);

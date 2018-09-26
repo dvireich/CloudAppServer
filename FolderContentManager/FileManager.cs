@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Script.Serialization;
+
+using File = Pri.LongPath.File;
 
 namespace FolderContentHelper
 {
@@ -15,6 +14,12 @@ namespace FolderContentHelper
         public FileManager()
         {
             _serializer = new JavaScriptSerializer();
+        }
+
+        private void ValidateNameLength(string name)
+        {
+            if(name.Length < 250) return;
+            throw new Exception("The given name is too long. Please give name less than 200 characters");
         }
 
         public T ReadJson<T>(string path)
@@ -30,6 +35,8 @@ namespace FolderContentHelper
 
         public void WriteJson(string path, object obj)
         {
+            var name = path.Split('\\').Last();
+            ValidateNameLength(name);
             var serializedObj = _serializer.Serialize(obj);
             if (File.Exists(path))
             {
@@ -43,6 +50,9 @@ namespace FolderContentHelper
 
         public void WriteFileContent(string path, string[] value)
         {
+            var name = path.Split('\\').Last();
+            ValidateNameLength(name);
+
             if (File.Exists(path))
             {
                 File.Delete(path);
@@ -82,6 +92,7 @@ namespace FolderContentHelper
 
         public void Move(string fromPath, string toPath)
         {
+            ValidateNameLength(toPath);
             File.Move(fromPath, toPath);
         }
 

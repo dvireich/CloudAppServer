@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CloudAppServer.Model;
+using FolderContentManager.Model;
 
 namespace FolderContentHelper
 {
@@ -16,6 +18,7 @@ namespace FolderContentHelper
 
         private FileService()
         {
+            _requestIdToFileStream = new ConcurrentDictionary<int, FileDownloadData>();
             this._requestIdToFiles = new ConcurrentDictionary<int, IFile>();
         }
 
@@ -32,6 +35,7 @@ namespace FolderContentHelper
         #endregion Singelton
 
         private readonly ConcurrentDictionary<int, IFile> _requestIdToFiles;
+        private readonly ConcurrentDictionary<int, FileDownloadData> _requestIdToFileStream;
 
         public void CreateFile(int requestId, IFile file)
         {
@@ -96,6 +100,35 @@ namespace FolderContentHelper
 
             var file = _requestIdToFiles[requestId];
             return file.Value.All(element => element != null);
+        }
+
+        public int GetRequestIdForDownload()
+        {
+            lock (Padlock)
+            {
+                var ids = new HashSet<int>(_requestIdToFileStream.Keys);
+                for (var i = 0; i < int.MaxValue; i++)
+                {
+                    if (!ids.Contains(i))
+                    {
+                        _requestIdToFileStream[i] = null;
+                        return i;
+                    }
+                }
+
+                return -1;
+            }
+        }
+
+        public void PrepareFileToDownload(int requestId, FileDownloadData fileDownloadData)
+        {
+            _requestIdToFileStream[requestId] = fileDownloadData;
+        }
+
+        public FileDownloadData GetDownloadFileData(int requestId)
+        {
+            _requestIdToFileStream.TryRemove(requestId, out var fileDownloadData);
+            return fileDownloadData;
         }
     }
 }

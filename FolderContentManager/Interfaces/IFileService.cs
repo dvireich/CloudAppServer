@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CloudAppServer.Model;
+using FolderContentManager.Model;
 
 namespace FolderContentHelper
 {
@@ -20,5 +21,11 @@ namespace FolderContentHelper
         int GetRequestId();
 
         bool IsFileFullyUploaded(int requestId);
+
+        int GetRequestIdForDownload();
+
+        void PrepareFileToDownload(int requestId, FileDownloadData fileDownloadData);
+
+        FileDownloadData GetDownloadFileData(int requestId);
     }
 }

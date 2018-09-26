@@ -19,7 +19,7 @@ namespace CloudAppServer
         private FolderContentManagerToClient()
         {
             _clientToRemoveAction = new ConcurrentDictionary<string, Action>();
-            _folderContentManagerToClient = new ConcurrentDictionary<string, FolderContentManager>();
+            _folderContentManagerToClient = new ConcurrentDictionary<string, FolderContentHelper.FolderContentManager>();
         }
 
         public static FolderContentManagerToClient Instance
@@ -35,7 +35,7 @@ namespace CloudAppServer
 
         #endregion Singelton
 
-        private ConcurrentDictionary<string, FolderContentManager> _folderContentManagerToClient;
+        private ConcurrentDictionary<string, FolderContentHelper.FolderContentManager> _folderContentManagerToClient;
         private ConcurrentDictionary<string, Action> _clientToRemoveAction;
 
         public void AddClient(string id)
@@ -43,8 +43,8 @@ namespace CloudAppServer
             if(_folderContentManagerToClient.ContainsKey(id)) throw new Exception("A client with the same id is already exists!");
 
             var folderContentManagerConstance = new Constance();
-            folderContentManagerConstance.BaseFolderPath = $"{folderContentManagerConstance.BaseFolderPath}/{id}";
-            _folderContentManagerToClient[id] = new FolderContentManager(folderContentManagerConstance);
+            folderContentManagerConstance.BaseFolderPath = $"{folderContentManagerConstance.BaseFolderPath}\\{id}";
+            _folderContentManagerToClient[id] = new FolderContentHelper.FolderContentManager(folderContentManagerConstance);
         }
 
         public void AddOnRemoveCallBack(string id, Action onRemove)
@@ -61,7 +61,7 @@ namespace CloudAppServer
             onRemove?.Invoke();
         }
 
-        public FolderContentManager GetClient(string id)
+        public FolderContentHelper.FolderContentManager GetClient(string id)
         {
             return _folderContentManagerToClient[id];
         }

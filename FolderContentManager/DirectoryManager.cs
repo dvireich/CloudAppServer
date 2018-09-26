@@ -6,10 +6,20 @@ using System.Text;
 using System.Threading.Tasks;
 using FolderContentHelper.Interfaces;
 
+using Path = Pri.LongPath.Path;
+using Directory = Pri.LongPath.Directory;
+using DirectoryInfo = Pri.LongPath.DirectoryInfo;
+
 namespace FolderContentHelper
 {
     public class DirectoryManager : IDirectoryManager
     {
+        private void ValidateNameLength(string name)
+        {
+            if (name.Length < 250) return;
+            throw new Exception("The given name is too long. Please give name less than 200 characters");
+        }
+
         public void Delete(string path, bool recursive)
         {
             Directory.Delete(path, recursive);
@@ -17,6 +27,8 @@ namespace FolderContentHelper
 
         public void CreateDirectory(string path)
         {
+            var name = path.Split('\\').Last();
+            ValidateNameLength(name);
             Directory.CreateDirectory(path);
         }
 
@@ -45,8 +57,8 @@ namespace FolderContentHelper
             }
 
             // Get the files in the directory and copy them to the new location.
-            FileInfo[] files = dir.GetFiles();
-            foreach (FileInfo file in files)
+            var files = dir.GetFiles();
+            foreach (var file in files)
             {
                 string temppath = Path.Combine(destDirName, file.Name);
                 file.CopyTo(temppath, false);

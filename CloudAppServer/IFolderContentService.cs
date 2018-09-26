@@ -25,28 +25,25 @@ namespace CloudAppServer
         void Logout();
 
         [OperationContract]
-        [WebGet (
-            ResponseFormat = WebMessageFormat.Json,
+        [WebInvoke(
+            Method = "*",
             BodyStyle = WebMessageBodyStyle.Bare,
-            RequestFormat = WebMessageFormat.Json,
-            UriTemplate = "/FolderContent/name={name}&path={path}&page={page}")]
-        string GetFolderContent(string name, string path, string page);
+            UriTemplate = "/FolderContent/GetPage")]
+        string GetFolderContent(PageRequest pageRequest);
 
         [OperationContract]
-        [WebGet(
-            ResponseFormat = WebMessageFormat.Json,
+        [WebInvoke(
+            Method = "*",
             BodyStyle = WebMessageBodyStyle.Bare,
-            RequestFormat = WebMessageFormat.Json,
-            UriTemplate = "/FolderContent/Search/name={name}&page={page}")]
-        string Search(string name, string page);
+            UriTemplate = "/FolderContent/GetNumberOfPages")]
+        int GetNumberOfPage(NumberOfPageRequest numberOfPageRequest);
 
         [OperationContract]
-        [WebGet(
-            ResponseFormat = WebMessageFormat.Json,
+        [WebInvoke(
+            Method = "*",
             BodyStyle = WebMessageBodyStyle.Bare,
-            RequestFormat = WebMessageFormat.Json,
-            UriTemplate = "/FolderContent/NumberOfPages/name={name}&path={path}")]
-        int GetNumOfFolderPages(string name, string path);
+            UriTemplate = "/FolderContent/Search")]
+        string Search(SearchRequest searchRequest);
 
         [OperationContract]
         [WebGet(
@@ -107,9 +104,15 @@ namespace CloudAppServer
             UriTemplate = "/FolderContent/ClearUpload")]
         void ClearUpload(int requestId);
 
+        [WebInvoke(
+            Method = "*",
+            BodyStyle = WebMessageBodyStyle.Bare,
+            UriTemplate = "/FolderContent/GetFileRequestId")]
+        int GetFileRequestId(GetFileRequest getFileRequest);
+
         [OperationContract]
         [WebGet(
-            UriTemplate = "/FolderContent/GetFile/name={name}&path={path}")]
-        Stream GetFile(string name, string path);
+            UriTemplate = "/FolderContent/GetFile/requestId={requestId}")]
+        Stream GetFile(string requestId);
     }
 }

@@ -56,6 +56,10 @@
     <Compile Include="ServiceModel\FolderContentCopyObj.cs" />
     <Compile Include="ServiceModel\FolderContentObj.cs" />
     <Compile Include="ServiceModel\FolderContentRenameObj.cs" />
+    <Compile Include="ServiceModel\GetFileRequest.cs" />
+    <Compile Include="ServiceModel\NumberOfPageRequest.cs" />
+    <Compile Include="ServiceModel\PageRequest.cs" />
+    <Compile Include="ServiceModel\SearchRequest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

@@ -29,3 +29,4 @@ C:\Users\dvire\source\repos\CloudAppServer\ServiceLoader\bin\Debug\DBManager.pdb
 C:\Users\dvire\source\repos\CloudAppServer\ServiceLoader\bin\Debug\DBManager.dll.config
 C:\Users\dvire\source\repos\CloudAppServer\ServiceLoader\bin\Debug\ServiceLoadTaskQueue.pdb
 C:\Users\dvire\source\repos\CloudAppServer\ServiceLoader\bin\Debug\ServiceLoadTaskQueue.dll.config
+C:\Users\dvire\source\repos\CloudAppServer\ServiceLoader\bin\Debug\Pri.LongPath.dll
