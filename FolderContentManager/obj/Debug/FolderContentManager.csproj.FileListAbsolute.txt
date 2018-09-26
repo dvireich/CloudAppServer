@@ -5,3 +5,4 @@ C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\obj\Debug\Folder
 C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\obj\Debug\FolderContentManager.pdb
 C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\obj\Debug\FolderContentManager.csproj.CopyComplete
 C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\bin\Debug\Pri.LongPath.dll
+C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\obj\Debug\FolderContentManager.csprojAssemblyReference.cache

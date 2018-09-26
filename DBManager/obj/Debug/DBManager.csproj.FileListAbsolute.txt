@@ -41,3 +41,4 @@ C:\Users\dvire\source\repos\CloudAppServer\DBManager\bin\Debug\DBManager.dll.con
 C:\Users\dvire\source\repos\CloudAppServer\DBManager\bin\Debug\DBManager.dll
 C:\Users\dvire\source\repos\CloudAppServer\DBManager\bin\Debug\DBManager.pdb
 C:\Users\dvire\source\repos\CloudAppServer\DBManager\obj\Debug\DBManager.csproj.CoreCompileInputs.cache
+C:\Users\dvire\source\repos\CloudAppServer\DBManager\obj\Debug\DBManager.csprojAssemblyReference.cache
