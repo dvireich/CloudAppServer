@@ -6,22 +6,24 @@
   <members>
     <member name="T:PostSharp.Patterns.Diagnostics.CustomRecordLoggingOptions">
       <summary>
-            Options for custom logging records. Exposed on the <see cref="!:RoleLoggingOptions.CustomRecordLoggingOptions" /> property.
+            Options for custom logging records. Exposed on the <see cref="P:PostSharp.Patterns.Diagnostics.LoggingRoleConfiguration.CustomRecordLoggingOptions" /> property.
             </summary>
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.CustomRecordLoggingOptions.ActivityLevel">
       <summary>
-            Gets or sets the <see cref="T:PostSharp.Patterns.Diagnostics.LogLevel" /> for entry and success of custom activities (defined by the <see cref="M:PostSharp.Patterns.Diagnostics.Logger.OpenActivity(System.String)" /> and <see cref="!:Logger.SetSuccess(string)" /> methods).
+            Gets or sets the <see cref="T:PostSharp.Patterns.Diagnostics.LogLevel" /> from which the <see cref="M:PostSharp.Patterns.Diagnostics.Logger.OpenActivity(System.String)" /> does something meaningful. Under the specified <see cref="T:PostSharp.Patterns.Diagnostics.LogLevel" />,
+            <see cref="M:PostSharp.Patterns.Diagnostics.Logger.OpenActivity(System.String)" /> returns a null <see cref="T:PostSharp.Patterns.Diagnostics.LogActivity" /> that does not do anything. 
+            Even calls to <see cref="M:PostSharp.Patterns.Diagnostics.LogActivity.SetFailure" /> or <see cref="M:PostSharp.Patterns.Diagnostics.LogActivity.SetException(System.Exception)" /> are ignored in this case.
             </summary>
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.CustomRecordLoggingOptions.ExceptionLevel">
       <summary>
-            Gets or sets the <see cref="T:PostSharp.Patterns.Diagnostics.LogLevel" /> for exceptions of custom activities (defined by the <see cref="!:Logger.SetException(System.Exception)" /> method).
+            Gets or sets the <see cref="T:PostSharp.Patterns.Diagnostics.LogLevel" /> for failures of custom activities (defined by the <see cref="M:PostSharp.Patterns.Diagnostics.LogActivity.SetException(System.Exception)" /> method).
             </summary>
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.CustomRecordLoggingOptions.FailureLevel">
       <summary>
-            Gets or sets the <see cref="T:PostSharp.Patterns.Diagnostics.LogLevel" /> for failures of custom activities (defined by the <see cref="!:Logger.SetFailure(string)" /> method).
+            Gets or sets the <see cref="T:PostSharp.Patterns.Diagnostics.LogLevel" /> for failures of custom activities (defined by the <see cref="M:PostSharp.Patterns.Diagnostics.LogActivity.SetFailure(System.String)" /> method).
             </summary>
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.CustomRecordLoggingOptions.IncludeSourceLineInfo">
@@ -34,6 +36,39 @@
             Event raised when a property of the current object has changed.
             </summary>
     </member>
+    <member name="T:PostSharp.Patterns.Diagnostics.DefaultLoggingExceptionHandler">
+      <summary>
+            An implementation of the <see cref="T:PostSharp.Patterns.Diagnostics.ILoggingExceptionHandler" /> that attempts to log
+            exceptions to the <see cref="F:PostSharp.Patterns.Diagnostics.LoggingRoles.Meta" /> logging role, then disables the backlog
+            in case of internal exception (but not in case of invalid user code). 
+            Not to be confused with <see cref="T:PostSharp.Patterns.Diagnostics.Custom.ILoggerExceptionHandler" />.
+            </summary>
+    </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.DefaultLoggingExceptionHandler.#ctor">
+      <summary>
+        <markup>
+          <include item="SMCAutoDocConstructor">
+            <parameter>PostSharp.Patterns.Diagnostics.DefaultLoggingExceptionHandler</parameter>
+          </include>
+        </markup>
+      </summary>
+    </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.DefaultLoggingExceptionHandler.OnInternalException(PostSharp.Patterns.Diagnostics.LoggingExceptionInfo)">
+      <summary>
+            Method invoked when an exception is thrown in logging code.
+            </summary>
+      <param name="exceptionInfo">Information about the exception.</param>
+    </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.DefaultLoggingExceptionHandler.OnInvalidUserCode(PostSharp.Patterns.Diagnostics.Contexts.CallerInfo@,PostSharp.Patterns.Diagnostics.LoggingTypeSource,System.String,System.Object[])">
+      <summary>
+            Method invoked when a logging component detects a precondition violation
+            that probably stem from user-written code.
+            </summary>
+      <param name="callerInfo">Location of the code that performed the invalid call, or an empty instance if the information is not available.</param>
+      <param name="source">Related <see cref="T:PostSharp.Patterns.Diagnostics.LoggingTypeSource" />, or <c>null</c> if it is not available.</param>
+      <param name="message">Error message formatting string.</param>
+      <param name="args">Arguments for the formatting string, or <c>null</c>.</param>
+    </member>
     <member name="T:PostSharp.Patterns.Diagnostics.ILogAspect">
       <summary>
             Base interface for all method-level logging aspects.
@@ -43,6 +78,27 @@
       <summary>
             Gets the name of the logging profile.
             </summary>
+    </member>
+    <member name="T:PostSharp.Patterns.Diagnostics.ILoggingExceptionHandler">
+      <summary>
+            Defines methods called in case of exception in the logging component.
+            </summary>
+    </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.ILoggingExceptionHandler.OnInternalException(PostSharp.Patterns.Diagnostics.LoggingExceptionInfo)">
+      <summary>
+            Method invoked when an exception is thrown in logging code.
+            </summary>
+      <param name="exceptionInfo">Information about the exception.</param>
+    </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.ILoggingExceptionHandler.OnInvalidUserCode(PostSharp.Patterns.Diagnostics.Contexts.CallerInfo@,PostSharp.Patterns.Diagnostics.LoggingTypeSource,System.String,System.Object[])">
+      <summary>
+            Method invoked when a logging component detects a precondition violation
+            that probably stem from user-written code.
+            </summary>
+      <param name="callerInfo">Location of the code that performed the invalid call, or an empty instance if the information is not available.</param>
+      <param name="source">Related <see cref="T:PostSharp.Patterns.Diagnostics.LoggingTypeSource" />, or <c>null</c> if it is not available.</param>
+      <param name="message">Error message formatting string.</param>
+      <param name="args">Arguments for the formatting string, or <c>null</c>.</param>
     </member>
     <member name="T:PostSharp.Patterns.Diagnostics.ILogValueAspect">
       <summary>
@@ -97,6 +153,34 @@
     <member name="M:PostSharp.Patterns.Diagnostics.LogExceptionAttribute.#ctor">
       <summary>
             Initializes a new <see cref="T:PostSharp.Patterns.Diagnostics.LogExceptionAttribute" />.
+            </summary>
+    </member>
+    <member name="T:PostSharp.Patterns.Diagnostics.LoggingAbstractSource">
+      <summary>
+            Exposes the current <see cref="T:PostSharp.Patterns.Diagnostics.LoggingTypeSource" /> for a given role and <see cref="T:System.Type" />.
+            </summary>
+    </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.LoggingAbstractSource.IsEnabled(PostSharp.Patterns.Diagnostics.LogLevel)">
+      <summary>
+            Determines whether logging is enabled for a given <see cref="T:PostSharp.Patterns.Diagnostics.LogLevel" /> for the current <see cref="P:PostSharp.Patterns.Diagnostics.LoggingAbstractSource.Role" /> and <see cref="P:PostSharp.Patterns.Diagnostics.LoggingAbstractSource.Type" />.
+            </summary>
+      <param name="level">A <see cref="T:PostSharp.Patterns.Diagnostics.LogLevel" />.</param>
+      <returns>
+        <c>true</c> if logging is enabled, otherwise <c>false</c>.</returns>
+    </member>
+    <member name="P:PostSharp.Patterns.Diagnostics.LoggingAbstractSource.Role">
+      <summary>
+            Gets the role.
+            </summary>
+    </member>
+    <member name="P:PostSharp.Patterns.Diagnostics.LoggingAbstractSource.Source">
+      <summary>
+            Gets the <see cref="T:PostSharp.Patterns.Diagnostics.LoggingTypeSource" /> currently assigned to <see cref="P:PostSharp.Patterns.Diagnostics.LoggingAbstractSource.Role" /> and <see cref="P:PostSharp.Patterns.Diagnostics.LoggingAbstractSource.Type" />.
+            </summary>
+    </member>
+    <member name="P:PostSharp.Patterns.Diagnostics.LoggingAbstractSource.Type">
+      <summary>
+            Gets the <see cref="T:System.Type" />/
             </summary>
     </member>
     <member name="T:PostSharp.Patterns.Diagnostics.LoggingBackend">
@@ -265,11 +349,17 @@
             Determines whether the current <see cref="T:PostSharp.Patterns.Diagnostics.LoggingBackend" /> has been disposed.
             </summary>
     </member>
-    <member name="M:PostSharp.Patterns.Diagnostics.LoggingBackend.OpenAsyncContext(System.Threading.Tasks.Task,PostSharp.Patterns.Diagnostics.Contexts.LogMemberInfo@)">
+    <member name="P:PostSharp.Patterns.Diagnostics.LoggingBackend.IsEnabled">
+      <summary>
+            Determines whether the current <see cref="T:PostSharp.Patterns.Diagnostics.LoggingBackend" /> is currently enabled. This property has precedence
+            over, and does not affect, the minimal log levels set through the <see cref="M:PostSharp.Patterns.Diagnostics.LoggingNamespaceSource.SetLevel(PostSharp.Patterns.Diagnostics.LogLevel)" /> method.
+            </summary>
+    </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.LoggingBackend.OpenAsyncContext(PostSharp.Aspects.AsyncCallId,PostSharp.Patterns.Diagnostics.Contexts.LogMemberInfo@)">
       <summary>
             Gets an <see cref="T:PostSharp.Patterns.Diagnostics.Contexts.AsyncMethodLoggingContext" /> for a given async method.
             </summary>
-      <param name="task">The <see cref="T:System.Threading.Tasks.Task" /> associated to the async method being logged, or <c>null</c> if the <see cref="T:System.Threading.Tasks.Task" /> cannot be determined.</param>
+      <param name="asyncCallId">The <see cref="T:System.Threading.Tasks.Task" /> associated to the async method being logged, or <c>null</c> if the <see cref="T:System.Threading.Tasks.Task" /> cannot be determined.</param>
       <param name="logMemberInfo">A reference to a <see cref="T:PostSharp.Patterns.Diagnostics.Contexts.LogMemberInfo" /> describing the method being logged.</param>
       <returns>An <see cref="T:PostSharp.Patterns.Diagnostics.Contexts.AsyncMethodLoggingContext" /> for <paramref name="logMemberInfo" />.</returns>
     </member>
@@ -278,16 +368,8 @@
             Gets a <see cref="T:PostSharp.Patterns.Diagnostics.Contexts.LoggingContext" /> for a custom activity (opened using <see cref="M:PostSharp.Patterns.Diagnostics.Logger.OpenActivity(System.String)" /> or <see cref="M:PostSharp.Patterns.Diagnostics.Logger.OpenAsyncActivity(System.String)" />).
             </summary>
       <param name="type">The type to which the activity belongs.</param>
-      <param name="options">
-        <markup>
-          <include item="SMCMissingParamTag">
-            <parameter>param</parameter>
-            <parameter>options</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.LoggingBackend.OpenCustomActivityContext(PostSharp.Patterns.Diagnostics.LoggingTypeSource,PostSharp.Patterns.Diagnostics.LogActivityOptions)</parameter>
-          </include>
-        </markup>
-      </param>
-      <returns>A <see cref="T:PostSharp.Patterns.Diagnostics.Contexts.SyncCustomActivityLoggingContext" /> if <paramref name="isAsync" /> is false, otherwise an <see cref="T:PostSharp.Patterns.Diagnostics.Contexts.AsyncCustomActivityLoggingContext" />.</returns>
+      <param name="options">Options of the new activity.</param>
+      <returns>A <see cref="T:PostSharp.Patterns.Diagnostics.Contexts.SyncCustomActivityLoggingContext" /> if <c>options.IsAsync</c> is false, otherwise an <see cref="T:PostSharp.Patterns.Diagnostics.Contexts.AsyncCustomActivityLoggingContext" />.</returns>
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.LoggingBackend.OpenEphemeralContext(PostSharp.Patterns.Diagnostics.Contexts.LogMemberInfo@)">
       <summary>
@@ -338,13 +420,9 @@
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.LoggingBackendOptions.LogLevelIgnoredForSystemRecords">
       <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>P:PostSharp.Patterns.Diagnostics.LoggingBackendOptions.LogLevelIgnoredForSystemRecords</parameter>
-          </include>
-        </markup>
-      </summary>
+            Determines whether the <see cref="P:PostSharp.Patterns.Diagnostics.LoggingOptions.Level" /> property is ignored by the current back-end for auto-generated 
+            (i.e. non-manual) logging records. Some back-ends may not support overriding the level of records.
+            </summary>
     </member>
     <member name="T:PostSharp.Patterns.Diagnostics.LoggingBuildTimeConfiguration">
       <summary>
@@ -363,6 +441,27 @@
     <member name="P:PostSharp.Patterns.Diagnostics.LoggingBuildTimeConfiguration.Profiles">
       <summary>
             Gets the collection of logging profiles.
+            </summary>
+    </member>
+    <member name="T:PostSharp.Patterns.Diagnostics.LoggingExceptionInfo">
+      <summary>
+            Arguments of the <see cref="M:PostSharp.Patterns.Diagnostics.ILoggingExceptionHandler.OnInternalException(PostSharp.Patterns.Diagnostics.LoggingExceptionInfo)" /> method.
+            </summary>
+    </member>
+    <member name="P:PostSharp.Patterns.Diagnostics.LoggingExceptionInfo.Backend">
+      <summary>
+            Gets the <see cref="T:PostSharp.Patterns.Diagnostics.LoggingBackend" /> from which the exception stems, or <c>null</c>.
+            </summary>
+    </member>
+    <member name="P:PostSharp.Patterns.Diagnostics.LoggingExceptionInfo.Exception">
+      <summary>
+            Gets the <see cref="T:System.Exception" /> object, or <c>null</c> if the <see cref="T:System.Exception" />
+            object has been lost, which is the case when there is an exception while logging
+            </summary>
+    </member>
+    <member name="P:PostSharp.Patterns.Diagnostics.LoggingExceptionInfo.Source">
+      <summary>
+            Gets the <see cref="T:PostSharp.Patterns.Diagnostics.LoggingNamespaceSource" /> to which the exception is related, or <c>null</c>.
             </summary>
     </member>
     <member name="T:PostSharp.Patterns.Diagnostics.LoggingNamespaceSource">
@@ -568,12 +667,12 @@
             Prevents changes in the current object.
             </summary>
     </member>
-    <member name="M:PostSharp.Patterns.Diagnostics.LoggingProfile.GetSource(System.Type)">
+    <member name="M:PostSharp.Patterns.Diagnostics.LoggingProfile.GetAbstractSource(System.Type)">
       <summary>
-            Gets the <see cref="T:PostSharp.Patterns.Diagnostics.LoggingTypeSource" /> for a given <see cref="T:System.Type" />.
+            Gets the <see cref="T:PostSharp.Patterns.Diagnostics.LoggingAbstractSource" /> for a given <see cref="T:System.Type" /> in the current profile.
             </summary>
       <param name="type">A <see cref="T:System.Type" />.</param>
-      <returns>The <see cref="T:PostSharp.Patterns.Diagnostics.LoggingTypeSource" /> for <paramref name="type" />.</returns>
+      <returns>The <see cref="T:PostSharp.Patterns.Diagnostics.LoggingAbstractSource" /> for the given <paramref name="type" /> and the <see cref="P:PostSharp.Patterns.Diagnostics.LoggingProfile.Role" /> of the current <see cref="T:PostSharp.Patterns.Diagnostics.LoggingProfile" />.</returns>
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.LoggingProfile.IncludeAwaitedTask">
       <summary>
@@ -603,22 +702,8 @@
             </summary>
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.LoggingProfile.ToString">
-      <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.LoggingProfile.ToString</parameter>
-          </include>
-        </markup>
-      </summary>
-      <returns>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>returns</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.LoggingProfile.ToString</parameter>
-          </include>
-        </markup>
-      </returns>
+      <summary>Returns a string that represents the current object.</summary>
+      <returns>A string that represents the current object.</returns>
     </member>
     <member name="T:PostSharp.Patterns.Diagnostics.LoggingProfileCollection">
       <summary>
@@ -627,12 +712,8 @@
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.LoggingProfileCollection.#ctor">
       <summary>
-        <markup>
-          <include item="SMCAutoDocConstructor">
-            <parameter>PostSharp.Patterns.Diagnostics.LoggingProfileCollection</parameter>
-          </include>
-        </markup>
-      </summary>
+            Initializes a new <see cref="T:PostSharp.Patterns.Diagnostics.LoggingProfileCollection" />.
+            </summary>
     </member>
     <member name="T:PostSharp.Patterns.Diagnostics.LoggingProfileRepository">
       <summary>
@@ -683,6 +764,20 @@
             Gets the options that influence the rendering of log records emitted with the <see cref="T:PostSharp.Patterns.Diagnostics.Logger" /> class.
             </summary>
     </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.LoggingRoleConfiguration.GetAbstractSource(System.Type)">
+      <summary>
+            Gets the <see cref="T:PostSharp.Patterns.Diagnostics.LoggingAbstractSource" /> for a given <see cref="T:System.Type" /> in the current role.
+            </summary>
+      <param name="type">A <see cref="T:System.Type" />.</param>
+      <returns>The <see cref="T:PostSharp.Patterns.Diagnostics.LoggingAbstractSource" /> for the given <paramref name="type" /> in the current role.</returns>
+    </member>
+    <member name="P:PostSharp.Patterns.Diagnostics.LoggingRoleConfiguration.IsBackendSpecified">
+      <summary>
+            Determines whether the <see cref="P:PostSharp.Patterns.Diagnostics.LoggingRoleConfiguration.Backend" /> has been explicitly specified.
+            This property is <c>false</c> by default, which means that the <see cref="P:PostSharp.Patterns.Diagnostics.LoggingRoleConfiguration.Backend" /> property
+            will evaluate to <see cref="P:PostSharp.Patterns.Diagnostics.LoggingServices.DefaultBackend" />.
+            </summary>
+    </member>
     <member name="E:PostSharp.Patterns.Diagnostics.LoggingRoleConfiguration.PropertyChanged">
       <summary>
             Event raised when a property of this class changes.
@@ -702,33 +797,18 @@
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.LoggingRoleConfigurationRepository.Audit">
       <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>P:PostSharp.Patterns.Diagnostics.LoggingRoleConfigurationRepository.Audit</parameter>
-          </include>
-        </markup>
-      </summary>
+            Gets the <see cref="T:PostSharp.Patterns.Diagnostics.LoggingRoleConfiguration" /> object for the <see cref="F:PostSharp.Patterns.Diagnostics.LoggingRoles.Audit" /> role.
+            </summary>
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.LoggingRoleConfigurationRepository.Caching">
       <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>P:PostSharp.Patterns.Diagnostics.LoggingRoleConfigurationRepository.Caching</parameter>
-          </include>
-        </markup>
-      </summary>
+            Gets the <see cref="T:PostSharp.Patterns.Diagnostics.LoggingRoleConfiguration" /> object for the <see cref="F:PostSharp.Patterns.Diagnostics.LoggingRoles.Caching" /> role.
+            </summary>
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.LoggingRoleConfigurationRepository.Custom">
       <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>P:PostSharp.Patterns.Diagnostics.LoggingRoleConfigurationRepository.Custom</parameter>
-          </include>
-        </markup>
-      </summary>
+            Gets the <see cref="T:PostSharp.Patterns.Diagnostics.LoggingRoleConfiguration" /> object for the <see cref="F:PostSharp.Patterns.Diagnostics.LoggingRoles.Custom" /> role.
+            </summary>
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.LoggingRoleConfigurationRepository.GetEnumerator">
       <summary>Returns an enumerator that iterates through the collection.</summary>
@@ -745,23 +825,13 @@
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.LoggingRoleConfigurationRepository.Meta">
       <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>P:PostSharp.Patterns.Diagnostics.LoggingRoleConfigurationRepository.Meta</parameter>
-          </include>
-        </markup>
-      </summary>
+            Gets the <see cref="T:PostSharp.Patterns.Diagnostics.LoggingRoleConfiguration" /> object for the <see cref="F:PostSharp.Patterns.Diagnostics.LoggingRoles.Meta" /> role.
+            </summary>
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.LoggingRoleConfigurationRepository.Tracing">
       <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>P:PostSharp.Patterns.Diagnostics.LoggingRoleConfigurationRepository.Tracing</parameter>
-          </include>
-        </markup>
-      </summary>
+            Gets the <see cref="T:PostSharp.Patterns.Diagnostics.LoggingRoleConfiguration" /> object for the <see cref="F:PostSharp.Patterns.Diagnostics.LoggingRoles.Tracing" /> role.
+            </summary>
     </member>
     <member name="T:PostSharp.Patterns.Diagnostics.LoggingServices">
       <summary>
@@ -784,12 +854,18 @@
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.LoggingServices.DefaultBackend">
       <summary>
-            Gets or sets the <see cref="T:PostSharp.Patterns.Diagnostics.LoggingBackend" /> used for logging in the current application.
+            Gets or sets the default <see cref="T:PostSharp.Patterns.Diagnostics.LoggingBackend" /> used for logging in the current application.
             </summary>
     </member>
     <member name="E:PostSharp.Patterns.Diagnostics.LoggingServices.DefaultBackendChanged">
       <summary>
             Event raised when the <see cref="P:PostSharp.Patterns.Diagnostics.LoggingServices.DefaultBackend" /> property has changed.
+            </summary>
+    </member>
+    <member name="P:PostSharp.Patterns.Diagnostics.LoggingServices.ExceptionHandler">
+      <summary>
+            Gets or sets the object that handles exceptions thrown by the logging logic. This property is set by default to an instance
+            of the <see cref="T:PostSharp.Patterns.Diagnostics.DefaultLoggingExceptionHandler" /> class.
             </summary>
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.LoggingServices.GetSource(System.String,System.String)">
@@ -810,6 +886,20 @@
       <param name="type">The type.</param>
       <returns>The <see cref="T:PostSharp.Patterns.Diagnostics.LoggingTypeSource" /> for <paramref name="role" /> and <paramref name="type" />. If no <see cref="T:PostSharp.Patterns.Diagnostics.LoggingTypeSource" />
             exists for this role and type, this method shall create a new <see cref="T:PostSharp.Patterns.Diagnostics.LoggingTypeSource" />.</returns>
+    </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.LoggingServices.Initialize">
+      <summary>
+            Forces initialization of the <c>PostSharp.Patterns.Diagnostics</c> package, i.e.
+            binds the <see cref="T:PostSharp.Patterns.Diagnostics.Logger" /> facade API (which is defined in the <c>PostSharp.Patterns.Diagnostics</c> package) to the implementation
+            by the <c>PostSharp.Patterns.Diagnostics</c> package.
+            </summary>
+    </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.LoggingServices.OnInternalException(System.Exception,PostSharp.Patterns.Diagnostics.LoggingTypeSource)">
+      <summary>
+            Method invoked when an exception is caught in logging code.
+            </summary>
+      <param name="exception">The caught exception, or <c>null</c> if it is not available.</param>
+      <param name="source">The relevant <see cref="T:PostSharp.Patterns.Diagnostics.LoggingTypeSource" />, or <c>null</c> if it could not be determined.</param>
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.LoggingServices.Profiles">
       <summary>
@@ -881,7 +971,7 @@
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.LoggingTypeSource.Options">
       <summary>
-            Gets the <see cref="!:RoleLoggingOptions" /> for the current role. This property is a shortcut to <c>LoggingServices.Roles[this.Role]</c>.
+            Gets the <see cref="T:PostSharp.Patterns.Diagnostics.LoggingRoleConfiguration" /> for the current role. This property is a shortcut to <c>LoggingServices.Roles[this.Role]</c>.
             </summary>
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.LoggingTypeSource.Refresh">
@@ -1369,13 +1459,8 @@
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleLoggingBackendOptions.IncludeLevel">
       <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>P:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleLoggingBackendOptions.IncludeLevel</parameter>
-          </include>
-        </markup>
-      </summary>
+            Determines whether the <see cref="T:PostSharp.Patterns.Diagnostics.LogLevel" /> should be written to the console. The default value is <c>true</c>.
+            </summary>
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleLoggingBackendOptions.IncludeRole">
       <summary>
@@ -1406,11 +1491,6 @@
       <summary>
             Gets or sets the formatting string used to render a value of the <see cref="T:System.DateTimeOffset" /> type when the <see cref="P:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleLoggingBackendOptions.IncludeTimestamp" /> property
             is set to <c>true</c>. The default value is <c>null</c>.
-            </summary>
-    </member>
-    <member name="P:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleLoggingBackendOptions.UseColors">
-      <summary>
-            Determines whether messages of different level should be logged with different colors. The default value is <c>true</c>.
             </summary>
     </member>
     <member name="T:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleLoggingTypeSource">
@@ -1457,15 +1537,6 @@
             Initializes a new <see cref="T:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleLogRecordBuilder" />.
             </summary>
       <param name="backend">The parent <see cref="T:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleLoggingBackend" />.</param>
-    </member>
-    <member name="M:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleLogRecordBuilder.AppendContextDescription">
-      <summary>
-            Appends the context <see cref="P:PostSharp.Patterns.Diagnostics.Contexts.LoggingContext.Description" /> 
-            (or the <see cref="P:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.TypeSource" /> name, if the type of the context is not equal to the source type of the record)
-            to the current <see cref="P:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.StringBuilder" />.
-            </summary>
-      <returns>
-        <c>true</c> if the context description was non-empty, <c>false</c> if it was empty.</returns>
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleLogRecordBuilder.AppendDelimiter">
       <summary>
@@ -1565,13 +1636,8 @@
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleLogRecordBuilder.Write">
       <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleLogRecordBuilder.Write</parameter>
-          </include>
-        </markup>
-      </summary>
+            Write the current log record to the console.
+            </summary>
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleLogRecordBuilder.Write(PostSharp.Patterns.Formatters.UnsafeString)">
       <summary>
@@ -1586,21 +1652,9 @@
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleTheme.#ctor(PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleTheme)">
       <summary>
-        <markup>
-          <include item="SMCAutoDocConstructor">
-            <parameter>PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleTheme</parameter>
-          </include>
-        </markup>
-      </summary>
-      <param name="model">
-        <markup>
-          <include item="SMCMissingParamTag">
-            <parameter>param</parameter>
-            <parameter>model</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleTheme.#ctor(PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleTheme)</parameter>
-          </include>
-        </markup>
-      </param>
+            Initializes a new <see cref="T:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleTheme" /> and copies all values from a given other <see cref="T:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleTheme" />.
+            </summary>
+      <param name="model">The <see cref="T:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleTheme" /> from which all values will be copied.</param>
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleTheme.#ctor(System.Boolean)">
       <summary>
@@ -1661,37 +1715,161 @@
             Enumeration of item kinds that can be themed.
             </summary>
     </member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.None"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.Text"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.LevelTrace"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.LevelDebug"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.LevelInfo"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.LevelWarning"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.LevelError"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.LevelCritical"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.RecordKind"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.MemberName"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.TypeName"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.This"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.Exception"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.ParameterType"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.ParameterName"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.ParameterValue"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.ReturnItemName"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.ReturnItemValue"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.ReturnValue"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.CustomParameter"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.SourceFile"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.SourceLine"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.Duration"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.AwaitedContextId"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.AwaitedType"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.AwaitedMethod"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.ContextId"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.Role"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.Time"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.OtherSemanticParameter"></member>
-    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.Delimiter"></member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.None">
+      <summary>
+            None.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.Text">
+      <summary>
+            Normal message text.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.LevelTrace">
+      <summary>
+            The <see cref="T:PostSharp.Patterns.Diagnostics.LogLevel" />, when it is equal to <see cref="F:PostSharp.Patterns.Diagnostics.LogLevel.Trace" />.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.LevelDebug">
+      <summary>
+            The <see cref="T:PostSharp.Patterns.Diagnostics.LogLevel" />, when it is equal to <see cref="F:PostSharp.Patterns.Diagnostics.LogLevel.Debug" />.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.LevelInfo">
+      <summary>
+            The <see cref="T:PostSharp.Patterns.Diagnostics.LogLevel" />, when it is equal to <see cref="F:PostSharp.Patterns.Diagnostics.LogLevel.Info" />.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.LevelWarning">
+      <summary>
+            The <see cref="T:PostSharp.Patterns.Diagnostics.LogLevel" />, when it is equal to <see cref="F:PostSharp.Patterns.Diagnostics.LogLevel.Warning" />.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.LevelError">
+      <summary>
+            The <see cref="T:PostSharp.Patterns.Diagnostics.LogLevel" />, when it is equal to <see cref="F:PostSharp.Patterns.Diagnostics.LogLevel.Error" />.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.LevelCritical">
+      <summary>
+            The <see cref="T:PostSharp.Patterns.Diagnostics.LogLevel" />, when it is equal to <see cref="F:PostSharp.Patterns.Diagnostics.LogLevel.Critical" />.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.RecordKind">
+      <summary>
+            The <see cref="T:PostSharp.Patterns.Diagnostics.LogLevel" />, when it is equal to <see cref="F:PostSharp.Patterns.Diagnostics.LogLevel.Trace" />.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.MemberName">
+      <summary>
+            The member name.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.TypeName">
+      <summary>
+            The type name.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.This">
+      <summary>
+            The value of the <c>this</c> parameter.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.Exception">
+      <summary>
+            The exception type.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.ParameterType">
+      <summary>
+            A parameter type.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.ParameterName">
+      <summary>
+            A parameter name.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.ParameterValue">
+      <summary>
+            A parameter value.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.ReturnItemName">
+      <summary>
+            The name of a return item, if the method returns a tuple.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.ReturnItemValue">
+      <summary>
+            The value of a return item, if the method returns a tuple.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.ReturnValue">
+      <summary>
+            The return value.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.CustomParameter">
+      <summary>
+            A parameter in a custom string.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.SourceFile">
+      <summary>
+            The path of the source file.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.SourceLine">
+      <summary>
+            The line of the source file.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.Duration">
+      <summary>
+            The duration of the method execution.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.AwaitedContextId">
+      <summary>
+            The id of the awaited context.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.AwaitedType">
+      <summary>
+            The name of the type that returned the awaitable.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.AwaitedMethod">
+      <summary>
+            The name of the method that returned the awaitable.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.ContextId">
+      <summary>
+            The id of the current context.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.Role">
+      <summary>
+            The role of the logging record.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.Time">
+      <summary>
+            The current time.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.OtherSemanticParameter">
+      <summary>
+            Another semantic parameter.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemeItem.Delimiter">
+      <summary>
+            A delimiter (such as a comma).
+            </summary>
+    </member>
     <member name="T:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleThemes">
       <summary>
             A collection of color themes for use with the <see cref="T:PostSharp.Patterns.Diagnostics.Backends.Console.ConsoleLoggingBackend" />.
@@ -1768,32 +1946,16 @@
     </member>
     <member name="T:PostSharp.Patterns.Diagnostics.Backends.Console.LogLevelArray`1">
       <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>T:PostSharp.Patterns.Diagnostics.Backends.Console.LogLevelArray`1</parameter>
-          </include>
-        </markup>
-      </summary>
-      <typeparam name="T">
-        <markup>
-          <include item="SMCMissingParamTag">
-            <parameter>typeparam</parameter>
-            <parameter>T</parameter>
-            <parameter>T:PostSharp.Patterns.Diagnostics.Backends.Console.LogLevelArray`1</parameter>
-          </include>
-        </markup>
-      </typeparam>
+            A high-performance map of <see cref="T:PostSharp.Patterns.Diagnostics.LogLevel" /> to something else.
+            </summary>
+      <typeparam name="T"></typeparam>
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.Backends.Console.LogLevelArray`1.Item(PostSharp.Patterns.Diagnostics.LogLevel)">
       <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>P:PostSharp.Patterns.Diagnostics.Backends.Console.LogLevelArray`1.Item(PostSharp.Patterns.Diagnostics.LogLevel)</parameter>
-          </include>
-        </markup>
-      </summary>
+            Gets or sets the value corresponding to a given <see cref="T:PostSharp.Patterns.Diagnostics.LogLevel" />.
+            </summary>
+      <param name="level">A <see cref="T:PostSharp.Patterns.Diagnostics.LogLevel" />.</param>
+      <returns>The value mapped to <paramref name="level" />.</returns>
     </member>
     <member name="T:PostSharp.Patterns.Diagnostics.Backends.Null.NullLoggingBackend">
       <summary>
@@ -1825,139 +1987,35 @@
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.Contexts.AsyncCustomActivityLoggingContext.CustomActivityKind">
       <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>P:PostSharp.Patterns.Diagnostics.Contexts.AsyncCustomActivityLoggingContext.CustomActivityKind</parameter>
-          </include>
-        </markup>
-      </summary>
+            Gets the kind of <see cref="T:PostSharp.Patterns.Diagnostics.LogActivity" /> of the current context.
+            </summary>
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.Contexts.AsyncCustomActivityLoggingContext.Open(PostSharp.Patterns.Diagnostics.LoggingTypeSource,PostSharp.Patterns.Diagnostics.LogActivityOptions)">
       <summary>
             Opens the current context.
             </summary>
       <param name="typeSource">The <see cref="T:PostSharp.Patterns.Diagnostics.LoggingTypeSource" /> for the declaring type of the context.</param>
-      <param name="options">
-        <markup>
-          <include item="SMCMissingParamTag">
-            <parameter>param</parameter>
-            <parameter>options</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.Contexts.AsyncCustomActivityLoggingContext.Open(PostSharp.Patterns.Diagnostics.LoggingTypeSource,PostSharp.Patterns.Diagnostics.LogActivityOptions)</parameter>
-          </include>
-        </markup>
-      </param>
+      <param name="options">Options of the new context.</param>
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.Contexts.AsyncCustomActivityLoggingContext.SetWaitDependency(System.Object)">
       <summary>
             Sets the wait dependency for the current context, i.e. sets a representation of what the current context
             is waiting for. This operation is available only in custom contexts.
             </summary>
-      <param name="waited">The "thing" being waited for (for instance a <see cref="T:System.Threading.Tasks.Task" /> or a <see cref="T:PostSharp.Patterns.Diagnostics.ThreadingInstrumentation.TaskInfo" />).</param>
+      <param name="waited">The "thing" being waited for (for instance a <see cref="!:Task" /> or a <see cref="!:TaskInfo" />).</param>
     </member>
     <member name="T:PostSharp.Patterns.Diagnostics.Contexts.AsyncLoggingContext">
       <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>T:PostSharp.Patterns.Diagnostics.Contexts.AsyncLoggingContext</parameter>
-          </include>
-        </markup>
-      </summary>
+            A <see cref="T:PostSharp.Patterns.Diagnostics.Contexts.LoggingContext" /> that can represent an async method execution or an async custom activity.
+            </summary>
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.Contexts.AsyncLoggingContext.#ctor(PostSharp.Patterns.Diagnostics.LoggingBackend,PostSharp.Patterns.Diagnostics.Contexts.LoggingContextKind,System.Boolean)">
       <summary>
-        <markup>
-          <include item="SMCAutoDocConstructor">
-            <parameter>PostSharp.Patterns.Diagnostics.Contexts.AsyncLoggingContext</parameter>
-          </include>
-        </markup>
-      </summary>
-      <param name="backend">
-        <markup>
-          <include item="SMCMissingParamTag">
-            <parameter>param</parameter>
-            <parameter>backend</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.Contexts.AsyncLoggingContext.#ctor(PostSharp.Patterns.Diagnostics.LoggingBackend,PostSharp.Patterns.Diagnostics.Contexts.LoggingContextKind,System.Boolean)</parameter>
-          </include>
-        </markup>
-      </param>
-      <param name="kind">
-        <markup>
-          <include item="SMCMissingParamTag">
-            <parameter>param</parameter>
-            <parameter>kind</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.Contexts.AsyncLoggingContext.#ctor(PostSharp.Patterns.Diagnostics.LoggingBackend,PostSharp.Patterns.Diagnostics.Contexts.LoggingContextKind,System.Boolean)</parameter>
-          </include>
-        </markup>
-      </param>
-      <param name="isAsync">
-        <markup>
-          <include item="SMCMissingParamTag">
-            <parameter>param</parameter>
-            <parameter>isAsync</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.Contexts.AsyncLoggingContext.#ctor(PostSharp.Patterns.Diagnostics.LoggingBackend,PostSharp.Patterns.Diagnostics.Contexts.LoggingContextKind,System.Boolean)</parameter>
-          </include>
-        </markup>
-      </param>
-    </member>
-    <member name="M:PostSharp.Patterns.Diagnostics.Contexts.AsyncLoggingContext.OnResume(PostSharp.Patterns.Diagnostics.Contexts.AsyncLoggingContext)">
-      <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.Contexts.AsyncLoggingContext.OnResume(PostSharp.Patterns.Diagnostics.Contexts.AsyncLoggingContext)</parameter>
-          </include>
-        </markup>
-      </summary>
-      <param name="resumedContext">
-        <markup>
-          <include item="SMCMissingParamTag">
-            <parameter>param</parameter>
-            <parameter>resumedContext</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.Contexts.AsyncLoggingContext.OnResume(PostSharp.Patterns.Diagnostics.Contexts.AsyncLoggingContext)</parameter>
-          </include>
-        </markup>
-      </param>
-    </member>
-    <member name="M:PostSharp.Patterns.Diagnostics.Contexts.AsyncLoggingContext.OnSuspend(PostSharp.Patterns.Diagnostics.Contexts.AsyncLoggingContext)">
-      <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.Contexts.AsyncLoggingContext.OnSuspend(PostSharp.Patterns.Diagnostics.Contexts.AsyncLoggingContext)</parameter>
-          </include>
-        </markup>
-      </summary>
-      <param name="suspendedContext">
-        <markup>
-          <include item="SMCMissingParamTag">
-            <parameter>param</parameter>
-            <parameter>suspendedContext</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.Contexts.AsyncLoggingContext.OnSuspend(PostSharp.Patterns.Diagnostics.Contexts.AsyncLoggingContext)</parameter>
-          </include>
-        </markup>
-      </param>
-    </member>
-    <member name="M:PostSharp.Patterns.Diagnostics.Contexts.AsyncLoggingContext.Resume">
-      <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.Contexts.AsyncLoggingContext.Resume</parameter>
-          </include>
-        </markup>
-      </summary>
-    </member>
-    <member name="M:PostSharp.Patterns.Diagnostics.Contexts.AsyncLoggingContext.Suspend">
-      <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.Contexts.AsyncLoggingContext.Suspend</parameter>
-          </include>
-        </markup>
-      </summary>
+            Initializes a new <see cref="T:PostSharp.Patterns.Diagnostics.Contexts.AsyncLoggingContext" />.
+            </summary>
+      <param name="backend"></param>
+      <param name="kind"></param>
+      <param name="isAsync"></param>
     </member>
     <member name="T:PostSharp.Patterns.Diagnostics.Contexts.AsyncMethodLoggingContext">
       <summary>
@@ -1969,6 +2027,11 @@
             Creates an instance of <see cref="T:PostSharp.Patterns.Diagnostics.Contexts.AsyncMethodLoggingContext" />.
             </summary>
       <param name="backend">The parent <see cref="T:PostSharp.Patterns.Diagnostics.LoggingBackend" />.</param>
+    </member>
+    <member name="P:PostSharp.Patterns.Diagnostics.Contexts.AsyncMethodLoggingContext.AsyncCallId">
+      <summary>
+            Gets the unique identifier of the asynchronous call represented by the current <see cref="T:PostSharp.Patterns.Diagnostics.Contexts.AsyncMethodLoggingContext" />.
+            </summary>
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.Contexts.AsyncMethodLoggingContext.AwaitedMethod">
       <summary>
@@ -1982,11 +2045,11 @@
             or <c>null</c> if it could not be determined or if the <see cref="P:PostSharp.Patterns.Diagnostics.LoggingProfile.IncludeAwaitedTask" /> profile property is set to <c>false</c>.
             </summary>
     </member>
-    <member name="M:PostSharp.Patterns.Diagnostics.Contexts.AsyncMethodLoggingContext.Open(System.Threading.Tasks.Task,PostSharp.Patterns.Diagnostics.Contexts.LogMemberInfo@)">
+    <member name="M:PostSharp.Patterns.Diagnostics.Contexts.AsyncMethodLoggingContext.Open(PostSharp.Aspects.AsyncCallId,PostSharp.Patterns.Diagnostics.Contexts.LogMemberInfo@)">
       <summary>
             Opens the context.
             </summary>
-      <param name="task">The <see cref="T:System.Threading.Tasks.Task" /> associated with the async method.</param>
+      <param name="asyncCallId">The <see cref="T:System.Threading.Tasks.Task" /> associated with the async method.</param>
       <param name="memberInfo">Information about the async method.</param>
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.Contexts.AsyncMethodLoggingContext.SetAwaitedTask(System.Threading.Tasks.Task,System.Reflection.MethodBase)">
@@ -1999,7 +2062,8 @@
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.Contexts.AsyncMethodLoggingContext.Task">
       <summary>
-            Gets the <see cref="T:System.Threading.Tasks.Task" />  associated to the current async method.
+            Gets the <see cref="T:System.Threading.Tasks.Task" /> that is currently associated to the current async method invocation.
+            An async method invocation may be associated to several different tasks during its lifetime.
             </summary>
     </member>
     <member name="T:PostSharp.Patterns.Diagnostics.Contexts.CorrelationCookie">
@@ -2078,13 +2142,9 @@
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.Contexts.EphemeralLoggingContext.ActivationContext">
       <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>P:PostSharp.Patterns.Diagnostics.Contexts.EphemeralLoggingContext.ActivationContext</parameter>
-          </include>
-        </markup>
-      </summary>
+            Gets the <see cref="T:PostSharp.Patterns.Diagnostics.Contexts.LoggingContext" /> in which the current context was activated. If the current
+            context has been resumed, <see cref="P:PostSharp.Patterns.Diagnostics.Contexts.LoggingContext.ActivationContext" /> refers to the context in which the context was resumed.
+            </summary>
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.Contexts.EphemeralLoggingContext.Dispose(System.Boolean)">
       <summary>
@@ -2113,23 +2173,13 @@
     </member>
     <member name="T:PostSharp.Patterns.Diagnostics.Contexts.ICustomActivityLoggingContext">
       <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>T:PostSharp.Patterns.Diagnostics.Contexts.ICustomActivityLoggingContext</parameter>
-          </include>
-        </markup>
-      </summary>
+            An <see cref="T:PostSharp.Patterns.Diagnostics.Contexts.ILoggingContext" /> that represents a custom activity (<see cref="T:PostSharp.Patterns.Diagnostics.LogActivity" />).
+            </summary>
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.Contexts.ICustomActivityLoggingContext.CustomActivityKind">
       <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>P:PostSharp.Patterns.Diagnostics.Contexts.ICustomActivityLoggingContext.CustomActivityKind</parameter>
-          </include>
-        </markup>
-      </summary>
+            Gets the kind of <see cref="T:PostSharp.Patterns.Diagnostics.LogActivity" /> represented by the current context.
+            </summary>
     </member>
     <member name="T:PostSharp.Patterns.Diagnostics.Contexts.IteratorLoggingContext">
       <summary>
@@ -2210,7 +2260,7 @@
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.Contexts.LoggingContext.Id">
       <summary>
-            Gets or set the identifier of the current context. The value can be <c>0</c> when no identifier has been generated.
+            Gets or set the identifier of the current context. This property should be used for debugging only. Its value is lazily created.
             </summary>
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.Contexts.LoggingContext.IndentLevel">
@@ -2273,7 +2323,7 @@
             Sets the wait dependency for the current context, i.e. sets a representation of what the current context
             is waiting for. This operation is available only in custom contexts.
             </summary>
-      <param name="waited">The "thing" being waited for (for instance a <see cref="T:System.Threading.Tasks.Task" /> or a <see cref="T:PostSharp.Patterns.Diagnostics.ThreadingInstrumentation.TaskInfo" />).</param>
+      <param name="waited">The "thing" being waited for (for instance a <see cref="!:Task" /> or a <see cref="!:TaskInfo" />).</param>
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.Contexts.LoggingContext.Source">
       <summary>
@@ -2293,22 +2343,49 @@
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.Contexts.LoggingContext.ToString(System.Text.StringBuilder)">
       <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.Contexts.LoggingContext.ToString(System.Text.StringBuilder)</parameter>
-          </include>
-        </markup>
-      </summary>
-      <param name="stringBuilder">
-        <markup>
-          <include item="SMCMissingParamTag">
-            <parameter>param</parameter>
-            <parameter>stringBuilder</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.Contexts.LoggingContext.ToString(System.Text.StringBuilder)</parameter>
-          </include>
-        </markup>
-      </param>
+            Formats a description of the current <see cref="T:PostSharp.Patterns.Diagnostics.Contexts.LoggingContext" /> into a given <see cref="T:System.Text.StringBuilder" />.
+            </summary>
+      <param name="stringBuilder"></param>
+    </member>
+    <member name="T:PostSharp.Patterns.Diagnostics.Contexts.LoggingContextKind">
+      <summary>
+            Kinds of logging contexts.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Contexts.LoggingContextKind.Thread">
+      <summary>
+            Thread.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Contexts.LoggingContextKind.AsyncMethod">
+      <summary>
+            Async method.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Contexts.LoggingContextKind.SyncMethod">
+      <summary>
+            Normal method (not async, not iterator).
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Contexts.LoggingContextKind.SyncCustomActivity">
+      <summary>
+            Synchronous custom activity.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Contexts.LoggingContextKind.AsyncCustomActivity">
+      <summary>
+            Asynchronous custom activity.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Contexts.LoggingContextKind.Ephemeral">
+      <summary>
+            Ephemeral (one-use context).
+            </summary>
+    </member>
+    <member name="F:PostSharp.Patterns.Diagnostics.Contexts.LoggingContextKind.Iterator">
+      <summary>
+            Iterator.
+            </summary>
     </member>
     <member name="T:PostSharp.Patterns.Diagnostics.Contexts.LogMemberInfo">
       <summary>
@@ -2380,33 +2457,6 @@
             Contains information about a log record.
             </summary>
     </member>
-    <member name="M:PostSharp.Patterns.Diagnostics.Contexts.LogRecordInfo.#ctor(PostSharp.Patterns.Diagnostics.LogRecordKind,PostSharp.Patterns.Diagnostics.LoggingOptions)">
-      <summary>
-        <markup>
-          <include item="SMCAutoDocConstructor">
-            <parameter>PostSharp.Patterns.Diagnostics.Contexts.LogRecordInfo</parameter>
-          </include>
-        </markup>
-      </summary>
-      <param name="recordKind">
-        <markup>
-          <include item="SMCMissingParamTag">
-            <parameter>param</parameter>
-            <parameter>recordKind</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.Contexts.LogRecordInfo.#ctor(PostSharp.Patterns.Diagnostics.LogRecordKind,PostSharp.Patterns.Diagnostics.LoggingOptions)</parameter>
-          </include>
-        </markup>
-      </param>
-      <param name="options">
-        <markup>
-          <include item="SMCMissingParamTag">
-            <parameter>param</parameter>
-            <parameter>options</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.Contexts.LogRecordInfo.#ctor(PostSharp.Patterns.Diagnostics.LogRecordKind,PostSharp.Patterns.Diagnostics.LoggingOptions)</parameter>
-          </include>
-        </markup>
-      </param>
-    </member>
     <member name="M:PostSharp.Patterns.Diagnostics.Contexts.LogRecordInfo.#ctor(PostSharp.Patterns.Diagnostics.LogRecordKind,PostSharp.Patterns.Diagnostics.LoggingOptions,System.Int64)">
       <summary>
             Initializes a <see cref="T:PostSharp.Patterns.Diagnostics.Contexts.LogRecordInfo" />.
@@ -2417,13 +2467,8 @@
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.Contexts.LogRecordInfo.Id">
       <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>P:PostSharp.Patterns.Diagnostics.Contexts.LogRecordInfo.Id</parameter>
-          </include>
-        </markup>
-      </summary>
+            Unique identifier of the static parts of the record, which can be used for caching the message template.
+            </summary>
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.Contexts.LogRecordInfo.Options">
       <summary>
@@ -2478,22 +2523,9 @@
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.Contexts.SuspendableLoggingContext.ToString(System.Text.StringBuilder)">
       <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.Contexts.SuspendableLoggingContext.ToString(System.Text.StringBuilder)</parameter>
-          </include>
-        </markup>
-      </summary>
-      <param name="stringBuilder">
-        <markup>
-          <include item="SMCMissingParamTag">
-            <parameter>param</parameter>
-            <parameter>stringBuilder</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.Contexts.SuspendableLoggingContext.ToString(System.Text.StringBuilder)</parameter>
-          </include>
-        </markup>
-      </param>
+            Formats a description of the current <see cref="T:PostSharp.Patterns.Diagnostics.Contexts.LoggingContext" /> into a given <see cref="T:System.Text.StringBuilder" />.
+            </summary>
+      <param name="stringBuilder"></param>
     </member>
     <member name="T:PostSharp.Patterns.Diagnostics.Contexts.SyncCustomActivityLoggingContext">
       <summary>
@@ -2509,28 +2541,15 @@
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.Contexts.SyncCustomActivityLoggingContext.CustomActivityKind">
       <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>P:PostSharp.Patterns.Diagnostics.Contexts.SyncCustomActivityLoggingContext.CustomActivityKind</parameter>
-          </include>
-        </markup>
-      </summary>
+            Gets the kind of <see cref="T:PostSharp.Patterns.Diagnostics.LogActivity" /> represented by the current context.
+            </summary>
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.Contexts.SyncCustomActivityLoggingContext.Open(PostSharp.Patterns.Diagnostics.LoggingTypeSource,PostSharp.Patterns.Diagnostics.LogActivityOptions)">
       <summary>
             Opens the current context.
             </summary>
       <param name="typeSource">The <see cref="T:PostSharp.Patterns.Diagnostics.LoggingTypeSource" /> for the declaring type of the context.</param>
-      <param name="options">
-        <markup>
-          <include item="SMCMissingParamTag">
-            <parameter>param</parameter>
-            <parameter>options</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.Contexts.SyncCustomActivityLoggingContext.Open(PostSharp.Patterns.Diagnostics.LoggingTypeSource,PostSharp.Patterns.Diagnostics.LogActivityOptions)</parameter>
-          </include>
-        </markup>
-      </param>
+      <param name="options">Options of the opened custom context.</param>
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.Contexts.SyncCustomActivityLoggingContext.ReturnToPool">
       <summary>
@@ -2542,7 +2561,7 @@
             Sets the wait dependency for the current context, i.e. sets a representation of what the current context
             is waiting for. This operation is available only in custom contexts.
             </summary>
-      <param name="waited">The "thing" being waited for (for instance a <see cref="T:System.Threading.Tasks.Task" /> or a <see cref="T:PostSharp.Patterns.Diagnostics.ThreadingInstrumentation.TaskInfo" />).</param>
+      <param name="waited">The "thing" being waited for (for instance a <see cref="!:Task" /> or a <see cref="!:TaskInfo" />).</param>
     </member>
     <member name="T:PostSharp.Patterns.Diagnostics.Contexts.SyncLoggingContext">
       <summary>
@@ -2795,12 +2814,83 @@
       <param name="stringBuilder">The target <see cref="T:PostSharp.Patterns.Formatters.UnsafeStringBuilder" />.</param>
       <param name="value">The value to be formatted.</param>
     </member>
+    <member name="T:PostSharp.Patterns.Diagnostics.Formatters.RefStructSurrogate">
+      <summary>
+            Struct that is passed to <see cref="M:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder.SetParameter``1(System.Int32,System.String,PostSharp.Reflection.ParameterKind,System.String,``0)" />
+            when the parameter is of a <c>ref struct</c> type. This struct wraps the return value of the <see cref="M:PostSharp.Patterns.Diagnostics.Formatters.RefStructSurrogate.ToString" /> method
+            of the <c>ref struct</c>.
+            </summary>
+    </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.Formatters.RefStructSurrogate.#ctor(System.String)">
+      <summary>
+        <markup>
+          <include item="SMCAutoDocConstructor">
+            <parameter>PostSharp.Patterns.Diagnostics.Formatters.RefStructSurrogate</parameter>
+          </include>
+        </markup>
+      </summary>
+      <param name="toStringValue">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>toStringValue</parameter>
+            <parameter>M:PostSharp.Patterns.Diagnostics.Formatters.RefStructSurrogate.#ctor(System.String)</parameter>
+          </include>
+        </markup>
+      </param>
+    </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.Formatters.RefStructSurrogate.Format(PostSharp.Patterns.Formatters.UnsafeStringBuilder,PostSharp.Patterns.Formatters.FormattingRole)">
+      <summary>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>summary</parameter>
+            <parameter>M:PostSharp.Patterns.Diagnostics.Formatters.RefStructSurrogate.Format(PostSharp.Patterns.Formatters.UnsafeStringBuilder,PostSharp.Patterns.Formatters.FormattingRole)</parameter>
+          </include>
+        </markup>
+      </summary>
+      <param name="stringBuilder">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>stringBuilder</parameter>
+            <parameter>M:PostSharp.Patterns.Diagnostics.Formatters.RefStructSurrogate.Format(PostSharp.Patterns.Formatters.UnsafeStringBuilder,PostSharp.Patterns.Formatters.FormattingRole)</parameter>
+          </include>
+        </markup>
+      </param>
+      <param name="role">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>role</parameter>
+            <parameter>M:PostSharp.Patterns.Diagnostics.Formatters.RefStructSurrogate.Format(PostSharp.Patterns.Formatters.UnsafeStringBuilder,PostSharp.Patterns.Formatters.FormattingRole)</parameter>
+          </include>
+        </markup>
+      </param>
+    </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.Formatters.RefStructSurrogate.ToString">
+      <summary>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>summary</parameter>
+            <parameter>M:PostSharp.Patterns.Diagnostics.Formatters.RefStructSurrogate.ToString</parameter>
+          </include>
+        </markup>
+      </summary>
+      <returns>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>returns</parameter>
+            <parameter>M:PostSharp.Patterns.Diagnostics.Formatters.RefStructSurrogate.ToString</parameter>
+          </include>
+        </markup>
+      </returns>
+    </member>
     <member name="T:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder">
       <summary>
             Builds log record (typically, but not necessarily a string) for an action. You can think
             of the <see cref="T:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder" /> as a semantic <see cref="T:System.Text.StringBuilder" />. PostSharp emits
             code that invoke methods such as 
-            <see cref="M:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder.SetParameter``1(System.Int32,System.String,PostSharp.Patterns.Diagnostics.RecordBuilders.ParameterDirection,System.String,``0,PostSharp.Patterns.Formatters.IFormatter{``0})" /> or 
+            <see cref="M:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder.SetParameter``1(System.Int32,System.String,PostSharp.Reflection.ParameterKind,System.String,``0)" /> or 
             <see cref="M:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder.SetReturnValue``1(System.Int32,System.String,System.String,``0,PostSharp.Patterns.Formatters.IFormatter{``0})" />,
             and the responsibility of the <see cref="T:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder" /> is to format a record and emit it to the
             back-end.
@@ -2834,7 +2924,7 @@
     <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder.Complete">
       <summary>
             Emits the record and resets the current <see cref="T:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder" />.
-            This method invoked after all <see cref="M:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder.SetThis``1(``0)" />, <see cref="M:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder.SetParameter``1(System.Int32,System.String,PostSharp.Patterns.Diagnostics.RecordBuilders.ParameterDirection,System.String,``0)" /> and
+            This method invoked after all <see cref="M:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder.SetThis``1(``0)" />, <see cref="M:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder.SetParameter``1(System.Int32,System.String,PostSharp.Reflection.ParameterKind,System.String,``0)" /> and
             similar methods have been called. 
             </summary>
     </member>
@@ -2881,30 +2971,92 @@
       <param name="index"></param>
       <typeparam name="T"></typeparam>
     </member>
-    <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder.SetParameter``1(System.Int32,System.String,PostSharp.Patterns.Diagnostics.RecordBuilders.ParameterDirection,System.String,``0)">
+    <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder.SetParameter``1(System.Int32,System.String,PostSharp.Reflection.ParameterKind,System.String,``0)">
       <summary>
             Sets the value of a given parameter and uses the default formatter.
             </summary>
       <param name="index">Index of the parameter in the list of method parameters.</param>
       <param name="parameterName">Name of the parameter (only included if the <see cref="P:PostSharp.Patterns.Diagnostics.LoggingOptions.IncludeParameterName" /> property is <c>true</c>).</param>
-      <param name="direction">
-        <see cref="F:PostSharp.Patterns.Diagnostics.RecordBuilders.ParameterDirection.In" />, <see cref="F:PostSharp.Patterns.Diagnostics.RecordBuilders.ParameterDirection.Out" /> or <see cref="F:PostSharp.Patterns.Diagnostics.RecordBuilders.ParameterDirection.Ref" />.</param>
+      <param name="parameterKind">The kind of the parameter (whether the parameter is by ref or by value, input or output).</param>
       <param name="typeName">Formatted name of the type <typeparamref name="T" /> (only included if the <see cref="P:PostSharp.Patterns.Diagnostics.LoggingOptions.IncludeParameterType" /> property is <c>true</c>).</param>
       <param name="value">Value of the parameter  (only included if the <see cref="P:PostSharp.Patterns.Diagnostics.LoggingOptions.IncludeParameterValue" /> property is <c>true</c>).</param>
       <typeparam name="T">Type of the parameter.</typeparam>
     </member>
-    <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder.SetParameter``1(System.Int32,System.String,PostSharp.Patterns.Diagnostics.RecordBuilders.ParameterDirection,System.String,``0,PostSharp.Patterns.Formatters.IFormatter{``0})">
+    <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder.SetParameter``1(System.Int32,System.String,PostSharp.Reflection.ParameterKind,System.String,``0,PostSharp.Patterns.Formatters.IFormatter{``0})">
       <summary>
-            Sets the value of a given parameter and uses the default formatter.
+            Sets the value of a given parameter and specifies the <see cref="T:PostSharp.Patterns.Formatters.Formatter`1" />.
             </summary>
       <param name="index">Index of the parameter in the list of method parameters.</param>
       <param name="parameterName">Name of the parameter (only included if the <see cref="P:PostSharp.Patterns.Diagnostics.LoggingOptions.IncludeParameterName" /> property is <c>true</c>).</param>
-      <param name="direction">
-        <see cref="F:PostSharp.Patterns.Diagnostics.RecordBuilders.ParameterDirection.In" />, <see cref="F:PostSharp.Patterns.Diagnostics.RecordBuilders.ParameterDirection.Out" /> or <see cref="F:PostSharp.Patterns.Diagnostics.RecordBuilders.ParameterDirection.Ref" />.</param>
+      <param name="parameterKind">The kind of the parameter (whether the parameter is by ref or by value, input or output).</param>
       <param name="typeName">Formatted name of the type <typeparamref name="T" /> (only included if the <see cref="P:PostSharp.Patterns.Diagnostics.LoggingOptions.IncludeParameterType" /> property is <c>true</c>).</param>
       <param name="value">Value of the parameter  (only included if the <see cref="P:PostSharp.Patterns.Diagnostics.LoggingOptions.IncludeParameterValue" /> property is <c>true</c>).</param>
       <param name="formatter">Formatter to be used to format <paramref name="value" />.</param>
       <typeparam name="T">Type of the parameter.</typeparam>
+    </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder.SetRefStructParameter(System.Int32,System.String,PostSharp.Reflection.ParameterKind,System.String,System.Type,System.String)">
+      <summary>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>summary</parameter>
+            <parameter>M:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder.SetRefStructParameter(System.Int32,System.String,PostSharp.Reflection.ParameterKind,System.String,System.Type,System.String)</parameter>
+          </include>
+        </markup>
+      </summary>
+      <param name="index">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>index</parameter>
+            <parameter>M:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder.SetRefStructParameter(System.Int32,System.String,PostSharp.Reflection.ParameterKind,System.String,System.Type,System.String)</parameter>
+          </include>
+        </markup>
+      </param>
+      <param name="parameterName">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>parameterName</parameter>
+            <parameter>M:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder.SetRefStructParameter(System.Int32,System.String,PostSharp.Reflection.ParameterKind,System.String,System.Type,System.String)</parameter>
+          </include>
+        </markup>
+      </param>
+      <param name="parameterKind">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>parameterKind</parameter>
+            <parameter>M:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder.SetRefStructParameter(System.Int32,System.String,PostSharp.Reflection.ParameterKind,System.String,System.Type,System.String)</parameter>
+          </include>
+        </markup>
+      </param>
+      <param name="typeName">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>typeName</parameter>
+            <parameter>M:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder.SetRefStructParameter(System.Int32,System.String,PostSharp.Reflection.ParameterKind,System.String,System.Type,System.String)</parameter>
+          </include>
+        </markup>
+      </param>
+      <param name="type">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>type</parameter>
+            <parameter>M:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder.SetRefStructParameter(System.Int32,System.String,PostSharp.Reflection.ParameterKind,System.String,System.Type,System.String)</parameter>
+          </include>
+        </markup>
+      </param>
+      <param name="toStringValue">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>toStringValue</parameter>
+            <parameter>M:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder.SetRefStructParameter(System.Int32,System.String,PostSharp.Reflection.ParameterKind,System.String,System.Type,System.String)</parameter>
+          </include>
+        </markup>
+      </param>
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder.SetReturnValue``1(System.Int32,System.String,System.String,``0)">
       <summary>
@@ -2978,26 +3130,6 @@
             Write a chunk of custom string. 
             </summary>
       <param name="str">The string to be written.</param>
-    </member>
-    <member name="T:PostSharp.Patterns.Diagnostics.RecordBuilders.ParameterDirection">
-      <summary>
-            Enumerates the directions of method parameters, i.e. <see cref="F:PostSharp.Patterns.Diagnostics.RecordBuilders.ParameterDirection.In" />, <see cref="F:PostSharp.Patterns.Diagnostics.RecordBuilders.ParameterDirection.Out" /> and <see cref="F:PostSharp.Patterns.Diagnostics.RecordBuilders.ParameterDirection.Ref" />.
-            </summary>
-    </member>
-    <member name="F:PostSharp.Patterns.Diagnostics.RecordBuilders.ParameterDirection.In">
-      <summary>
-            Normal (input) parameter.
-            </summary>
-    </member>
-    <member name="F:PostSharp.Patterns.Diagnostics.RecordBuilders.ParameterDirection.Out">
-      <summary>
-        <c>out</c> parameter.
-            </summary>
-    </member>
-    <member name="F:PostSharp.Patterns.Diagnostics.RecordBuilders.ParameterDirection.Ref">
-      <summary>
-        <c>ref</c> parameter.
-            </summary>
     </member>
     <member name="T:PostSharp.Patterns.Diagnostics.RecordBuilders.SemanticParameterKind">
       <summary>
@@ -3105,7 +3237,11 @@
             Id of the current context.
             </summary>
     </member>
-    <member name="F:PostSharp.Patterns.Diagnostics.RecordBuilders.SemanticParameterKind.DurationThreshold"></member>
+    <member name="F:PostSharp.Patterns.Diagnostics.RecordBuilders.SemanticParameterKind.DurationThreshold">
+      <summary>
+            Threshold for the duration of the method execution.
+            </summary>
+    </member>
     <member name="F:PostSharp.Patterns.Diagnostics.RecordBuilders.SemanticParameterKind.All">
       <summary>
             All flags.
@@ -3130,15 +3266,20 @@
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.AppendClosingParenthesisConditional">
       <summary>
+            Appends a closing parenthesis to the current <see cref="P:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.StringBuilder" /> if required.
+            </summary>
+    </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.AppendComma">
+      <summary>
         <markup>
           <include item="SMCMissingTag">
             <parameter>summary</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.AppendClosingParenthesisConditional</parameter>
+            <parameter>M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.AppendComma</parameter>
           </include>
         </markup>
       </summary>
     </member>
-    <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.AppendComma">
+    <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.AppendCommaConditional">
       <summary>
             Appends a comma to the current <see cref="P:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.StringBuilder" />, unless this method is invoked for the first
             time for the current record.
@@ -3153,6 +3294,25 @@
       <returns>
         <c>true</c> if the context description was non-empty, <c>false</c> if it was empty.</returns>
     </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.AppendContextDescription(PostSharp.Patterns.Diagnostics.Contexts.LoggingContext)">
+      <summary>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>summary</parameter>
+            <parameter>M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.AppendContextDescription(PostSharp.Patterns.Diagnostics.Contexts.LoggingContext)</parameter>
+          </include>
+        </markup>
+      </summary>
+      <param name="context">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>context</parameter>
+            <parameter>M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.AppendContextDescription(PostSharp.Patterns.Diagnostics.Contexts.LoggingContext)</parameter>
+          </include>
+        </markup>
+      </param>
+    </member>
     <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.AppendDelimiter">
       <summary>
             Appends a <see cref="P:PostSharp.Patterns.Diagnostics.Backends.TextLoggingBackendOptions.Delimiter" /> to the current <see cref="P:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.StringBuilder" />.
@@ -3163,6 +3323,14 @@
             Appends a <see cref="P:PostSharp.Patterns.Diagnostics.Backends.TextLoggingBackendOptions.Delimiter" /> to the current <see cref="P:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.StringBuilder" />
             if the <see cref="M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.RequireDelimiter" /> method has been called previously.
             </summary>
+      <returns>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>returns</parameter>
+            <parameter>M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.AppendDelimiterConditional</parameter>
+          </include>
+        </markup>
+      </returns>
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.AppendEpilogue">
       <summary>
@@ -3183,13 +3351,8 @@
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.AppendExecutionTimeThreshold">
       <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.AppendExecutionTimeThreshold</parameter>
-          </include>
-        </markup>
-      </summary>
+            Appends the execution time threshold to the current <see cref="P:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.StringBuilder" />.
+            </summary>
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.AppendIndentString(System.Int32)">
       <summary>
@@ -3293,11 +3456,6 @@
             Appends source (file, line) information to the current <see cref="P:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.StringBuilder" />.
             </summary>
     </member>
-    <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.AppendSourceName">
-      <summary>
-            Appends the name of the <see cref="P:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.TypeSource" /> to the current <see cref="P:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.StringBuilder" />.
-            </summary>
-    </member>
     <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.AppendSpaces(System.Int32)">
       <summary>
             Appends a given number of spaces to the current <see cref="P:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.StringBuilder" />.
@@ -3313,6 +3471,11 @@
     <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.AppendTrailingPeriod">
       <summary>
             Appends a trailing period (<c>.</c>) to the current <see cref="P:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.StringBuilder" />, respecting the <see cref="P:PostSharp.Patterns.Diagnostics.Backends.TextLoggingBackendOptions.AppendTrailingPeriod" /> property.
+            </summary>
+    </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.AppendTypeName">
+      <summary>
+            Appends the name of the <see cref="P:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.TypeSource" /> to the current <see cref="P:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.StringBuilder" />.
             </summary>
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.Backend">
@@ -3421,7 +3584,7 @@
             Gets the name of the method, property or field for the current record.
             </summary>
     </member>
-    <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.MustAppendContextDescription">
+    <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.MustBuildContextDescription">
       <summary>
             Determines whether the current <see cref="P:PostSharp.Patterns.Diagnostics.Contexts.LoggingContext.Description" /> should be appended
             to the current <see cref="P:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.StringBuilder" />.
@@ -3442,7 +3605,7 @@
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.RequireComma">
       <summary>
-            Makes the <see cref="M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.AppendComma" /> to append a comma even if it's invoked for the first time.
+            Makes the <see cref="M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.AppendCommaConditional" /> to append a comma even if it's invoked for the first time.
             </summary>
     </member>
     <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.RequireDelimiter">
@@ -3472,14 +3635,13 @@
         <c>true</c> if <paramref name="executionTime" /> is over the threshold set in <see cref="P:PostSharp.Patterns.Diagnostics.LoggingProfile.ExecutionTimeThreshold" />,
             otherwise <c>false</c>.</param>
     </member>
-    <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.SetParameter``1(System.Int32,System.String,PostSharp.Patterns.Diagnostics.RecordBuilders.ParameterDirection,System.String,``0,PostSharp.Patterns.Formatters.IFormatter{``0})">
+    <member name="M:PostSharp.Patterns.Diagnostics.RecordBuilders.TextLogRecordBuilder.SetParameter``1(System.Int32,System.String,PostSharp.Reflection.ParameterKind,System.String,``0,PostSharp.Patterns.Formatters.IFormatter{``0})">
       <summary>
-            Sets the value of a given parameter and uses the default formatter.
+            Sets the value of a given parameter and specifies the <see cref="T:PostSharp.Patterns.Formatters.Formatter`1" />.
             </summary>
       <param name="index">Index of the parameter in the list of method parameters.</param>
       <param name="parameterName">Name of the parameter (only included if the <see cref="P:PostSharp.Patterns.Diagnostics.LoggingOptions.IncludeParameterName" /> property is <c>true</c>).</param>
-      <param name="direction">
-        <see cref="F:PostSharp.Patterns.Diagnostics.RecordBuilders.ParameterDirection.In" />, <see cref="F:PostSharp.Patterns.Diagnostics.RecordBuilders.ParameterDirection.Out" /> or <see cref="F:PostSharp.Patterns.Diagnostics.RecordBuilders.ParameterDirection.Ref" />.</param>
+      <param name="parameterKind">The kind of the parameter (whether the parameter is by ref or by value, input or output).</param>
       <param name="typeName">Formatted name of the type <typeparamref name="T" /> (only included if the <see cref="P:PostSharp.Patterns.Diagnostics.LoggingOptions.IncludeParameterType" /> property is <c>true</c>).</param>
       <param name="value">Value of the parameter  (only included if the <see cref="P:PostSharp.Patterns.Diagnostics.LoggingOptions.IncludeParameterValue" /> property is <c>true</c>).</param>
       <param name="formatter">Formatter to be used to format <paramref name="value" />.</param>
@@ -3570,13 +3732,8 @@
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.ThreadingInstrumentation.TaskInfo.CallerInfo">
       <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>P:PostSharp.Patterns.Diagnostics.ThreadingInstrumentation.TaskInfo.CallerInfo</parameter>
-          </include>
-        </markup>
-      </summary>
+            Gets information about the line of code that instantiated the <see cref="T:System.Threading.Tasks.Task" />.
+            </summary>
     </member>
     <member name="P:PostSharp.Patterns.Diagnostics.ThreadingInstrumentation.TaskInfo.Context">
       <summary>
@@ -3643,15 +3800,7 @@
             </summary>
       <param name="task">The <see cref="T:System.Threading.Tasks.Task" /> returned by <paramref name="method" />.</param>
       <param name="method">The method that returned <paramref name="task" />.</param>
-      <param name="callerInfo">
-        <markup>
-          <include item="SMCMissingParamTag">
-            <parameter>param</parameter>
-            <parameter>callerInfo</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.ThreadingInstrumentation.TaskInfoRegistry.RegisterMethod(System.Threading.Tasks.Task,System.Reflection.MethodInfo,PostSharp.Patterns.Diagnostics.Contexts.CallerInfo)</parameter>
-          </include>
-        </markup>
-      </param>
+      <param name="callerInfo">Information about the code calling the <paramref name="method" />.</param>
     </member>
     <member name="T:PostSharp.Patterns.Diagnostics.ThreadingInstrumentation.ThreadingInstrumentationPolicy">
       <summary>
@@ -3667,25 +3816,6 @@
           </include>
         </markup>
       </summary>
-    </member>
-    <member name="M:PostSharp.Patterns.Diagnostics.ThreadingInstrumentation.ThreadingInstrumentationPolicy.InterceptMethodsReturningTask(PostSharp.Aspects.MethodInterceptionArgs)">
-      <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.ThreadingInstrumentation.ThreadingInstrumentationPolicy.InterceptMethodsReturningTask(PostSharp.Aspects.MethodInterceptionArgs)</parameter>
-          </include>
-        </markup>
-      </summary>
-      <param name="args">
-        <markup>
-          <include item="SMCMissingParamTag">
-            <parameter>param</parameter>
-            <parameter>args</parameter>
-            <parameter>M:PostSharp.Patterns.Diagnostics.ThreadingInstrumentation.ThreadingInstrumentationPolicy.InterceptMethodsReturningTask(PostSharp.Aspects.MethodInterceptionArgs)</parameter>
-          </include>
-        </markup>
-      </param>
     </member>
   </members>
 </doc>

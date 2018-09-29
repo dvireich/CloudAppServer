@@ -7,6 +7,9 @@ using DBManager;
 using DBManager.Interfaces;
 using ServiceLoadTaskQueue;
 
+[assembly: log4net.Config.XmlConfigurator(Watch = true)]
+
+
 namespace AuthenticationService
 {
     public class AuthenticationManager : IAuthenticationManager

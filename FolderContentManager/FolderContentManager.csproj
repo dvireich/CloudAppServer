@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\PostSharp.6.0.27\build\PostSharp.props" Condition="Exists('..\packages\PostSharp.6.0.27\build\PostSharp.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -13,6 +14,8 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -37,6 +40,21 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="PostSharp, Version=6.0.27.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
+      <HintPath>..\packages\PostSharp.Redist.6.0.27\lib\net45\PostSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PostSharp.Patterns.Common, Version=6.0.27.0, Culture=neutral, PublicKeyToken=e7f631e6ce13f078, processorArchitecture=MSIL">
+      <HintPath>..\packages\PostSharp.Patterns.Common.Redist.6.0.27\lib\net46\PostSharp.Patterns.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="PostSharp.Patterns.Diagnostics, Version=6.0.27.0, Culture=neutral, PublicKeyToken=e7f631e6ce13f078, processorArchitecture=MSIL">
+      <HintPath>..\packages\PostSharp.Patterns.Diagnostics.Redist.6.0.27\lib\net46\PostSharp.Patterns.Diagnostics.dll</HintPath>
+    </Reference>
+    <Reference Include="PostSharp.Patterns.Diagnostics.Backends.Log4Net, Version=6.0.27.0, Culture=neutral, PublicKeyToken=e7f631e6ce13f078, processorArchitecture=MSIL">
+      <HintPath>..\packages\PostSharp.Patterns.Diagnostics.Log4Net.6.0.27\lib\net40\PostSharp.Patterns.Diagnostics.Backends.Log4Net.dll</HintPath>
+    </Reference>
     <Reference Include="Pri.LongPath, Version=2.0.45.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Pri.LongPath.2.0.45\lib\net45\Pri.LongPath.dll</HintPath>
     </Reference>
@@ -95,4 +113,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\PostSharp.6.0.27\build\PostSharp.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PostSharp.6.0.27\build\PostSharp.props'))" />
+    <Error Condition="!Exists('..\packages\PostSharp.6.0.27\build\PostSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PostSharp.6.0.27\build\PostSharp.targets'))" />
+  </Target>
+  <Import Project="..\packages\PostSharp.6.0.27\build\PostSharp.targets" Condition="Exists('..\packages\PostSharp.6.0.27\build\PostSharp.targets')" />
 </Project>

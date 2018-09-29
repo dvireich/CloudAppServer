@@ -7,9 +7,12 @@ using CloudAppServer.Model;
 using FolderContentHelper.Interfaces;
 using FolderContentHelper.Model;
 using FolderContentHelper.Model.RestObject;
+using PostSharp.Extensibility;
+using PostSharp.Patterns.Diagnostics;
 
 namespace FolderContentHelper
 {
+    [Log(AttributeTargetElements = MulticastTargets.Method, AttributeTargetTypeAttributes = MulticastAttributes.Public, AttributeTargetMemberAttributes = MulticastAttributes.Public)]
     public class JsonManager : IJsonManager
     {
         private IFileManager _fileManager;

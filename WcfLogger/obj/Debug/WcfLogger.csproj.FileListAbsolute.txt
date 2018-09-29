@@ -1,0 +1,56 @@
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\Logger\bin\Debug\Logger.dll.config
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\Logger\bin\Debug\Logger.dll
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\Logger\bin\Debug\Logger.pdb
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\Logger\obj\Debug\WcfLogger.csproj.CoreCompileInputs.cache
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\Logger\obj\Debug\Logger.dll
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\Logger\obj\Debug\Logger.pdb
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\WcfLogger\bin\Debug\WcfLogger.dll.config
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\WcfLogger\bin\Debug\WcfLogger.dll
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\WcfLogger\bin\Debug\WcfLogger.pdb
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\WcfLogger\bin\Debug\log4net.dll
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\WcfLogger\bin\Debug\log4net.xml
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\WcfLogger\obj\Debug\WcfLogger.csproj.CoreCompileInputs.cache
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\WcfLogger\obj\Debug\WcfLogger.csproj.CopyComplete
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\WcfLogger\obj\Debug\WcfLogger.dll
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\WcfLogger\obj\Debug\WcfLogger.pdb
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\WcfLogger\bin\Debug\PostSharp.dll
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\WcfLogger\bin\Debug\PostSharp.Patterns.Aggregation.dll
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\WcfLogger\bin\Debug\PostSharp.Patterns.Common.dll
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\WcfLogger\bin\Debug\PostSharp.Patterns.Diagnostics.Backends.Log4Net.dll
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\WcfLogger\bin\Debug\PostSharp.Patterns.Diagnostics.dll
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\WcfLogger\bin\Debug\PostSharp.Patterns.Threading.dll
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\WcfLogger\bin\Debug\PostSharp.xml
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\WcfLogger\bin\Debug\PostSharp.Patterns.Aggregation.xml
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\WcfLogger\bin\Debug\PostSharp.Patterns.Common.xml
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\WcfLogger\bin\Debug\PostSharp.Patterns.Diagnostics.xml
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\WcfLogger\bin\Debug\PostSharp.Patterns.Diagnostics.Backends.Log4Net.xml
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\WcfLogger\bin\Debug\PostSharp.Patterns.Threading.xml
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\WcfLogger\bin\Debug\WcfLogger.pssym
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\WcfLogger\obj\Debug\WcfLogger.dll.postsharp
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\WcfLogger\obj\Debug\PostSharpHost.config
+C:\Users\dvire\Documents\Visual Studio 2017\shell server\ShellTrasferServer\WcfLogger\obj\Debug\WcfLogger.csprojAssemblyReference.cache
+C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\bin\Debug\log4net.dll
+C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\bin\Debug\PostSharp.dll
+C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\bin\Debug\PostSharp.Patterns.Aggregation.dll
+C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\bin\Debug\PostSharp.Patterns.Common.dll
+C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\bin\Debug\PostSharp.Patterns.Diagnostics.Backends.Log4Net.dll
+C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\bin\Debug\PostSharp.Patterns.Diagnostics.dll
+C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\bin\Debug\PostSharp.Patterns.Threading.dll
+C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\bin\Debug\log4net.xml
+C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\bin\Debug\PostSharp.xml
+C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\bin\Debug\PostSharp.Patterns.Aggregation.xml
+C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\bin\Debug\PostSharp.Patterns.Common.xml
+C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\bin\Debug\PostSharp.Patterns.Diagnostics.xml
+C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\bin\Debug\PostSharp.Patterns.Diagnostics.Backends.Log4Net.xml
+C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\bin\Debug\PostSharp.Patterns.Threading.xml
+C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\obj\Debug\WcfLogger.csproj.CoreCompileInputs.cache
+C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\obj\Debug\WcfLogger.csproj.CopyComplete
+C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\bin\Debug\WcfLogger.pssym
+C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\bin\Debug\WcfLogger.dll.config
+C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\bin\Debug\WcfLogger.dll
+C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\bin\Debug\WcfLogger.pdb
+C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\obj\Debug\PostSharp\touch
+C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\obj\Debug\PostSharp\dependencies.txt
+C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\obj\Debug\WcfLogger.dll
+C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\obj\Debug\WcfLogger.pdb
+C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\obj\Debug\PostSharp\PostSharpHost.config

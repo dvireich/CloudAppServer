@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AuthenticationService.AuthenticationModel;
 using DBManager;
 using DBManager.Interfaces;
+using WcfLogger;
 
 namespace AuthenticationService
 {
@@ -48,17 +49,20 @@ namespace AuthenticationService
             }
         }
 
+        [WcfLogging]
         public string Authenticate(string userName, string password)
         {
             return Perform(()=> _authenticationManager.Authenticate(userName, password));
         }
 
+        [WcfLogging]
         public void Register(RegisterUserArgs args)
         {
             if (args == null) return;
             Perform(() => _authenticationManager.Register(args.UserName, args.Password));
         }
 
+        [WcfLogging]
         public bool IsUserNameTaken(string userName)
         {
             return Perform(() => _authenticationManager.IsUserNameTaken(userName));

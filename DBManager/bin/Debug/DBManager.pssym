@@ -1,2 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Symbols LinesOfCode="328" PostSharpLinesOfCode="0" EnhancedTypesCount="0" SchemaVersion="1" PostSharpVersion="5.0.52.0" xmlns="http://schemas.postsharp.org/2.0/symbols" />
+<Symbols LinesOfCode="328" PostSharpLinesOfCode="0" EnhancedTypesCount="4" SchemaVersion="1" PostSharpVersion="6.0.27.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
+  <Class Class="#1=T:[PostSharp.Patterns.Diagnostics]PostSharp.Patterns.Diagnostics.LogAttribute">
+    <Instance Declaration="#2=A:DBManager" Id="cf624208f092414">
+      <Target Target="#3=M:[DBManager]DBManager.CreateDBHandler::Exit()">
+        <JoinPoint Advising="#1" Description="#4=Adds logging" Ordinal="0" LinesAvoided="5" />
+      </Target>
+      <Target Target="#5=M:[DBManager]DBManager.CreateDBHandler::CreateDataBase()">
+        <JoinPoint Advising="#1" Description="#4" LinesAvoided="5" />
+      </Target>
+      <Target Target="#6=M:[DBManager]DBManager.CreateDBHandler::Dispose()">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="2" LinesAvoided="5" />
+      </Target>
+      <Target Target="#7=M:[DBManager]DBManager.User::ToStringArray()">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="3" LinesAvoided="5" />
+      </Target>
+      <Target Target="#8=M:[DBManager]DBManager.UserRepository::Exit()">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="4" LinesAvoided="5" />
+      </Target>
+      <Target Target="#9=M:[DBManager]DBManager.UserRepository::CheckUserNameExists(System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="5" LinesAvoided="5" />
+      </Target>
+      <Target Target="#10=M:[DBManager]DBManager.UserRepository::CheckUserExists([DBManager]DBManager.User)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="6" LinesAvoided="5" />
+      </Target>
+      <Target Target="#11=M:[DBManager]DBManager.UserRepository::CheckUserNameAndPassword(System.String, System.String, out [DBManager]DBManager.User)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="7" LinesAvoided="5" />
+      </Target>
+      <Target Target="#12=M:[DBManager]DBManager.UserRepository::SaveUserInDb([DBManager]DBManager.User)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="8" LinesAvoided="5" />
+      </Target>
+      <Target Target="#13=M:[DBManager]DBManager.UserRepository::DeleteUserFromDb([DBManager]DBManager.User)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="9" LinesAvoided="5" />
+      </Target>
+      <Target Target="#14=M:[DBManager]DBManager.UserRepository::GetUserByUserName(System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="10" LinesAvoided="5" />
+      </Target>
+      <Target Target="#15=M:[DBManager]DBManager.UserRepository::Dispose()">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="11" LinesAvoided="5" />
+      </Target>
+      <Target Target="#16=M:[DBManager]DBManager.UserRepositoryFactory::GetUserRepository()">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="12" LinesAvoided="5" />
+      </Target>
+    </Instance>
+  </Class>
+</Symbols>

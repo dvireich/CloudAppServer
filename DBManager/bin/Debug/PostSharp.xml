@@ -398,6 +398,11 @@
               has been applied.
             </param>
     </member>
+    <member name="P:PostSharp.Aspects.Aspect.UnsupportedTargetAction">
+      <summary>
+            Specifies the action to take when the aspect is applied to an unsupported target element.
+            </summary>
+    </member>
     <member name="T:PostSharp.Aspects.AspectDescriptionAttribute">
       <summary>
             Custom attribute that, when applied to an aspect class, specifies a human-readable description of the aspect
@@ -471,8 +476,6 @@
               is applied.</param>
       <param name="aspectConstruction">An <see cref="T:PostSharp.Reflection.ObjectConstruction" /> instructing how the aspect instance
               should be constructed.</param>
-      <param name="aspectConfiguration">An optional configuration object whose type corresponds to 
-              the aspect type.</param>
     </member>
     <member name="M:PostSharp.Aspects.AspectInstance.#ctor(System.Object,PostSharp.Reflection.ObjectConstruction,PostSharp.Aspects.Configuration.AspectConfiguration)">
       <summary>
@@ -626,6 +629,69 @@
       <param name="aspectConfiguration">The <see cref="T:PostSharp.Aspects.Configuration.AspectConfiguration" /> instance previously returned  by the
               <see cref="M:PostSharp.Aspects.Aspect.CreateAspectConfiguration" /> method.</param>
       <param name="targetAssembly">Assembly to which the current aspect has been applied.</param>
+    </member>
+    <member name="T:PostSharp.Aspects.AsyncCallId">
+      <summary>
+            Identifier of an asynchronous method invocation, i.e. of a unique async state machine instance.
+            </summary>
+    </member>
+    <member name="M:PostSharp.Aspects.AsyncCallId.Equals(PostSharp.Aspects.AsyncCallId)">
+      <summary>Indicates whether the current object is equal to another object of the same type.</summary>
+      <param name="other">An object to compare with this object.</param>
+      <returns>true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.</returns>
+    </member>
+    <member name="M:PostSharp.Aspects.AsyncCallId.Equals(System.Object)">
+      <summary>Indicates whether this instance and a specified object are equal.</summary>
+      <param name="obj">The object to compare with the current instance. </param>
+      <returns>true if <paramref name="obj" /> and this instance are the same type and represent the same value; otherwise, false. </returns>
+    </member>
+    <member name="M:PostSharp.Aspects.AsyncCallId.GetHashCode">
+      <summary>Returns the hash code for this instance.</summary>
+      <returns>A 32-bit signed integer that is the hash code for this instance.</returns>
+    </member>
+    <member name="P:PostSharp.Aspects.AsyncCallId.IsNull">
+      <summary>
+            Determines whether the current <see cref="T:PostSharp.Aspects.AsyncCallId" /> is null.
+            </summary>
+    </member>
+    <member name="P:PostSharp.Aspects.AsyncCallId.Null">
+      <summary>
+            Gets a null instance of the <see cref="T:PostSharp.Aspects.AsyncCallId" /> struct.
+            </summary>
+    </member>
+    <member name="M:PostSharp.Aspects.AsyncCallId.op_Equality(PostSharp.Aspects.AsyncCallId,PostSharp.Aspects.AsyncCallId)">
+      <summary>
+            Determines whether two instances of the <see cref="T:PostSharp.Aspects.AsyncCallId" /> type are equal.
+            </summary>
+      <param name="left"></param>
+      <param name="right"></param>
+      <returns>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>returns</parameter>
+            <parameter>M:PostSharp.Aspects.AsyncCallId.op_Equality(PostSharp.Aspects.AsyncCallId,PostSharp.Aspects.AsyncCallId)</parameter>
+          </include>
+        </markup>
+      </returns>
+    </member>
+    <member name="M:PostSharp.Aspects.AsyncCallId.op_Inequality(PostSharp.Aspects.AsyncCallId,PostSharp.Aspects.AsyncCallId)">
+      <summary>
+            Determines whether two instances of the <see cref="T:PostSharp.Aspects.AsyncCallId" /> type are different.
+            </summary>
+      <param name="left"></param>
+      <param name="right"></param>
+      <returns>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>returns</parameter>
+            <parameter>M:PostSharp.Aspects.AsyncCallId.op_Inequality(PostSharp.Aspects.AsyncCallId,PostSharp.Aspects.AsyncCallId)</parameter>
+          </include>
+        </markup>
+      </returns>
+    </member>
+    <member name="M:PostSharp.Aspects.AsyncCallId.ToString">
+      <summary>Returns the fully qualified type name of this instance.</summary>
+      <returns>A <see cref="T:System.String" /> containing a fully qualified type name.</returns>
     </member>
     <member name="T:PostSharp.Aspects.CompositionAspect">
       <summary>
@@ -4094,6 +4160,11 @@
               to configure the current aspect.
             </summary>
     </member>
+    <member name="P:PostSharp.Aspects.Configuration.AspectConfiguration.UnsupportedTargetAction">
+      <summary>
+            Specifies the action to take when the aspect is applied to an unsupported target element.
+            </summary>
+    </member>
     <member name="T:PostSharp.Aspects.Configuration.AspectConfigurationAttribute">
       <summary>
               Configures an aspect of type <see cref="T:PostSharp.Aspects.IAspect" />.
@@ -4372,11 +4443,6 @@
             iterator or async methods, which are compiled into state machines.
             </summary>
     </member>
-    <member name="P:PostSharp.Aspects.Configuration.MethodInterceptionAspectConfiguration.UnsupportedTargetAction">
-      <summary>
-            Specifies the action to take when the aspect is applied to an async method with unsupported return value type.
-            </summary>
-    </member>
     <member name="T:PostSharp.Aspects.Configuration.MethodInterceptionAspectConfigurationAttribute">
       <summary>
               Custom attribute that, when applied on a class implementing <see cref="T:PostSharp.Aspects.IMethodInterceptionAspect" />,
@@ -4417,11 +4483,6 @@
             iterator or async methods, which are compiled into state machines.
             </summary>
     </member>
-    <member name="P:PostSharp.Aspects.Configuration.OnExceptionAspectConfiguration.UnsupportedTargetAction">
-      <summary>
-            Specifies the action to take when the aspect is applied to an unsupported target method.
-            </summary>
-    </member>
     <member name="T:PostSharp.Aspects.Configuration.OnExceptionAspectConfigurationAttribute">
       <summary>
               Custom attribute that, when applied on a class implementing <see cref="T:PostSharp.Aspects.IOnExceptionAspect" />,
@@ -4460,11 +4521,6 @@
       <summary>
             Determines which target methods will be advised semantically. This affects the behavior of the aspect when it's applied to
             iterator or async methods, which are compiled into state machines.
-            </summary>
-    </member>
-    <member name="P:PostSharp.Aspects.Configuration.OnMethodBoundaryAspectConfiguration.UnsupportedTargetAction">
-      <summary>
-            Specifies the action to take when the aspect is applied to an unsupported target method.
             </summary>
     </member>
     <member name="T:PostSharp.Aspects.Configuration.OnMethodBoundaryAspectConfigurationAttribute">
@@ -5605,6 +5661,136 @@
       <exception cref="T:System.ArgumentOutOfRangeException">
         <paramref name="index" /> is lower than zero or greater or equal than <see cref="P:PostSharp.Aspects.Arguments.Count" />.</exception>
     </member>
+    <member name="T:PostSharp.Aspects.Internals.EventInterceptor">
+      <summary>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>summary</parameter>
+            <parameter>T:PostSharp.Aspects.Internals.EventInterceptor</parameter>
+          </include>
+        </markup>
+      </summary>
+    </member>
+    <member name="M:PostSharp.Aspects.Internals.EventInterceptor.#ctor(System.Object,System.Delegate)">
+      <summary>
+        <markup>
+          <include item="SMCAutoDocConstructor">
+            <parameter>PostSharp.Aspects.Internals.EventInterceptor</parameter>
+          </include>
+        </markup>
+      </summary>
+      <param name="instance">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>instance</parameter>
+            <parameter>M:PostSharp.Aspects.Internals.EventInterceptor.#ctor(System.Object,System.Delegate)</parameter>
+          </include>
+        </markup>
+      </param>
+      <param name="handler">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>handler</parameter>
+            <parameter>M:PostSharp.Aspects.Internals.EventInterceptor.#ctor(System.Object,System.Delegate)</parameter>
+          </include>
+        </markup>
+      </param>
+    </member>
+    <member name="T:PostSharp.Aspects.Internals.SafeEventBroker">
+      <summary>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>summary</parameter>
+            <parameter>T:PostSharp.Aspects.Internals.SafeEventBroker</parameter>
+          </include>
+        </markup>
+      </summary>
+    </member>
+    <member name="M:PostSharp.Aspects.Internals.SafeEventBroker.#ctor(System.Object)">
+      <summary>
+        <markup>
+          <include item="SMCAutoDocConstructor">
+            <parameter>PostSharp.Aspects.Internals.SafeEventBroker</parameter>
+          </include>
+        </markup>
+      </summary>
+      <param name="instance">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>instance</parameter>
+            <parameter>M:PostSharp.Aspects.Internals.SafeEventBroker.#ctor(System.Object)</parameter>
+          </include>
+        </markup>
+      </param>
+    </member>
+    <member name="M:PostSharp.Aspects.Internals.SafeEventBroker.AddHandler(System.Delegate)">
+      <summary>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>summary</parameter>
+            <parameter>M:PostSharp.Aspects.Internals.SafeEventBroker.AddHandler(System.Delegate)</parameter>
+          </include>
+        </markup>
+      </summary>
+      <param name="handler">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>handler</parameter>
+            <parameter>M:PostSharp.Aspects.Internals.SafeEventBroker.AddHandler(System.Delegate)</parameter>
+          </include>
+        </markup>
+      </param>
+    </member>
+    <member name="M:PostSharp.Aspects.Internals.SafeEventBroker.CreateInterceptor(System.Delegate)">
+      <summary>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>summary</parameter>
+            <parameter>M:PostSharp.Aspects.Internals.SafeEventBroker.CreateInterceptor(System.Delegate)</parameter>
+          </include>
+        </markup>
+      </summary>
+      <param name="handler">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>handler</parameter>
+            <parameter>M:PostSharp.Aspects.Internals.SafeEventBroker.CreateInterceptor(System.Delegate)</parameter>
+          </include>
+        </markup>
+      </param>
+      <returns>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>returns</parameter>
+            <parameter>M:PostSharp.Aspects.Internals.SafeEventBroker.CreateInterceptor(System.Delegate)</parameter>
+          </include>
+        </markup>
+      </returns>
+    </member>
+    <member name="M:PostSharp.Aspects.Internals.SafeEventBroker.RemoveHandler(System.Delegate)">
+      <summary>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>summary</parameter>
+            <parameter>M:PostSharp.Aspects.Internals.SafeEventBroker.RemoveHandler(System.Delegate)</parameter>
+          </include>
+        </markup>
+      </summary>
+      <param name="handler">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>handler</parameter>
+            <parameter>M:PostSharp.Aspects.Internals.SafeEventBroker.RemoveHandler(System.Delegate)</parameter>
+          </include>
+        </markup>
+      </param>
+    </member>
     <member name="T:PostSharp.Aspects.Serialization.AspectSerializer">
       <summary>
               Base class for Laos serializers, whose role is to serialize aspect instances at compile-time and
@@ -6316,41 +6502,27 @@
             </summary>
       <param name="id">Assembly identifier.</param>
     </member>
-    <member name="T:PostSharp.Extensibility.AssemblyLoadContext">
+    <member name="T:PostSharp.Extensibility.BindingContext">
       <summary>
             Enumeration of contexts in which assemblies can be loaded.
             </summary>
     </member>
-    <member name="F:PostSharp.Extensibility.AssemblyLoadContext.Reference">
+    <member name="F:PostSharp.Extensibility.BindingContext.None">
+      <summary>
+            Unspecified.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Extensibility.BindingContext.Reference">
       <summary>
             Reference assemblies the ones the project is being linked against. They are typically located
             in directory <c>C:\Program Files\Reference Assemblies</c> for the proper target platform.
             </summary>
     </member>
-    <member name="F:PostSharp.Extensibility.AssemblyLoadContext.Runtime">
+    <member name="F:PostSharp.Extensibility.BindingContext.Runtime">
       <summary>
             Runtime assemblies are the ones loaded at build time in the CLR. They are typically located
             in GAC.
             </summary>
-    </member>
-    <member name="T:PostSharp.Extensibility.EnhancedByPostSharpAttribute">
-      <summary>
-              Custom attribute added to the assembly manifest of modules processed by PostSharp.
-            </summary>
-    </member>
-    <member name="M:PostSharp.Extensibility.EnhancedByPostSharpAttribute.#ctor(System.Int32)">
-      <summary>
-              Instantiates a new <see cref="T:PostSharp.Extensibility.EnhancedByPostSharpAttribute" /> and specifies the license number
-              (not the full license key).
-            </summary>
-      <param name="licenseId">License number.</param>
-    </member>
-    <member name="M:PostSharp.Extensibility.EnhancedByPostSharpAttribute.#ctor(System.String)">
-      <summary>
-              Instantiate a new <see cref="T:PostSharp.Extensibility.EnhancedByPostSharpAttribute" /> with a text message,
-              typically used when PostSharp runs in evaluation mode.
-            </summary>
-      <param name="message">The watermark text.</param>
     </member>
     <member name="T:PostSharp.Extensibility.EscalatePostSharpMessageAttribute">
       <summary>
@@ -6367,40 +6539,6 @@
     <member name="P:PostSharp.Extensibility.EscalatePostSharpMessageAttribute.MessageId">
       <summary>
               Gets the identifier of the message to be disabled.
-            </summary>
-    </member>
-    <member name="T:PostSharp.Extensibility.FrameworkVariants">
-      <summary>
-              Defines constants identifying the different variants of the
-              .NET Framework (<see cref="F:PostSharp.Extensibility.FrameworkVariants.Full" />, <see cref="F:PostSharp.Extensibility.FrameworkVariants.Compact" />, <see cref="F:PostSharp.Extensibility.FrameworkVariants.Silverlight" />).
-            </summary>
-    </member>
-    <member name="F:PostSharp.Extensibility.FrameworkVariants.Compact">
-      <summary>
-              .NET Compact Framework.
-            </summary>
-    </member>
-    <member name="M:PostSharp.Extensibility.FrameworkVariants.FromBytes(System.Byte[])">
-      <summary>
-              Convert a byte array (typically containing the public key token of <c>mscorlib</c>)
-              into a string that can be compared to one of the constants defined in this class.
-            </summary>
-      <param name="bytes">A byte array (typically containing the public key token of <c>mscorlib</c>)</param>
-      <returns>A string that can be compared to one of the constants defined in this class</returns>
-    </member>
-    <member name="F:PostSharp.Extensibility.FrameworkVariants.Full">
-      <summary>
-              Normal, full .NET Framework.
-            </summary>
-    </member>
-    <member name="F:PostSharp.Extensibility.FrameworkVariants.Micro">
-      <summary>
-              Micro Framework.
-            </summary>
-    </member>
-    <member name="F:PostSharp.Extensibility.FrameworkVariants.Silverlight">
-      <summary>
-              Silverlight.
             </summary>
     </member>
     <member name="T:PostSharp.Extensibility.HasInheritedAttributeAttribute">
@@ -6541,42 +6679,6 @@
               Gets the currently executing project.
             </summary>
     </member>
-    <member name="M:PostSharp.Extensibility.IPostSharpEnvironment.FindAssembly(System.Reflection.AssemblyName)">
-      <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>M:PostSharp.Extensibility.IPostSharpEnvironment.FindAssembly(System.Reflection.AssemblyName)</parameter>
-          </include>
-        </markup>
-      </summary>
-      <param name="name">
-        <markup>
-          <include item="SMCMissingParamTag">
-            <parameter>param</parameter>
-            <parameter>name</parameter>
-            <parameter>M:PostSharp.Extensibility.IPostSharpEnvironment.FindAssembly(System.Reflection.AssemblyName)</parameter>
-          </include>
-        </markup>
-      </param>
-      <returns>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>returns</parameter>
-            <parameter>M:PostSharp.Extensibility.IPostSharpEnvironment.FindAssembly(System.Reflection.AssemblyName)</parameter>
-          </include>
-        </markup>
-      </returns>
-    </member>
-    <member name="M:PostSharp.Extensibility.IPostSharpEnvironment.FindAssembly(System.Reflection.AssemblyName,PostSharp.Extensibility.AssemblyLoadContext)">
-      <summary>
-            Finds the location of an assembly given its name.
-            </summary>
-      <param name="name">Assembly name.</param>
-      <param name="loadContext">
-        <see cref="F:PostSharp.Extensibility.AssemblyLoadContext.Reference" /> or <see cref="F:PostSharp.Extensibility.AssemblyLoadContext.Runtime" />.</param>
-      <returns>The full path of the assembly, or <c>null</c> if the assembly could not be found.</returns>
-    </member>
     <member name="M:PostSharp.Extensibility.IPostSharpEnvironment.LoadAssemblyFromFile(System.String)">
       <summary>
               Loads an <see cref="T:System.Reflection.Assembly" /> given its file name.
@@ -6616,24 +6718,16 @@
       <returns>The service <typeparamref name="T" />, or <c>null</c> if the service could not be acquired and <paramref name="throwing" />
             was set to <c>false</c>.</returns>
     </member>
-    <member name="M:PostSharp.Extensibility.IProject.GetTargetAssembly(System.Boolean)">
-      <summary>
-              Gets the assembly that is being transformed by PostSharp.
-            </summary>
-      <param name="reflectionOnly">
-        <c>false</c> if the system <see cref="T:System.Reflection.Assembly" /> has to be returned, <c>true</c> if a wrapper has to be returned.</param>
-      <returns>The assembly being processed. If <paramref name="reflectionOnly" /> is <c>true</c>, this method returns an instance of a PostSharp internal
-              type implementing the <see cref="T:System.Reflection.Assembly" /> interface. Otherwise, the reflection <see cref="T:System.Reflection.Assembly" /> is returned.</returns>
-    </member>
     <member name="P:PostSharp.Extensibility.IProject.StateStore">
       <summary>
             Gets the context of the current project that serves as a project-scoped cache.
             </summary>
     </member>
-    <member name="P:PostSharp.Extensibility.IProject.TargetFramework">
+    <member name="P:PostSharp.Extensibility.IProject.TargetAssembly">
       <summary>
-            Gets the variant and version of the .NET Framework that the assembly being built targets.
+              Gets the assembly that is being transformed by PostSharp.
             </summary>
+      <returns>The assembly being processed.</returns>
     </member>
     <member name="T:PostSharp.Extensibility.IReflectionBindingManagerService">
       <summary>
@@ -6710,33 +6804,6 @@
       <param name="value">The new value.</param>
       <typeparam name="T">Type of the new value.</typeparam>
     </member>
-    <member name="T:PostSharp.Extensibility.ITargetFramework">
-      <summary>
-            Represents a version and variant of the .NET framework (running on a device) on which the project being built is design to run.
-            </summary>
-    </member>
-    <member name="P:PostSharp.Extensibility.ITargetFramework.FrameworkMoniker">
-      <summary>
-            Unique string identifier of the target device.
-            </summary>
-    </member>
-    <member name="P:PostSharp.Extensibility.ITargetFramework.FrameworkProfile">
-      <summary>
-            Gets the target profile of the framework (e.g. <c>WindowsPhone</c>).
-            </summary>
-    </member>
-    <member name="P:PostSharp.Extensibility.ITargetFramework.TargetFrameworkFamily">
-      <summary>
-            Identifier of the framework family (e.g. <see cref="F:PostSharp.Extensibility.TargetFrameworkFamily.NetFramework" />,
-            <see cref="F:PostSharp.Extensibility.TargetFrameworkFamily.NetCore" />, <see cref="F:PostSharp.Extensibility.TargetFrameworkFamily.Silverlight" />,
-            <see cref="F:PostSharp.Extensibility.TargetFrameworkFamily.NetPortable" />).
-            </summary>
-    </member>
-    <member name="P:PostSharp.Extensibility.ITargetFramework.Version">
-      <summary>
-            Gets the version of the target profile.
-            </summary>
-    </member>
     <member name="T:PostSharp.Extensibility.IValidableAnnotation">
       <summary>
               Interface that, when implemented by a custom attribute (<see cref="T:System.Attribute" />),
@@ -6790,15 +6857,6 @@
       <param name="innerException">The <see cref="T:System.Exception" /> that caused this message,
               or <c>null</c> if this message was not caused by an
               exception.</param>
-    </member>
-    <member name="M:PostSharp.Extensibility.Message.#ctor(PostSharp.Extensibility.SeverityType,System.String,System.String,System.String)">
-      <summary>
-              Initializes a new <see cref="T:PostSharp.Extensibility.Message" /> and specifies only required parameters.
-            </summary>
-      <param name="severity">Message severity (fatal error, error, info, debug).</param>
-      <param name="messageId">Identifier of the message type.</param>
-      <param name="source">Name of the component emitting the message.</param>
-      <param name="messageText">Fully formatted message text.</param>
     </member>
     <member name="M:PostSharp.Extensibility.Message.#ctor(PostSharp.Extensibility.SeverityType,System.String,System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Exception)">
       <summary>
@@ -6873,32 +6931,6 @@
             Location of the source code artifact causing the message.
             </summary>
     </member>
-    <member name="P:PostSharp.Extensibility.Message.LocationEndColumn">
-      <summary>
-              Gets the end column in the file that caused the message.
-            </summary>
-    </member>
-    <member name="P:PostSharp.Extensibility.Message.LocationEndLine">
-      <summary>
-              Gets the end line in the file that caused the message.
-            </summary>
-    </member>
-    <member name="P:PostSharp.Extensibility.Message.LocationFile">
-      <summary>
-              Gets the name of the file that caused
-              the message.
-            </summary>
-    </member>
-    <member name="P:PostSharp.Extensibility.Message.LocationStartColumn">
-      <summary>
-              Gets the start column in the file that caused the message.
-            </summary>
-    </member>
-    <member name="P:PostSharp.Extensibility.Message.LocationStartLine">
-      <summary>
-              Gets the start line in the file that caused the  message.
-            </summary>
-    </member>
     <member name="P:PostSharp.Extensibility.Message.MessageId">
       <summary>
               Gets the message type identifier.
@@ -6911,8 +6943,8 @@
     </member>
     <member name="F:PostSharp.Extensibility.Message.NotAvailable">
       <summary>
-            When set to the <c>locationLine</c> or <c>locationColumn</c> constructor parameter or the <see cref="P:PostSharp.Extensibility.Message.LocationStartColumn" />,
-            <see cref="P:PostSharp.Extensibility.Message.LocationEndColumn" />, <see cref="P:PostSharp.Extensibility.Message.LocationStartLine" />, <see cref="P:PostSharp.Extensibility.Message.LocationEndLine" />, means that the value of this property is unknown.
+            When set to the <c>locationLine</c> or <c>locationColumn</c> constructor parameter or the <see cref="!:LocationStartColumn" />,
+            <see cref="!:LocationEndColumn" />, <see cref="!:LocationStartLine" />, <see cref="!:LocationEndLine" />, means that the value of this property is unknown.
             </summary>
     </member>
     <member name="P:PostSharp.Extensibility.Message.Severity">
@@ -6953,47 +6985,6 @@
       <param name="messageLocation">Element of code (<see cref="T:System.Reflection.Assembly" />, <see cref="T:System.Type" />, <see cref="T:System.Reflection.MethodInfo" />,
             <see cref="T:System.Reflection.ConstructorInfo" />, <see cref="T:System.Reflection.PropertyInfo" />, <see cref="T:System.Reflection.EventInfo" /> or <see cref="T:System.Reflection.ParameterInfo" />)
             to which the message applies. When called from PostSharp.Sdk, the parameter can also contain a <c>MetadataDeclaration</c>.</param>
-    </member>
-    <member name="M:PostSharp.Extensibility.Message.Write(PostSharp.Extensibility.SeverityType,System.String,System.String)">
-      <summary>
-            Obsolete.
-            </summary>
-      <param name="severity">
-        <markup>
-          <include item="SMCMissingParamTag">
-            <parameter>param</parameter>
-            <parameter>severity</parameter>
-            <parameter>M:PostSharp.Extensibility.Message.Write(PostSharp.Extensibility.SeverityType,System.String,System.String)</parameter>
-          </include>
-        </markup>
-      </param>
-      <param name="errorCode">
-        <markup>
-          <include item="SMCMissingParamTag">
-            <parameter>param</parameter>
-            <parameter>errorCode</parameter>
-            <parameter>M:PostSharp.Extensibility.Message.Write(PostSharp.Extensibility.SeverityType,System.String,System.String)</parameter>
-          </include>
-        </markup>
-      </param>
-      <param name="message">
-        <markup>
-          <include item="SMCMissingParamTag">
-            <parameter>param</parameter>
-            <parameter>message</parameter>
-            <parameter>M:PostSharp.Extensibility.Message.Write(PostSharp.Extensibility.SeverityType,System.String,System.String)</parameter>
-          </include>
-        </markup>
-      </param>
-    </member>
-    <member name="M:PostSharp.Extensibility.Message.Write(PostSharp.Extensibility.SeverityType,System.String,System.String,System.Object[])">
-      <summary>
-              Writes a message.
-            </summary>
-      <param name="severity">Severity.</param>
-      <param name="errorCode">Error code.</param>
-      <param name="format">Error message formatting string.</param>
-      <param name="arguments">Error message arguments.</param>
     </member>
     <member name="M:PostSharp.Extensibility.Message.Write(PostSharp.Reflection.LocationInfo,PostSharp.Extensibility.SeverityType,System.String,System.String,System.Object[])">
       <summary>
@@ -7271,31 +7262,6 @@
       <param name="arguments">Arguments of the message text.</param>
       <returns>A <see cref="T:PostSharp.Extensibility.Message" />.</returns>
     </member>
-    <member name="M:PostSharp.Extensibility.MessageSource.CreateMessage(PostSharp.Extensibility.SeverityType,System.String,System.Object[],System.String,System.Int32,System.Int32,System.Exception)">
-      <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>M:PostSharp.Extensibility.MessageSource.CreateMessage(PostSharp.Extensibility.SeverityType,System.String,System.Object[],System.String,System.Int32,System.Int32,System.Exception)</parameter>
-          </include>
-        </markup>
-      </summary>
-      <param name="severity"></param>
-      <param name="messageId"></param>
-      <param name="arguments"></param>
-      <param name="locationFile"></param>
-      <param name="locationLine"></param>
-      <param name="locationColumn"></param>
-      <param name="innerException"></param>
-      <returns>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>returns</parameter>
-            <parameter>M:PostSharp.Extensibility.MessageSource.CreateMessage(PostSharp.Extensibility.SeverityType,System.String,System.Object[],System.String,System.Int32,System.Int32,System.Exception)</parameter>
-          </include>
-        </markup>
-      </returns>
-    </member>
     <member name="P:PostSharp.Extensibility.MessageSource.MessageSink">
       <summary>
               Gets the current message sink.
@@ -7329,95 +7295,6 @@
       <param name="messageId">Identifier of the message type.</param>
       <param name="arguments">Array of arguments used to format the message text,
               or <c>null</c> if this message has no argument.</param>
-    </member>
-    <member name="M:PostSharp.Extensibility.MessageSource.Write(PostSharp.Extensibility.SeverityType,System.String,System.Object[])">
-      <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>M:PostSharp.Extensibility.MessageSource.Write(PostSharp.Extensibility.SeverityType,System.String,System.Object[])</parameter>
-          </include>
-        </markup>
-      </summary>
-      <param name="severity"></param>
-      <param name="messageId"></param>
-      <param name="arguments"></param>
-    </member>
-    <member name="M:PostSharp.Extensibility.MessageSource.Write(PostSharp.Extensibility.SeverityType,System.String,System.Object[],PostSharp.Reflection.SymbolSequencePoint)">
-      <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>M:PostSharp.Extensibility.MessageSource.Write(PostSharp.Extensibility.SeverityType,System.String,System.Object[],PostSharp.Reflection.SymbolSequencePoint)</parameter>
-          </include>
-        </markup>
-      </summary>
-      <param name="severity"></param>
-      <param name="messageId"></param>
-      <param name="arguments"></param>
-      <param name="symbolSequencePoint"></param>
-    </member>
-    <member name="M:PostSharp.Extensibility.MessageSource.Write(PostSharp.Extensibility.SeverityType,System.String,System.Object[],System.String)">
-      <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>M:PostSharp.Extensibility.MessageSource.Write(PostSharp.Extensibility.SeverityType,System.String,System.Object[],System.String)</parameter>
-          </include>
-        </markup>
-      </summary>
-      <param name="severity"></param>
-      <param name="messageId"></param>
-      <param name="arguments"></param>
-      <param name="locationFile"></param>
-    </member>
-    <member name="M:PostSharp.Extensibility.MessageSource.Write(PostSharp.Extensibility.SeverityType,System.String,System.Object[],System.String,System.Int32)">
-      <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>M:PostSharp.Extensibility.MessageSource.Write(PostSharp.Extensibility.SeverityType,System.String,System.Object[],System.String,System.Int32)</parameter>
-          </include>
-        </markup>
-      </summary>
-      <param name="severity"></param>
-      <param name="messageId"></param>
-      <param name="arguments"></param>
-      <param name="locationFile"></param>
-      <param name="locationLine"></param>
-    </member>
-    <member name="M:PostSharp.Extensibility.MessageSource.Write(PostSharp.Extensibility.SeverityType,System.String,System.Object[],System.String,System.Int32,System.Int32)">
-      <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>M:PostSharp.Extensibility.MessageSource.Write(PostSharp.Extensibility.SeverityType,System.String,System.Object[],System.String,System.Int32,System.Int32)</parameter>
-          </include>
-        </markup>
-      </summary>
-      <param name="severity"></param>
-      <param name="messageId"></param>
-      <param name="arguments"></param>
-      <param name="locationFile"></param>
-      <param name="locationLine"></param>
-      <param name="locationColumn"></param>
-    </member>
-    <member name="M:PostSharp.Extensibility.MessageSource.Write(PostSharp.Extensibility.SeverityType,System.String,System.Object[],System.String,System.Int32,System.Int32,System.Exception)">
-      <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>M:PostSharp.Extensibility.MessageSource.Write(PostSharp.Extensibility.SeverityType,System.String,System.Object[],System.String,System.Int32,System.Int32,System.Exception)</parameter>
-          </include>
-        </markup>
-      </summary>
-      <param name="severity"></param>
-      <param name="messageId"></param>
-      <param name="arguments"></param>
-      <param name="locationFile"></param>
-      <param name="locationLine"></param>
-      <param name="locationColumn"></param>
-      <param name="innerException"></param>
     </member>
     <member name="M:PostSharp.Extensibility.MessageSource.Write(System.Reflection.Assembly,PostSharp.Extensibility.SeverityType,System.String,System.Object[])">
       <summary>
@@ -7762,12 +7639,6 @@
               Determines whether many instances of the custom attribute are allowed on a single declaration.
             </summary>
     </member>
-    <member name="P:PostSharp.Extensibility.MulticastAttributeUsageAttribute.HideFromAspectBrowser">
-      <summary>
-            Determines whether instances of the target <see cref="T:PostSharp.Extensibility.MulticastAttribute" />
-            should be hidden from the Aspect Browser, in the Visual Studio extension.
-            </summary>
-    </member>
     <member name="P:PostSharp.Extensibility.MulticastAttributeUsageAttribute.Inheritance">
       <summary>
               Determines whether the custom attribute in inherited along the lines of inheritance
@@ -7966,113 +7837,6 @@
               Determines whether the <c>PostSharp</c> Platform is currently loaded.
             </summary>
     </member>
-    <member name="T:PostSharp.Extensibility.PostSharpTrace">
-      <summary>
-              Provides tracing functionality. An instance of the <see cref="T:PostSharp.Extensibility.PostSharpTrace" /> type
-              implements a trace sink.
-            </summary>
-    </member>
-    <member name="M:PostSharp.Extensibility.PostSharpTrace.#ctor(System.String)">
-      <summary>
-              Initialize a new <see cref="T:PostSharp.Extensibility.PostSharpTrace" /> sink.
-            </summary>
-      <param name="category">Category of messages.</param>
-    </member>
-    <member name="M:PostSharp.Extensibility.PostSharpTrace.EnableCategory(PostSharp.Extensibility.PostSharpTrace)">
-      <summary>
-              Enables a trace category known by its object.
-            </summary>
-      <param name="category">A <see cref="T:PostSharp.Extensibility.PostSharpTrace" /> object.</param>
-    </member>
-    <member name="M:PostSharp.Extensibility.PostSharpTrace.EnableCategory(System.String)">
-      <summary>
-              Enables a trace category known by its name.
-            </summary>
-      <param name="category">The category name.</param>
-    </member>
-    <member name="P:PostSharp.Extensibility.PostSharpTrace.Enabled">
-      <summary>
-              Determines whether the current trace sink is enabled.
-            </summary>
-    </member>
-    <member name="M:PostSharp.Extensibility.PostSharpTrace.Write(System.String)">
-      <summary>
-              Writes a message to the current sink without formatting parameter.
-            </summary>
-      <param name="message">Message.</param>
-    </member>
-    <member name="M:PostSharp.Extensibility.PostSharpTrace.Write(System.String,System.Object)">
-      <summary>
-              Writes a message to the current sink with a single formatting parameter.
-            </summary>
-      <param name="format">Message formatting string.</param>
-      <param name="arg0">The first formatting parameter.</param>
-    </member>
-    <member name="M:PostSharp.Extensibility.PostSharpTrace.Write(System.String,System.Object,System.Object)">
-      <summary>
-              Writes a message to the current sink with two formatting parameters.
-            </summary>
-      <param name="format">Message formatting string.</param>
-      <param name="arg0">The first formatting parameter.</param>
-      <param name="arg1">The second formatting parameter.</param>
-    </member>
-    <member name="M:PostSharp.Extensibility.PostSharpTrace.Write(System.String,System.Object,System.Object,System.Object)">
-      <summary>
-              Writes a message to the current sink with three formatting parameters.
-            </summary>
-      <param name="format">Message formatting string.</param>
-      <param name="arg0">The first formatting parameter.</param>
-      <param name="arg1">The second formatting parameter.</param>
-      <param name="arg2">The third formatting parameter.</param>
-    </member>
-    <member name="M:PostSharp.Extensibility.PostSharpTrace.Write(System.String,System.Object[])">
-      <summary>
-              Writes a message to the current sink with many formatting parameters.
-            </summary>
-      <param name="format">Message formatting string.</param>
-      <param name="parameters">Formatting parameters.</param>
-    </member>
-    <member name="M:PostSharp.Extensibility.PostSharpTrace.WriteLine(System.String)">
-      <summary>
-              Writes a message to the current sink without parameter, 
-              and issues a line break.
-            </summary>
-      <param name="format">Message formatting string.</param>
-    </member>
-    <member name="M:PostSharp.Extensibility.PostSharpTrace.WriteLine(System.String,System.Object)">
-      <summary>
-              Writes a message to the current sink with a single formatting parameter, 
-              and issues a line break.
-            </summary>
-      <param name="format">Message formatting string.</param>
-      <param name="arg0">The first formatting parameter.</param>
-    </member>
-    <member name="M:PostSharp.Extensibility.PostSharpTrace.WriteLine(System.String,System.Object,System.Object)">
-      <summary>
-              Writes a message to the current sink with two formatting parameters, 
-              and issues a line break.
-            </summary>
-      <param name="format">Message formatting string.</param>
-      <param name="arg0">The first formatting parameter.</param>
-      <param name="arg1">The second formatting parameter.</param>
-    </member>
-    <member name="M:PostSharp.Extensibility.PostSharpTrace.WriteLine(System.String,System.Object,System.Object,System.Object)">
-      <summary>
-              Writes a message to the current sink with three formatting parameters, 
-              and issues a line break.
-            </summary>
-      <param name="format">Message formatting string.</param>
-      <param name="arg0">The first formatting parameter.</param>
-      <param name="arg1">The second formatting parameter.</param>
-      <param name="arg2">The third formatting parameter.</param>
-    </member>
-    <member name="M:PostSharp.Extensibility.PostSharpTrace.WriteLine(System.String,System.Object[])">
-      <summary>
-              Writes a message to the current sink with many formatting parameters, and issues a line break.
-            </summary>
-      <param name="format">Message formatting string.</param>
-      <param name="parameters">Formatting parameters.</param>
-    </member>
     <member name="T:PostSharp.Extensibility.ProjectExtensionElement">
       <summary>
             Represents a custom element (or section) in the XML project type.
@@ -8102,28 +7866,16 @@
     </member>
     <member name="M:PostSharp.Extensibility.RequirePostSharpAttribute.#ctor(System.String,System.String)">
       <summary>
-              Initializes a new <see cref="T:PostSharp.Extensibility.RequirePostSharpAttribute" />.
+              Initializes a new <see cref="T:PostSharp.Extensibility.RequirePostSharpAttribute" /> and specifies the required plug-in and task names.
             </summary>
       <param name="plugIn">Name of the required plug-in (file name without extension).</param>
       <param name="task">Name of the required task (should be defined in <paramref name="plugIn" />).</param>
     </member>
     <member name="M:PostSharp.Extensibility.RequirePostSharpAttribute.#ctor(System.Type)">
       <summary>
-        <markup>
-          <include item="SMCAutoDocConstructor">
-            <parameter>PostSharp.Extensibility.RequirePostSharpAttribute</parameter>
-          </include>
-        </markup>
-      </summary>
-      <param name="serviceType">
-        <markup>
-          <include item="SMCMissingParamTag">
-            <parameter>param</parameter>
-            <parameter>serviceType</parameter>
-            <parameter>M:PostSharp.Extensibility.RequirePostSharpAttribute.#ctor(System.Type)</parameter>
-          </include>
-        </markup>
-      </param>
+            Initializes a new <see cref="T:PostSharp.Extensibility.RequirePostSharpAttribute" /> and specifies the required <see cref="T:PostSharp.Extensibility.IService" /> type.
+            </summary>
+      <param name="serviceType">A type derived from <see cref="T:PostSharp.Extensibility.IService" />.</param>
     </member>
     <member name="P:PostSharp.Extensibility.RequirePostSharpAttribute.AnyTypeReference">
       <summary>
@@ -8147,33 +7899,13 @@
     </member>
     <member name="P:PostSharp.Extensibility.RequirePostSharpAttribute.ServiceType">
       <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>P:PostSharp.Extensibility.RequirePostSharpAttribute.ServiceType</parameter>
-          </include>
-        </markup>
-      </summary>
+            Gets the type of the required <see cref="T:PostSharp.Extensibility.IService" />.
+            </summary>
     </member>
     <member name="P:PostSharp.Extensibility.RequirePostSharpAttribute.Task">
       <summary>
               Gets the name of the required task (should be defined in <see cref="P:PostSharp.Extensibility.RequirePostSharpAttribute.PlugIn" />).
             </summary>
-    </member>
-    <member name="T:PostSharp.Extensibility.RequireReflectionWrapperAttribute">
-      <summary>
-              Custom attribute that, when applied on a type, specifies that all build-time semantics of this type
-              require reflection wrappers to be passed instead of real reflection objects.
-            </summary>
-    </member>
-    <member name="M:PostSharp.Extensibility.RequireReflectionWrapperAttribute.#ctor">
-      <summary>
-        <markup>
-          <include item="SMCAutoDocConstructor">
-            <parameter>PostSharp.Extensibility.RequireReflectionWrapperAttribute</parameter>
-          </include>
-        </markup>
-      </summary>
     </member>
     <member name="T:PostSharp.Extensibility.SeverityType">
       <summary>
@@ -8261,166 +7993,656 @@
             Gets or set the reason (a human-readable text) why the warning must be ignored.
             </summary>
     </member>
-    <member name="T:PostSharp.Extensibility.TargetFrameworkFamily">
+    <member name="T:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogActivity">
       <summary>
-            Represents a variant of family (variant) of the .NET Framework, e.g. <see cref="F:PostSharp.Extensibility.TargetFrameworkFamily.NetCore" />, <see cref="F:PostSharp.Extensibility.TargetFrameworkFamily.NetFramework" />,
-            <see cref="F:PostSharp.Extensibility.TargetFrameworkFamily.Silverlight" /> or <see cref="F:PostSharp.Extensibility.TargetFrameworkFamily.NetPortable" />.
+            Value returned by the <see cref="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Activity(System.String)" /> method that should
+            be disposed to mark the end of the activity and decrease the indentation level.
             </summary>
     </member>
-    <member name="M:PostSharp.Extensibility.TargetFrameworkFamily.Equals(PostSharp.Extensibility.TargetFrameworkFamily)">
-      <summary>Indicates whether the current object is equal to another object of the same type.</summary>
-      <param name="other">An object to compare with this object.</param>
-      <returns>true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.</returns>
-    </member>
-    <member name="M:PostSharp.Extensibility.TargetFrameworkFamily.Equals(System.Object)">
-      <summary>Indicates whether this instance and a specified object are equal.</summary>
-      <param name="obj">The object to compare with the current instance. </param>
-      <returns>true if <paramref name="obj" /> and this instance are the same type and represent the same value; otherwise, false. </returns>
-    </member>
-    <member name="M:PostSharp.Extensibility.TargetFrameworkFamily.Equals(System.String)">
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogActivity.Dispose">
       <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>M:PostSharp.Extensibility.TargetFrameworkFamily.Equals(System.String)</parameter>
-          </include>
-        </markup>
-      </summary>
-      <param name="other">
+            When the current <see cref="T:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogActivity" /> has been returned by the  <see cref="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Activity(System.String)" /> method,
+            decreases the indentation level.
+            </summary>
+    </member>
+    <member name="T:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger">
+      <summary>
+             Allows to emit build-time log records. Use the <see cref="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.GetInstance(System.String)" /> method
+             and then invoke <see cref="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine(System.String)" /> or <see cref="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Activity(System.String)" /> using the <c>?.</c>
+             operator.
+            </summary>
+    </member>
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Activity(System.String)">
+      <summary>
+            Writes a preformatted message and increases the indentation level. To decrease the indentation level, dispose the <see cref="T:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogActivity" />
+            returned by this method.
+            </summary>
+      <param name="message">Message.</param>
+      <returns>An opaque object to be disposed at the end of the activity to decrease the indentation level.</returns>
+    </member>
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Activity``1(System.String,``0)">
+      <summary>
+            Writes a message given a formatting string and 1 argument, and increases the indentation level. To decrease the indentation level, dispose the <see cref="T:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogActivity" />
+            returned by this method.
+            </summary>
+      <param name="message">Message.</param>
+      <param name="arg1">Value of the 1-th parameter.</param>
+      <param name="format">
         <markup>
           <include item="SMCMissingParamTag">
             <parameter>param</parameter>
-            <parameter>other</parameter>
-            <parameter>M:PostSharp.Extensibility.TargetFrameworkFamily.Equals(System.String)</parameter>
+            <parameter>format</parameter>
+            <parameter>M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Activity``1(System.String,``0)</parameter>
           </include>
         </markup>
       </param>
-      <returns>
+      <typeparam name="T1">Type of the 1-th parameter.</typeparam>
+      <returns>An opaque object to be disposed at the end of the activity to decrease the indentation level.</returns>
+    </member>
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Activity``2(System.String,``0,``1)">
+      <summary>
+            Writes a message given a formatting string and 2 arguments, and increases the indentation level. To decrease the indentation level, dispose the <see cref="T:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogActivity" />
+            returned by this method.
+            </summary>
+      <param name="message">Message.</param>
+      <param name="arg1">Value of the 1-th parameter.</param>
+      <param name="arg2">Value of the 2-th parameter.</param>
+      <param name="format">
         <markup>
-          <include item="SMCMissingTag">
-            <parameter>returns</parameter>
-            <parameter>M:PostSharp.Extensibility.TargetFrameworkFamily.Equals(System.String)</parameter>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>format</parameter>
+            <parameter>M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Activity``2(System.String,``0,``1)</parameter>
           </include>
         </markup>
-      </returns>
+      </param>
+      <typeparam name="T1">Type of the 1-th parameter.</typeparam>
+      <typeparam name="T2">Type of the 2-th parameter.</typeparam>
+      <returns>An opaque object to be disposed at the end of the activity to decrease the indentation level.</returns>
     </member>
-    <member name="M:PostSharp.Extensibility.TargetFrameworkFamily.GetHashCode">
-      <summary>Returns the hash code for this instance.</summary>
-      <returns>A 32-bit signed integer that is the hash code for this instance.</returns>
-    </member>
-    <member name="P:PostSharp.Extensibility.TargetFrameworkFamily.IsNull">
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Activity``3(System.String,``0,``1,``2)">
       <summary>
-            Determines whether the current object represents a null instance.
+            Writes a message given a formatting string and 3 arguments, and increases the indentation level. To decrease the indentation level, dispose the <see cref="T:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogActivity" />
+            returned by this method.
             </summary>
+      <param name="message">Message.</param>
+      <param name="arg1">Value of the 1-th parameter.</param>
+      <param name="arg2">Value of the 2-th parameter.</param>
+      <param name="arg3">Value of the 3-th parameter.</param>
+      <param name="format">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>format</parameter>
+            <parameter>M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Activity``3(System.String,``0,``1,``2)</parameter>
+          </include>
+        </markup>
+      </param>
+      <typeparam name="T1">Type of the 1-th parameter.</typeparam>
+      <typeparam name="T2">Type of the 2-th parameter.</typeparam>
+      <typeparam name="T3">Type of the 3-th parameter.</typeparam>
+      <returns>An opaque object to be disposed at the end of the activity to decrease the indentation level.</returns>
     </member>
-    <member name="F:PostSharp.Extensibility.TargetFrameworkFamily.MonoAndroid">
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Activity``4(System.String,``0,``1,``2,``3)">
       <summary>
-            Instance of <see cref="T:PostSharp.Extensibility.TargetFrameworkFamily" /> representing MonoAndroid.
+            Writes a message given a formatting string and 4 arguments, and increases the indentation level. To decrease the indentation level, dispose the <see cref="T:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogActivity" />
+            returned by this method.
             </summary>
+      <param name="message">Message.</param>
+      <param name="arg1">Value of the 1-th parameter.</param>
+      <param name="arg2">Value of the 2-th parameter.</param>
+      <param name="arg3">Value of the 3-th parameter.</param>
+      <param name="arg4">Value of the 4-th parameter.</param>
+      <param name="format">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>format</parameter>
+            <parameter>M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Activity``4(System.String,``0,``1,``2,``3)</parameter>
+          </include>
+        </markup>
+      </param>
+      <typeparam name="T1">Type of the 1-th parameter.</typeparam>
+      <typeparam name="T2">Type of the 2-th parameter.</typeparam>
+      <typeparam name="T3">Type of the 3-th parameter.</typeparam>
+      <typeparam name="T4">Type of the 4-th parameter.</typeparam>
+      <returns>An opaque object to be disposed at the end of the activity to decrease the indentation level.</returns>
     </member>
-    <member name="F:PostSharp.Extensibility.TargetFrameworkFamily.MonoTouch">
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Activity``5(System.String,``0,``1,``2,``3,``4)">
       <summary>
-            Instance of <see cref="T:PostSharp.Extensibility.TargetFrameworkFamily" /> representing MonoTouch.
+            Writes a message given a formatting string and 5 arguments, and increases the indentation level. To decrease the indentation level, dispose the <see cref="T:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogActivity" />
+            returned by this method.
             </summary>
+      <param name="message">Message.</param>
+      <param name="arg1">Value of the 1-th parameter.</param>
+      <param name="arg2">Value of the 2-th parameter.</param>
+      <param name="arg3">Value of the 3-th parameter.</param>
+      <param name="arg4">Value of the 4-th parameter.</param>
+      <param name="arg5">Value of the 5-th parameter.</param>
+      <param name="format">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>format</parameter>
+            <parameter>M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Activity``5(System.String,``0,``1,``2,``3,``4)</parameter>
+          </include>
+        </markup>
+      </param>
+      <typeparam name="T1">Type of the 1-th parameter.</typeparam>
+      <typeparam name="T2">Type of the 2-th parameter.</typeparam>
+      <typeparam name="T3">Type of the 3-th parameter.</typeparam>
+      <typeparam name="T4">Type of the 4-th parameter.</typeparam>
+      <typeparam name="T5">Type of the 5-th parameter.</typeparam>
+      <returns>An opaque object to be disposed at the end of the activity to decrease the indentation level.</returns>
     </member>
-    <member name="F:PostSharp.Extensibility.TargetFrameworkFamily.NetCore">
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Activity``6(System.String,``0,``1,``2,``3,``4,``5)">
       <summary>
-            Instance of <see cref="T:PostSharp.Extensibility.TargetFrameworkFamily" /> representing .NET Core and .NET Framework for Windows Store.
+            Writes a message given a formatting string and 6 arguments, and increases the indentation level. To decrease the indentation level, dispose the <see cref="T:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogActivity" />
+            returned by this method.
             </summary>
+      <param name="message">Message.</param>
+      <param name="arg1">Value of the 1-th parameter.</param>
+      <param name="arg2">Value of the 2-th parameter.</param>
+      <param name="arg3">Value of the 3-th parameter.</param>
+      <param name="arg4">Value of the 4-th parameter.</param>
+      <param name="arg5">Value of the 5-th parameter.</param>
+      <param name="arg6">Value of the 6-th parameter.</param>
+      <param name="format">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>format</parameter>
+            <parameter>M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Activity``6(System.String,``0,``1,``2,``3,``4,``5)</parameter>
+          </include>
+        </markup>
+      </param>
+      <typeparam name="T1">Type of the 1-th parameter.</typeparam>
+      <typeparam name="T2">Type of the 2-th parameter.</typeparam>
+      <typeparam name="T3">Type of the 3-th parameter.</typeparam>
+      <typeparam name="T4">Type of the 4-th parameter.</typeparam>
+      <typeparam name="T5">Type of the 5-th parameter.</typeparam>
+      <typeparam name="T6">Type of the 6-th parameter.</typeparam>
+      <returns>An opaque object to be disposed at the end of the activity to decrease the indentation level.</returns>
     </member>
-    <member name="F:PostSharp.Extensibility.TargetFrameworkFamily.NETCoreApp">
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Activity``7(System.String,``0,``1,``2,``3,``4,``5,``6)">
       <summary>
-            Instance of <see cref="T:PostSharp.Extensibility.TargetFrameworkFamily" /> representing .NET Core Framework (.NETCoreApp,v1.0).
+            Writes a message given a formatting string and 7 arguments, and increases the indentation level. To decrease the indentation level, dispose the <see cref="T:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogActivity" />
+            returned by this method.
             </summary>
+      <param name="message">Message.</param>
+      <param name="arg1">Value of the 1-th parameter.</param>
+      <param name="arg2">Value of the 2-th parameter.</param>
+      <param name="arg3">Value of the 3-th parameter.</param>
+      <param name="arg4">Value of the 4-th parameter.</param>
+      <param name="arg5">Value of the 5-th parameter.</param>
+      <param name="arg6">Value of the 6-th parameter.</param>
+      <param name="arg7">Value of the 7-th parameter.</param>
+      <param name="format">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>format</parameter>
+            <parameter>M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Activity``7(System.String,``0,``1,``2,``3,``4,``5,``6)</parameter>
+          </include>
+        </markup>
+      </param>
+      <typeparam name="T1">Type of the 1-th parameter.</typeparam>
+      <typeparam name="T2">Type of the 2-th parameter.</typeparam>
+      <typeparam name="T3">Type of the 3-th parameter.</typeparam>
+      <typeparam name="T4">Type of the 4-th parameter.</typeparam>
+      <typeparam name="T5">Type of the 5-th parameter.</typeparam>
+      <typeparam name="T6">Type of the 6-th parameter.</typeparam>
+      <typeparam name="T7">Type of the 7-th parameter.</typeparam>
+      <returns>An opaque object to be disposed at the end of the activity to decrease the indentation level.</returns>
     </member>
-    <member name="F:PostSharp.Extensibility.TargetFrameworkFamily.NetFramework">
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.GetInstance(System.String)">
       <summary>
-            Instance of <see cref="T:PostSharp.Extensibility.TargetFrameworkFamily" /> representing the full .NET Framework.
+            Gets a <see cref="T:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger" /> for a given category, or <c>null</c> if
+            logging is not enabled for this category. 
             </summary>
+      <param name="category">The name of the category.</param>
+      <returns>A <see cref="T:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger" /> for the <paramref name="category" /> if logging
+            is enabled for the <paramref name="category" />, otherwise <c>null</c>.</returns>
     </member>
-    <member name="F:PostSharp.Extensibility.TargetFrameworkFamily.NetPortable">
-      <summary>
-            Instance of <see cref="T:PostSharp.Extensibility.TargetFrameworkFamily" /> representing .NET Portable Class Library.
-            </summary>
-    </member>
-    <member name="F:PostSharp.Extensibility.TargetFrameworkFamily.NetStandard">
-      <summary>
-            Instance of <see cref="T:PostSharp.Extensibility.TargetFrameworkFamily" /> representing .NET Standard Class Library.
-            </summary>
-    </member>
-    <member name="M:PostSharp.Extensibility.TargetFrameworkFamily.op_Equality(PostSharp.Extensibility.TargetFrameworkFamily,PostSharp.Extensibility.TargetFrameworkFamily)">
-      <summary>
-            Determines whether two <see cref="T:PostSharp.Extensibility.TargetFrameworkFamily" /> instances are equal.
-            </summary>
-      <param name="x">A <see cref="T:PostSharp.Extensibility.TargetFrameworkFamily" />.</param>
-      <param name="y">A <see cref="T:PostSharp.Extensibility.TargetFrameworkFamily" />.</param>
-      <returns>
-        <c>true</c> if <paramref name="x" /> and <paramref name="y" /> are equal, otherwise  <c>false</c>.</returns>
-    </member>
-    <member name="M:PostSharp.Extensibility.TargetFrameworkFamily.op_Inequality(PostSharp.Extensibility.TargetFrameworkFamily,PostSharp.Extensibility.TargetFrameworkFamily)">
-      <summary>
-            Determines whether two <see cref="T:PostSharp.Extensibility.TargetFrameworkFamily" /> instances are different.
-            </summary>
-      <param name="x">A <see cref="T:PostSharp.Extensibility.TargetFrameworkFamily" />.</param>
-      <param name="y">A <see cref="T:PostSharp.Extensibility.TargetFrameworkFamily" />.</param>
-      <returns>
-        <c>true</c> if <paramref name="x" /> and <paramref name="y" /> are different, otherwise  <c>false</c></returns>
-    </member>
-    <member name="F:PostSharp.Extensibility.TargetFrameworkFamily.Silverlight">
-      <summary>
-            Instance of <see cref="T:PostSharp.Extensibility.TargetFrameworkFamily" /> representing Silverlight.
-            </summary>
-    </member>
-    <member name="M:PostSharp.Extensibility.TargetFrameworkFamily.ToString">
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Initialize(System.Collections.Generic.IEnumerable{System.String})">
       <summary>
         <markup>
           <include item="SMCMissingTag">
             <parameter>summary</parameter>
-            <parameter>M:PostSharp.Extensibility.TargetFrameworkFamily.ToString</parameter>
+            <parameter>M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Initialize(System.Collections.Generic.IEnumerable{System.String})</parameter>
           </include>
         </markup>
       </summary>
-      <returns>
+      <param name="enabledCategories">
         <markup>
-          <include item="SMCMissingTag">
-            <parameter>returns</parameter>
-            <parameter>M:PostSharp.Extensibility.TargetFrameworkFamily.ToString</parameter>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>enabledCategories</parameter>
+            <parameter>M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Initialize(System.Collections.Generic.IEnumerable{System.String})</parameter>
           </include>
         </markup>
-      </returns>
+      </param>
     </member>
-    <member name="P:PostSharp.Extensibility.TargetFrameworkFamily.Value">
+    <member name="P:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.IsInitialized">
       <summary>
-            Gets the string identity of the current object.
-            </summary>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>summary</parameter>
+            <parameter>P:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.IsInitialized</parameter>
+          </include>
+        </markup>
+      </summary>
     </member>
-    <member name="F:PostSharp.Extensibility.TargetFrameworkFamily.WindowsPhone">
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Write(System.String)">
       <summary>
-            Instance of <see cref="T:PostSharp.Extensibility.TargetFrameworkFamily" /> representing Windows Phone (Silverlight).
+              Appends a preformatted string to the next message. The message is sent and flushed when the <see cref="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine(System.String)" /> method is invoked.
             </summary>
+      <param name="message">Message.</param>
     </member>
-    <member name="F:PostSharp.Extensibility.TargetFrameworkFamily.Xamarin_iOS">
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Write(System.String,System.Object[])">
       <summary>
-            Instance of <see cref="T:PostSharp.Extensibility.TargetFrameworkFamily" /> representing Xamarin.iOS.
+              Appends a string to the next message and formats it using a formatting string and an array of parameters. 
+              The message is sent and flushed when the <see cref="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine(System.String)" /> method is invoked.
             </summary>
+      <param name="message">Message formatting string.</param>
+      <param name="args">Formatting string arguments.</param>
+    </member>
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Write``1(System.String,``0)">
+      <summary>
+              Appends a string to the next message and formats it using a formatting string and 1 argument. 
+              The message is sent and flushed when the <see cref="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine(System.String)" /> method is invoked.
+            </summary>
+      <param name="message">Message formatting string.</param>
+      <param name="args">Formatting string arguments.</param>
+      <param name="arg1">Value of the 1-th parameter.</param>
+      <param name="format">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>format</parameter>
+            <parameter>M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Write``1(System.String,``0)</parameter>
+          </include>
+        </markup>
+      </param>
+      <typeparam name="T1">Type of the 1-th parameter.</typeparam>
+    </member>
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Write``2(System.String,``0,``1)">
+      <summary>
+              Appends a string to the next message and formats it using a formatting string and 2 arguments. 
+              The message is sent and flushed when the <see cref="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine(System.String)" /> method is invoked.
+            </summary>
+      <param name="message">Message formatting string.</param>
+      <param name="args">Formatting string arguments.</param>
+      <param name="arg1">Value of the 1-th parameter.</param>
+      <param name="arg2">Value of the 2-th parameter.</param>
+      <param name="format">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>format</parameter>
+            <parameter>M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Write``2(System.String,``0,``1)</parameter>
+          </include>
+        </markup>
+      </param>
+      <typeparam name="T1">Type of the 1-th parameter.</typeparam>
+      <typeparam name="T2">Type of the 2-th parameter.</typeparam>
+    </member>
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Write``3(System.String,``0,``1,``2)">
+      <summary>
+              Appends a string to the next message and formats it using a formatting string and 3 arguments. 
+              The message is sent and flushed when the <see cref="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine(System.String)" /> method is invoked.
+            </summary>
+      <param name="message">Message formatting string.</param>
+      <param name="args">Formatting string arguments.</param>
+      <param name="arg1">Value of the 1-th parameter.</param>
+      <param name="arg2">Value of the 2-th parameter.</param>
+      <param name="arg3">Value of the 3-th parameter.</param>
+      <param name="format">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>format</parameter>
+            <parameter>M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Write``3(System.String,``0,``1,``2)</parameter>
+          </include>
+        </markup>
+      </param>
+      <typeparam name="T1">Type of the 1-th parameter.</typeparam>
+      <typeparam name="T2">Type of the 2-th parameter.</typeparam>
+      <typeparam name="T3">Type of the 3-th parameter.</typeparam>
+    </member>
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Write``4(System.String,``0,``1,``2,``3)">
+      <summary>
+              Appends a string to the next message and formats it using a formatting string and 4 arguments. 
+              The message is sent and flushed when the <see cref="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine(System.String)" /> method is invoked.
+            </summary>
+      <param name="message">Message formatting string.</param>
+      <param name="args">Formatting string arguments.</param>
+      <param name="arg1">Value of the 1-th parameter.</param>
+      <param name="arg2">Value of the 2-th parameter.</param>
+      <param name="arg3">Value of the 3-th parameter.</param>
+      <param name="arg4">Value of the 4-th parameter.</param>
+      <param name="format">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>format</parameter>
+            <parameter>M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Write``4(System.String,``0,``1,``2,``3)</parameter>
+          </include>
+        </markup>
+      </param>
+      <typeparam name="T1">Type of the 1-th parameter.</typeparam>
+      <typeparam name="T2">Type of the 2-th parameter.</typeparam>
+      <typeparam name="T3">Type of the 3-th parameter.</typeparam>
+      <typeparam name="T4">Type of the 4-th parameter.</typeparam>
+    </member>
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Write``5(System.String,``0,``1,``2,``3,``4)">
+      <summary>
+              Appends a string to the next message and formats it using a formatting string and 5 arguments. 
+              The message is sent and flushed when the <see cref="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine(System.String)" /> method is invoked.
+            </summary>
+      <param name="message">Message formatting string.</param>
+      <param name="args">Formatting string arguments.</param>
+      <param name="arg1">Value of the 1-th parameter.</param>
+      <param name="arg2">Value of the 2-th parameter.</param>
+      <param name="arg3">Value of the 3-th parameter.</param>
+      <param name="arg4">Value of the 4-th parameter.</param>
+      <param name="arg5">Value of the 5-th parameter.</param>
+      <param name="format">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>format</parameter>
+            <parameter>M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Write``5(System.String,``0,``1,``2,``3,``4)</parameter>
+          </include>
+        </markup>
+      </param>
+      <typeparam name="T1">Type of the 1-th parameter.</typeparam>
+      <typeparam name="T2">Type of the 2-th parameter.</typeparam>
+      <typeparam name="T3">Type of the 3-th parameter.</typeparam>
+      <typeparam name="T4">Type of the 4-th parameter.</typeparam>
+      <typeparam name="T5">Type of the 5-th parameter.</typeparam>
+    </member>
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Write``6(System.String,``0,``1,``2,``3,``4,``5)">
+      <summary>
+              Appends a string to the next message and formats it using a formatting string and 6 arguments. 
+              The message is sent and flushed when the <see cref="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine(System.String)" /> method is invoked.
+            </summary>
+      <param name="message">Message formatting string.</param>
+      <param name="args">Formatting string arguments.</param>
+      <param name="arg1">Value of the 1-th parameter.</param>
+      <param name="arg2">Value of the 2-th parameter.</param>
+      <param name="arg3">Value of the 3-th parameter.</param>
+      <param name="arg4">Value of the 4-th parameter.</param>
+      <param name="arg5">Value of the 5-th parameter.</param>
+      <param name="arg6">Value of the 6-th parameter.</param>
+      <param name="format">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>format</parameter>
+            <parameter>M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Write``6(System.String,``0,``1,``2,``3,``4,``5)</parameter>
+          </include>
+        </markup>
+      </param>
+      <typeparam name="T1">Type of the 1-th parameter.</typeparam>
+      <typeparam name="T2">Type of the 2-th parameter.</typeparam>
+      <typeparam name="T3">Type of the 3-th parameter.</typeparam>
+      <typeparam name="T4">Type of the 4-th parameter.</typeparam>
+      <typeparam name="T5">Type of the 5-th parameter.</typeparam>
+      <typeparam name="T6">Type of the 6-th parameter.</typeparam>
+    </member>
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Write``7(System.String,``0,``1,``2,``3,``4,``5,``6)">
+      <summary>
+              Appends a string to the next message and formats it using a formatting string and 7 arguments. 
+              The message is sent and flushed when the <see cref="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine(System.String)" /> method is invoked.
+            </summary>
+      <param name="message">Message formatting string.</param>
+      <param name="args">Formatting string arguments.</param>
+      <param name="arg1">Value of the 1-th parameter.</param>
+      <param name="arg2">Value of the 2-th parameter.</param>
+      <param name="arg3">Value of the 3-th parameter.</param>
+      <param name="arg4">Value of the 4-th parameter.</param>
+      <param name="arg5">Value of the 5-th parameter.</param>
+      <param name="arg6">Value of the 6-th parameter.</param>
+      <param name="arg7">Value of the 7-th parameter.</param>
+      <param name="format">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>format</parameter>
+            <parameter>M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.Write``7(System.String,``0,``1,``2,``3,``4,``5,``6)</parameter>
+          </include>
+        </markup>
+      </param>
+      <typeparam name="T1">Type of the 1-th parameter.</typeparam>
+      <typeparam name="T2">Type of the 2-th parameter.</typeparam>
+      <typeparam name="T3">Type of the 3-th parameter.</typeparam>
+      <typeparam name="T4">Type of the 4-th parameter.</typeparam>
+      <typeparam name="T5">Type of the 5-th parameter.</typeparam>
+      <typeparam name="T6">Type of the 6-th parameter.</typeparam>
+      <typeparam name="T7">Type of the 7-th parameter.</typeparam>
+    </member>
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine(System.String)">
+      <summary>
+              Writes a preformatted log message.
+            </summary>
+      <param name="message">Message.</param>
+    </member>
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine(System.String,System.Object[])">
+      <summary>
+            Writes a log message and specifies the formatting string and an array of parameters.
+            </summary>
+      <param name="message">Message formatting string.</param>
+      <param name="args">Formatting string arguments.</param>
+    </member>
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine``1(System.String,``0)">
+      <summary>
+              Writes a message given a formatting string and 1 argument. 
+            </summary>
+      <param name="message">Message formatting string.</param>
+      <param name="args">Formatting string arguments.</param>
+      <param name="arg1">Value of the 1-th parameter.</param>
+      <param name="format">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>format</parameter>
+            <parameter>M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine``1(System.String,``0)</parameter>
+          </include>
+        </markup>
+      </param>
+      <typeparam name="T1">Type of the 1-th parameter.</typeparam>
+    </member>
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine``2(System.String,``0,``1)">
+      <summary>
+              Writes a message given a formatting string and 2 arguments. 
+            </summary>
+      <param name="message">Message formatting string.</param>
+      <param name="args">Formatting string arguments.</param>
+      <param name="arg1">Value of the 1-th parameter.</param>
+      <param name="arg2">Value of the 2-th parameter.</param>
+      <param name="format">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>format</parameter>
+            <parameter>M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine``2(System.String,``0,``1)</parameter>
+          </include>
+        </markup>
+      </param>
+      <typeparam name="T1">Type of the 1-th parameter.</typeparam>
+      <typeparam name="T2">Type of the 2-th parameter.</typeparam>
+    </member>
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine``3(System.String,``0,``1,``2)">
+      <summary>
+              Writes a message given a formatting string and 3 arguments. 
+            </summary>
+      <param name="message">Message formatting string.</param>
+      <param name="args">Formatting string arguments.</param>
+      <param name="arg1">Value of the 1-th parameter.</param>
+      <param name="arg2">Value of the 2-th parameter.</param>
+      <param name="arg3">Value of the 3-th parameter.</param>
+      <param name="format">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>format</parameter>
+            <parameter>M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine``3(System.String,``0,``1,``2)</parameter>
+          </include>
+        </markup>
+      </param>
+      <typeparam name="T1">Type of the 1-th parameter.</typeparam>
+      <typeparam name="T2">Type of the 2-th parameter.</typeparam>
+      <typeparam name="T3">Type of the 3-th parameter.</typeparam>
+    </member>
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine``4(System.String,``0,``1,``2,``3)">
+      <summary>
+              Writes a message given a formatting string and 4 arguments. 
+            </summary>
+      <param name="message">Message formatting string.</param>
+      <param name="args">Formatting string arguments.</param>
+      <param name="arg1">Value of the 1-th parameter.</param>
+      <param name="arg2">Value of the 2-th parameter.</param>
+      <param name="arg3">Value of the 3-th parameter.</param>
+      <param name="arg4">Value of the 4-th parameter.</param>
+      <param name="format">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>format</parameter>
+            <parameter>M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine``4(System.String,``0,``1,``2,``3)</parameter>
+          </include>
+        </markup>
+      </param>
+      <typeparam name="T1">Type of the 1-th parameter.</typeparam>
+      <typeparam name="T2">Type of the 2-th parameter.</typeparam>
+      <typeparam name="T3">Type of the 3-th parameter.</typeparam>
+      <typeparam name="T4">Type of the 4-th parameter.</typeparam>
+    </member>
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine``5(System.String,``0,``1,``2,``3,``4)">
+      <summary>
+              Writes a message given a formatting string and 5 arguments. 
+            </summary>
+      <param name="message">Message formatting string.</param>
+      <param name="args">Formatting string arguments.</param>
+      <param name="arg1">Value of the 1-th parameter.</param>
+      <param name="arg2">Value of the 2-th parameter.</param>
+      <param name="arg3">Value of the 3-th parameter.</param>
+      <param name="arg4">Value of the 4-th parameter.</param>
+      <param name="arg5">Value of the 5-th parameter.</param>
+      <param name="format">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>format</parameter>
+            <parameter>M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine``5(System.String,``0,``1,``2,``3,``4)</parameter>
+          </include>
+        </markup>
+      </param>
+      <typeparam name="T1">Type of the 1-th parameter.</typeparam>
+      <typeparam name="T2">Type of the 2-th parameter.</typeparam>
+      <typeparam name="T3">Type of the 3-th parameter.</typeparam>
+      <typeparam name="T4">Type of the 4-th parameter.</typeparam>
+      <typeparam name="T5">Type of the 5-th parameter.</typeparam>
+    </member>
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine``6(System.String,``0,``1,``2,``3,``4,``5)">
+      <summary>
+              Writes a message given a formatting string and 6 arguments. 
+            </summary>
+      <param name="message">Message formatting string.</param>
+      <param name="args">Formatting string arguments.</param>
+      <param name="arg1">Value of the 1-th parameter.</param>
+      <param name="arg2">Value of the 2-th parameter.</param>
+      <param name="arg3">Value of the 3-th parameter.</param>
+      <param name="arg4">Value of the 4-th parameter.</param>
+      <param name="arg5">Value of the 5-th parameter.</param>
+      <param name="arg6">Value of the 6-th parameter.</param>
+      <param name="format">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>format</parameter>
+            <parameter>M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine``6(System.String,``0,``1,``2,``3,``4,``5)</parameter>
+          </include>
+        </markup>
+      </param>
+      <typeparam name="T1">Type of the 1-th parameter.</typeparam>
+      <typeparam name="T2">Type of the 2-th parameter.</typeparam>
+      <typeparam name="T3">Type of the 3-th parameter.</typeparam>
+      <typeparam name="T4">Type of the 4-th parameter.</typeparam>
+      <typeparam name="T5">Type of the 5-th parameter.</typeparam>
+      <typeparam name="T6">Type of the 6-th parameter.</typeparam>
+    </member>
+    <member name="M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine``7(System.String,``0,``1,``2,``3,``4,``5,``6)">
+      <summary>
+              Writes a message given a formatting string and 7 arguments. 
+            </summary>
+      <param name="message">Message formatting string.</param>
+      <param name="args">Formatting string arguments.</param>
+      <param name="arg1">Value of the 1-th parameter.</param>
+      <param name="arg2">Value of the 2-th parameter.</param>
+      <param name="arg3">Value of the 3-th parameter.</param>
+      <param name="arg4">Value of the 4-th parameter.</param>
+      <param name="arg5">Value of the 5-th parameter.</param>
+      <param name="arg6">Value of the 6-th parameter.</param>
+      <param name="arg7">Value of the 7-th parameter.</param>
+      <param name="format">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>format</parameter>
+            <parameter>M:PostSharp.Extensibility.BuildTimeLogging.BuildTimeLogger.WriteLine``7(System.String,``0,``1,``2,``3,``4,``5,``6)</parameter>
+          </include>
+        </markup>
+      </param>
+      <typeparam name="T1">Type of the 1-th parameter.</typeparam>
+      <typeparam name="T2">Type of the 2-th parameter.</typeparam>
+      <typeparam name="T3">Type of the 3-th parameter.</typeparam>
+      <typeparam name="T4">Type of the 4-th parameter.</typeparam>
+      <typeparam name="T5">Type of the 5-th parameter.</typeparam>
+      <typeparam name="T6">Type of the 6-th parameter.</typeparam>
+      <typeparam name="T7">Type of the 7-th parameter.</typeparam>
     </member>
     <member name="T:PostSharp.Reflection.AssemblyProcessorArchitecture">
       <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>T:PostSharp.Reflection.AssemblyProcessorArchitecture</parameter>
-          </include>
-        </markup>
-      </summary>
+            Processor architectures of an assembly.
+            </summary>
     </member>
-    <member name="F:PostSharp.Reflection.AssemblyProcessorArchitecture.None"></member>
-    <member name="F:PostSharp.Reflection.AssemblyProcessorArchitecture.MSIL"></member>
-    <member name="F:PostSharp.Reflection.AssemblyProcessorArchitecture.X86"></member>
-    <member name="F:PostSharp.Reflection.AssemblyProcessorArchitecture.IA64"></member>
-    <member name="F:PostSharp.Reflection.AssemblyProcessorArchitecture.Amd64"></member>
-    <member name="F:PostSharp.Reflection.AssemblyProcessorArchitecture.Arm"></member>
-    <member name="F:PostSharp.Reflection.AssemblyProcessorArchitecture.NoPlatform"></member>
+    <member name="F:PostSharp.Reflection.AssemblyProcessorArchitecture.None">
+      <summary>
+            None (or not set).
+            </summary>
+    </member>
+    <member name="F:PostSharp.Reflection.AssemblyProcessorArchitecture.MSIL">
+      <summary>
+            MSIL (platform-neutral).
+            </summary>
+    </member>
+    <member name="F:PostSharp.Reflection.AssemblyProcessorArchitecture.X86">
+      <summary>
+            32-bit x86.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Reflection.AssemblyProcessorArchitecture.IA64">
+      <summary>
+            Itanium 64-bit
+            </summary>
+    </member>
+    <member name="F:PostSharp.Reflection.AssemblyProcessorArchitecture.Amd64">
+      <summary>
+            64-bit x86
+            </summary>
+    </member>
+    <member name="F:PostSharp.Reflection.AssemblyProcessorArchitecture.Arm">
+      <summary>
+            ARM.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Reflection.AssemblyProcessorArchitecture.NoPlatform">
+      <summary>
+            Reference assembly only (the assembly cannot be executed at run time).
+            </summary>
+    </member>
     <member name="T:PostSharp.Reflection.CodeReferenceKind">
       <summary>
               Kinds of code references (<see cref="T:PostSharp.Reflection.ICodeReference" />).
@@ -8682,6 +8904,11 @@
               Defines the semantics of an assembly name.
             </summary>
     </member>
+    <member name="P:PostSharp.Reflection.IAssemblyName.BindingContext">
+      <summary>
+            Gets the <see cref="P:PostSharp.Reflection.IAssemblyName.BindingContext" /> in which the assembly name is valid.
+            </summary>
+    </member>
     <member name="P:PostSharp.Reflection.IAssemblyName.Culture">
       <summary>
               Gets the assembly culture name.
@@ -8701,11 +8928,6 @@
       <returns>An array of bytes containing the public key token,
               or <c>null</c> if no public key is specified.</returns>
     </member>
-    <member name="P:PostSharp.Reflection.IAssemblyName.IsMscorlib">
-      <summary>
-              Determines whether the current assembly (or assembly reference) is <c>mscorlib</c>.
-            </summary>
-    </member>
     <member name="P:PostSharp.Reflection.IAssemblyName.IsRetargetable">
       <summary>
             Determines whether the reference is retargetable by the CLR, i.e. can be accommodated by
@@ -8716,16 +8938,6 @@
       <summary>
               Determines whether the current assembly (or assembly reference) contains a strong name signature.
             </summary>
-    </member>
-    <member name="P:PostSharp.Reflection.IAssemblyName.IsUnified">
-      <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>P:PostSharp.Reflection.IAssemblyName.IsUnified</parameter>
-          </include>
-        </markup>
-      </summary>
     </member>
     <member name="P:PostSharp.Reflection.IAssemblyName.Name">
       <summary>
@@ -8796,11 +9008,6 @@
               Represents a file of source code.
             </summary>
     </member>
-    <member name="P:PostSharp.Reflection.ISourceDocument.DocumentType">
-      <summary>
-              Document type (<see cref="T:System.Guid" /> according to Microsoft PDB specification).
-            </summary>
-    </member>
     <member name="P:PostSharp.Reflection.ISourceDocument.FileName">
       <summary>
               Full path of the file.
@@ -8809,11 +9016,6 @@
     <member name="P:PostSharp.Reflection.ISourceDocument.Language">
       <summary>
               Language (<see cref="T:System.Guid" /> according to Microsoft PDB specification).
-            </summary>
-    </member>
-    <member name="P:PostSharp.Reflection.ISourceDocument.LanguageVendor">
-      <summary>
-              Language vendor (<see cref="T:System.Guid" /> according to Microsoft PDB specification).
             </summary>
     </member>
     <member name="T:PostSharp.Reflection.LocationInfo">
@@ -9199,6 +9401,91 @@
               Gets the assembly-qualified type name of the object.
             </summary>
     </member>
+    <member name="T:PostSharp.Reflection.ParameterKind">
+      <summary>
+            Enumerates all possible kinds of method parameters. The parameter kind indicates whether the parameter is by ref or by value and its direction.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Reflection.ParameterKind.InValue">
+      <summary>
+            Normal (input) parameter.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Reflection.ParameterKind.ByRefIn">
+      <summary>
+            The read-only parameter passed by reference (<c>in</c> parameters since C# 7.2).
+            </summary>
+    </member>
+    <member name="F:PostSharp.Reflection.ParameterKind.ByRefOut">
+      <summary>
+        <c>out</c> parameter.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Reflection.ParameterKind.ByRefInOut">
+      <summary>
+        <c>ref</c> parameter.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Reflection.ParameterKind.ReturnValue">
+      <summary>
+            The return value parameter.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Reflection.ParameterKind.ReturnRef">
+      <summary>
+            The reference return value parameter (<c>ref</c> returns since C# 7.0).
+            </summary>
+    </member>
+    <member name="T:PostSharp.Reflection.ParameterKindExtensions">
+      <summary>
+            Extensions for the <see cref="T:PostSharp.Reflection.ParameterKind" /> class.
+            </summary>
+    </member>
+    <member name="M:PostSharp.Reflection.ParameterKindExtensions.IsByRefParameter(PostSharp.Reflection.ParameterKind)">
+      <summary>
+            Determines whether a parameter of a given <see cref="T:PostSharp.Reflection.ParameterKind" /> is passed by reference (but is not the return parameter).
+            </summary>
+      <param name="parameterKind"></param>
+      <returns>
+        <c>true</c> if <paramref name="parameterKind" /> equals to <see cref="F:PostSharp.Reflection.ParameterKind.ByRefIn" />, <see cref="F:PostSharp.Reflection.ParameterKind.ByRefOut" /> or <see cref="F:PostSharp.Reflection.ParameterKind.ByRefInOut" />,
+            otherwise <c>false</c>.</returns>
+    </member>
+    <member name="M:PostSharp.Reflection.ParameterKindExtensions.IsInputParameter(PostSharp.Reflection.ParameterKind)">
+      <summary>
+            Determines whether a parameter of a given <see cref="T:PostSharp.Reflection.ParameterKind" /> has a meaningful input value.
+            </summary>
+      <param name="parameterKind"></param>
+      <returns>
+        <c>true</c> if <paramref name="parameterKind" /> equals to <see cref="F:PostSharp.Reflection.ParameterKind.InValue" />, <see cref="F:PostSharp.Reflection.ParameterKind.ByRefIn" /> or <see cref="F:PostSharp.Reflection.ParameterKind.ByRefInOut" />,
+            otherwise <c>false</c>.</returns>
+    </member>
+    <member name="M:PostSharp.Reflection.ParameterKindExtensions.IsOutputParameter(PostSharp.Reflection.ParameterKind)">
+      <summary>
+            Determines whether a parameter of a given <see cref="T:PostSharp.Reflection.ParameterKind" /> has a meaningful output value (but is not the return parameter).
+            </summary>
+      <param name="parameterKind"></param>
+      <returns>
+        <c>true</c> if <paramref name="parameterKind" /> equals to  <see cref="F:PostSharp.Reflection.ParameterKind.ByRefOut" /> or <see cref="F:PostSharp.Reflection.ParameterKind.ByRefInOut" />,
+            otherwise <c>false</c>.</returns>
+    </member>
+    <member name="M:PostSharp.Reflection.ParameterKindExtensions.IsParameter(PostSharp.Reflection.ParameterKind)">
+      <summary>
+            Determines whether a parameter is a "real" parameter, and not the return parameter.
+            </summary>
+      <param name="parameterKind"></param>
+      <returns>
+        <c>true</c> if <paramref name="parameterKind" /> equals to <see cref="F:PostSharp.Reflection.ParameterKind.InValue" />, <see cref="F:PostSharp.Reflection.ParameterKind.ByRefIn" />, <see cref="F:PostSharp.Reflection.ParameterKind.ByRefOut" /> or <see cref="F:PostSharp.Reflection.ParameterKind.ByRefInOut" />,
+            otherwise <c>false</c>.</returns>
+    </member>
+    <member name="M:PostSharp.Reflection.ParameterKindExtensions.IsReturn(PostSharp.Reflection.ParameterKind)">
+      <summary>
+            Determines whether a parameter of a given <see cref="T:PostSharp.Reflection.ParameterKind" /> represents a return parameter.
+            </summary>
+      <param name="parameterKind"></param>
+      <returns>
+        <c>true</c> if <paramref name="parameterKind" /> equals to <see cref="F:PostSharp.Reflection.ParameterKind.ReturnValue" /> or <see cref="F:PostSharp.Reflection.ParameterKind.ReturnRef" />,
+            otherwise <c>false</c>.</returns>
+    </member>
     <member name="T:PostSharp.Reflection.ReflectionExtensions">
       <summary>
             Provides utility methods to work with the <c>System.Reflection</c> namespace.
@@ -9239,30 +9526,10 @@
     </member>
     <member name="M:PostSharp.Reflection.ReflectionExtensions.GetStateMachinePublicMethod(System.Reflection.MethodInfo)">
       <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>M:PostSharp.Reflection.ReflectionExtensions.GetStateMachinePublicMethod(System.Reflection.MethodInfo)</parameter>
-          </include>
-        </markup>
-      </summary>
-      <param name="method">
-        <markup>
-          <include item="SMCMissingParamTag">
-            <parameter>param</parameter>
-            <parameter>method</parameter>
-            <parameter>M:PostSharp.Reflection.ReflectionExtensions.GetStateMachinePublicMethod(System.Reflection.MethodInfo)</parameter>
-          </include>
-        </markup>
-      </param>
-      <returns>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>returns</parameter>
-            <parameter>M:PostSharp.Reflection.ReflectionExtensions.GetStateMachinePublicMethod(System.Reflection.MethodInfo)</parameter>
-          </include>
-        </markup>
-      </returns>
+            Gets the public (or kick-off) method given a <c>MoveNext</c> method.
+            </summary>
+      <param name="method">The move next method.</param>
+      <returns>The public (kick-off method) corresponding to <paramref name="method" />.</returns>
     </member>
     <member name="M:PostSharp.Reflection.ReflectionExtensions.IsAutomaticProperty(System.Reflection.PropertyInfo)">
       <summary>
@@ -9284,13 +9551,17 @@
       <param name="definingAssembly">The assembly defining the <see cref="T:System.Runtime.CompilerServices.InternalsVisibleToAttribute" /> attribute.</param>
       <param name="referencingAssembly">The assembly referenced by the <see cref="T:System.Runtime.CompilerServices.InternalsVisibleToAttribute" /> attribute.</param>
       <returns>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>returns</parameter>
-            <parameter>M:PostSharp.Reflection.ReflectionHelper.AreInternalsVisibleTo(System.Reflection.Assembly,System.Reflection.Assembly)</parameter>
-          </include>
-        </markup>
-      </returns>
+        <c>true</c> if <paramref name="definingAssembly" /> equals <paramref name="referencingAssembly" /> or if <paramref name="definingAssembly" /> contains an <see cref="T:System.Runtime.CompilerServices.InternalsVisibleToAttribute" /> attribute
+            for <paramref name="referencingAssembly" />, otherwise <c>false</c>.</returns>
+    </member>
+    <member name="M:PostSharp.Reflection.ReflectionHelper.AreInternalsVisibleToCurrentProject(System.Reflection.Assembly)">
+      <summary>
+            Determines whether the internals of a given assembly are visible to the current project.
+            </summary>
+      <param name="definingAssembly">The assembly containing the internal declaration.</param>
+      <returns>
+        <c>true</c> if <paramref name="definingAssembly" /> equals the assembly being processed or if <paramref name="definingAssembly" /> contains an <see cref="T:System.Runtime.CompilerServices.InternalsVisibleToAttribute" /> attribute
+            for the assembly being processed, otherwise <c>false</c>.</returns>
     </member>
     <member name="M:PostSharp.Reflection.ReflectionHelper.GetAssemblyQualifiedTypeName(System.String,System.String)">
       <summary>
@@ -9510,7 +9781,7 @@
             Gets the <see cref="T:PostSharp.Reflection.SemanticInfo" /> for a given type.
             </summary>
       <param name="type">A type.</param>
-      <returns>The <see cref="T:PostSharp.Reflection.SemanticInfo" /> for <paramref name="membertype" />.</returns>
+      <returns>The <see cref="T:PostSharp.Reflection.SemanticInfo" /> for <paramref name="type" />.</returns>
     </member>
     <member name="M:PostSharp.Reflection.ReflectionHelper.IsCompilerGenerated(System.Reflection.MemberInfo)">
       <summary>
@@ -9560,7 +9831,7 @@
       <param name="customAttributeType">
         <see cref="T:System.Type" /> of the custom attribute.</param>
       <param name="options">Any combination of options <see cref="F:PostSharp.Reflection.ReflectionSearchOptions.IncludeDerivedTypes" />  and 
-            <see cref="F:PostSharp.Reflection.ReflectionSearchOptions.UseReflectionWrappers" />.</param>
+            <see cref="!:ReflectionSearchOptions.UseReflectionWrappers" />.</param>
       <returns>The set of all custom attributes of type <paramref name="customAttributeType" /> (or any type derived
               from <paramref name="customAttributeType" />, if the option <see cref="F:PostSharp.Reflection.ReflectionSearchOptions.IncludeDerivedTypes" /> 
               is <c>true</c>) defined in  the assembly being currently processed.</returns>
@@ -9582,7 +9853,7 @@
       <param name="target">Element of code (<see cref="T:System.Type" />, <see cref="T:System.Reflection.MethodInfo" />, ...) whose
               custom attributes are requested.</param>
       <param name="options">
-        <see cref="F:PostSharp.Reflection.ReflectionSearchOptions.UseReflectionWrappers" /> or <see cref="F:PostSharp.Reflection.ReflectionSearchOptions.None" />.</param>
+        <see cref="!:ReflectionSearchOptions.UseReflectionWrappers" /> or <see cref="F:PostSharp.Reflection.ReflectionSearchOptions.None" />.</param>
       <returns>The set of all custom attributes added, directly or indirectly, to <paramref name="target" />.</returns>
     </member>
     <member name="M:PostSharp.Reflection.ReflectionSearch.GetCustomAttributesOnTarget``1(System.Object,PostSharp.Reflection.ReflectionSearchOptions)">
@@ -9593,7 +9864,7 @@
       <param name="target">Element of code (<see cref="T:System.Type" />, <see cref="T:System.Reflection.MethodInfo" />, ...) whose
               custom attributes are requested.</param>
       <param name="options">
-        <see cref="F:PostSharp.Reflection.ReflectionSearchOptions.UseReflectionWrappers" /> or <see cref="F:PostSharp.Reflection.ReflectionSearchOptions.None" />.</param>
+        <see cref="!:ReflectionSearchOptions.UseReflectionWrappers" /> or <see cref="F:PostSharp.Reflection.ReflectionSearchOptions.None" />.</param>
       <typeparam name="T">Type of the custom attribute.</typeparam>
       <returns>The set of all custom attributes added, directly or indirectly, to <paramref name="target" />.</returns>
     </member>
@@ -9615,7 +9886,7 @@
             </summary>
       <param name="method">A <see cref="T:System.Reflection.MethodInfo" /> or <see cref="T:System.Reflection.ConstructorInfo" />.</param>
       <param name="options">
-        <see cref="F:PostSharp.Reflection.ReflectionSearchOptions.UseReflectionWrappers" /> or <see cref="F:PostSharp.Reflection.ReflectionSearchOptions.None" />.</param>
+        <see cref="!:ReflectionSearchOptions.UseReflectionWrappers" /> or <see cref="F:PostSharp.Reflection.ReflectionSearchOptions.None" />.</param>
       <returns>An array of <see cref="T:PostSharp.Reflection.MethodUsageCodeReference" /> containing one
               item for each declaration used by the body of <paramref name="method" />.
             </returns>
@@ -9633,7 +9904,7 @@
               and specifies additional options.
             </summary>
       <param name="baseType">A class or interface.</param>
-      <param name="options">Any valid combination of the options <see cref="F:PostSharp.Reflection.ReflectionSearchOptions.UseReflectionWrappers" />,
+      <param name="options">Any valid combination of the options <see cref="!:ReflectionSearchOptions.UseReflectionWrappers" />,
             <see cref="F:PostSharp.Reflection.ReflectionSearchOptions.IncludeTypeElement" /> (partial type match), and 
             <see cref="F:PostSharp.Reflection.ReflectionSearchOptions.IncludeDerivedTypes" /> (deep search). 
             <see cref="F:PostSharp.Reflection.ReflectionSearchOptions.IncludeTypeElement" /> and <see cref="F:PostSharp.Reflection.ReflectionSearchOptions.IncludeDerivedTypes" />
@@ -9654,7 +9925,7 @@
               <see cref="T:System.Reflection.ParameterInfo" />) of the assembly being processed of a given type and specifies additional options.
             </summary>
       <param name="memberType">Member type.</param>
-      <param name="options">Any combination of the options <see cref="F:PostSharp.Reflection.ReflectionSearchOptions.UseReflectionWrappers" /> and
+      <param name="options">Any combination of the options <see cref="!:ReflectionSearchOptions.UseReflectionWrappers" /> and
             <see cref="F:PostSharp.Reflection.ReflectionSearchOptions.IncludeTypeElement" /> (partial type match).
             </param>
       <returns>The set of all members of type <paramref name="memberType" /> in the assembly being processed</returns>
@@ -9681,7 +9952,7 @@
       <param name="declaration">The <see cref="T:System.Type" />,
               <see cref="T:System.Reflection.FieldInfo" />, <see cref="T:System.Reflection.MethodInfo" /> or <see cref="T:System.Reflection.ConstructorInfo" />
               whose references are requested.</param>
-      <param name="options">Any combination of the options <see cref="F:PostSharp.Reflection.ReflectionSearchOptions.UseReflectionWrappers" />
+      <param name="options">Any combination of the options <see cref="!:ReflectionSearchOptions.UseReflectionWrappers" />
             and <see cref="F:PostSharp.Reflection.ReflectionSearchOptions.IncludeTypeElement" /> (partial type match).</param>
       <returns>An array of <see cref="T:PostSharp.Reflection.MethodUsageCodeReference" /> containing one
               item for each method or constructor whose body references <paramref name="declaration" />.
@@ -9723,16 +9994,6 @@
     <member name="F:PostSharp.Reflection.ReflectionSearchOptions.IncludeTypeElement">
       <summary>
             Include relationships referencing a type signature including the given type (instead of only the given type).
-            </summary>
-    </member>
-    <member name="F:PostSharp.Reflection.ReflectionSearchOptions.UseReflectionWrappers">
-      <summary>
-              Use reflection wrappers instead of runtime reflection objects.
-              Reflection wrappers implement standard reflection classes 
-              (<see cref="T:System.Type" />, <see cref="T:System.Reflection.MethodInfo" />, ...), but do not require the CLR
-              to load the type. Reflection wrappers should be used only when the CLR is not able to load the type,
-              for instance because the type is not valid for runtime execution. This happens for instance when the
-              type has an <c>extern</c> method implemented after compilation by PostSharp.
             </summary>
     </member>
     <member name="T:PostSharp.Reflection.ReflectionTypeComparer">
@@ -10189,6 +10450,31 @@
             4-byte alignment.
             </summary>
     </member>
+    <member name="T:PostSharp.Reflection.MethodBody.ExceptionHandlerKind">
+      <summary>
+            Kinds of <see cref="T:PostSharp.Reflection.MethodBody.IExceptionHandler" />.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Reflection.MethodBody.ExceptionHandlerKind.None">
+      <summary>
+            Not an exception handler.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Reflection.MethodBody.ExceptionHandlerKind.Catch">
+      <summary>
+            Catch without filter.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Reflection.MethodBody.ExceptionHandlerKind.Filter">
+      <summary>
+            Filter with catch block.
+            </summary>
+    </member>
+    <member name="F:PostSharp.Reflection.MethodBody.ExceptionHandlerKind.Finally">
+      <summary>
+            Finally.
+            </summary>
+    </member>
     <member name="T:PostSharp.Reflection.MethodBody.IAddressOfExpression">
       <summary>
             Expression that takes the address of the operand. Equivalent to the C# operator <c>&amp;</c>.
@@ -10219,9 +10505,19 @@
             Block containing other blocks or instructions.
             </summary>
     </member>
+    <member name="P:PostSharp.Reflection.MethodBody.IBlockExpression.ExceptionHandlerKind">
+      <summary>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>summary</parameter>
+            <parameter>P:PostSharp.Reflection.MethodBody.IBlockExpression.ExceptionHandlerKind</parameter>
+          </include>
+        </markup>
+      </summary>
+    </member>
     <member name="P:PostSharp.Reflection.MethodBody.IBlockExpression.ExceptionHandlers">
       <summary>
-            Gets the collection of exception handlers that protect the block.
+            Gets the collection of exception handlers that protect the block, in which the current block is in the <c>try</c> role.
             </summary>
     </member>
     <member name="P:PostSharp.Reflection.MethodBody.IBlockExpression.Items">
@@ -10237,6 +10533,11 @@
     <member name="P:PostSharp.Reflection.MethodBody.IBlockExpression.LocalVariables">
       <summary>
             Gets the collection of local variables defined for the current block.
+            </summary>
+    </member>
+    <member name="P:PostSharp.Reflection.MethodBody.IBlockExpression.ParentExceptionHandler">
+      <summary>
+            Gets the parent exception handler in the current block is in the <see cref="F:PostSharp.Reflection.MethodBody.ExceptionHandlerKind.Catch" />, <see cref="F:PostSharp.Reflection.MethodBody.ExceptionHandlerKind.Filter" /> or <see cref="F:PostSharp.Reflection.MethodBody.ExceptionHandlerKind.Finally" /> role.
             </summary>
     </member>
     <member name="T:PostSharp.Reflection.MethodBody.IConditionalExpression">
@@ -10271,7 +10572,7 @@
     </member>
     <member name="T:PostSharp.Reflection.MethodBody.ICopyBufferExpression">
       <summary>
-            Expression equivalent to the <see cref="F:System.Reflection.Emit.OpCodes.Cpblk" /> instruction.
+            Expression equivalent to the <see cref="!:OpCodes.Cpblk" /> instruction.
             </summary>
     </member>
     <member name="P:PostSharp.Reflection.MethodBody.ICopyBufferExpression.Alignment">
@@ -10304,6 +10605,11 @@
             Represents an exception handler (either <c>catch</c>, <c>finally</c> or <c>filter</c>) attached to a block.
             </summary>
     </member>
+    <member name="P:PostSharp.Reflection.MethodBody.IExceptionHandler.ExceptionHandlerKind">
+      <summary>
+            Gets the kind of exception handling clause.
+            </summary>
+    </member>
     <member name="P:PostSharp.Reflection.MethodBody.IExceptionHandler.ExceptionType">
       <summary>
             Gets the type of handled exception, or <c>null</c> if all exceptions are handled.
@@ -10327,6 +10633,11 @@
     <member name="P:PostSharp.Reflection.MethodBody.IExceptionHandler.HandlerLocalVariable">
       <summary>
             Gets the local variable containing the exception in the <see cref="P:PostSharp.Reflection.MethodBody.IExceptionHandler.HandlerBlock" />.
+            </summary>
+    </member>
+    <member name="P:PostSharp.Reflection.MethodBody.IExceptionHandler.TryBlock">
+      <summary>
+            Gets the <c>try</c> block.
             </summary>
     </member>
     <member name="T:PostSharp.Reflection.MethodBody.IExpression">
@@ -10378,7 +10689,7 @@
     </member>
     <member name="T:PostSharp.Reflection.MethodBody.IInitBufferExpression">
       <summary>
-            Expression equivalent to the <see cref="F:System.Reflection.Emit.OpCodes.Initblk" /> instruction.
+            Expression equivalent to the <see cref="!:OpCodes.Initblk" /> instruction.
             </summary>
     </member>
     <member name="P:PostSharp.Reflection.MethodBody.IInitBufferExpression.Alignment">
@@ -11006,21 +11317,6 @@
             Instruction block (<see cref="T:PostSharp.Reflection.MethodBody.IBlockExpression" />).
             </summary>
     </member>
-    <member name="F:PostSharp.Reflection.MethodBody.MethodBodyElementKind.CatchHandler">
-      <summary>
-            Catch exception handler (<see cref="T:PostSharp.Reflection.MethodBody.IExceptionHandler" />).
-            </summary>
-    </member>
-    <member name="F:PostSharp.Reflection.MethodBody.MethodBodyElementKind.FilterHandler">
-      <summary>
-            Filter exception handler (<see cref="T:PostSharp.Reflection.MethodBody.IExceptionHandler" />).
-            </summary>
-    </member>
-    <member name="F:PostSharp.Reflection.MethodBody.MethodBodyElementKind.FinallyHandler">
-      <summary>
-            Finally exception handler (<see cref="T:PostSharp.Reflection.MethodBody.IExceptionHandler" />).
-            </summary>
-    </member>
     <member name="F:PostSharp.Reflection.MethodBody.MethodBodyElementKind.MethodBody">
       <summary>
             Method body (<see cref="T:PostSharp.Reflection.MethodBody.IMethodBody" />).
@@ -11110,15 +11406,6 @@
           </include>
         </markup>
       </returns>
-    </member>
-    <member name="M:PostSharp.Reflection.MethodBody.MethodBodyFormatter.VisitExceptionHandler(PostSharp.Reflection.MethodBody.IExceptionHandler)">
-      <summary>
-            Visits an exception handler and, recursively, the <see cref="P:PostSharp.Reflection.MethodBody.IExceptionHandler.HandlerBlock" /> and <see cref="P:PostSharp.Reflection.MethodBody.IExceptionHandler.FilterBlock" />
-            (if any).
-            </summary>
-      <param name="exceptionHandler">The exception handler to be visited.</param>
-      <returns>
-        <paramref name="exceptionHandler" />, unless the override returns something else.</returns>
     </member>
     <member name="M:PostSharp.Reflection.MethodBody.MethodBodyFormatter.VisitFieldExpression(PostSharp.Reflection.MethodBody.IFieldExpression)">
       <summary>
@@ -11305,15 +11592,6 @@
           </include>
         </markup>
       </returns>
-    </member>
-    <member name="M:PostSharp.Reflection.MethodBody.MethodBodyVisitor.VisitExceptionHandler(PostSharp.Reflection.MethodBody.IExceptionHandler)">
-      <summary>
-            Visits an exception handler and, recursively, the <see cref="P:PostSharp.Reflection.MethodBody.IExceptionHandler.HandlerBlock" /> and <see cref="P:PostSharp.Reflection.MethodBody.IExceptionHandler.FilterBlock" />
-            (if any).
-            </summary>
-      <param name="exceptionHandler">The exception handler to be visited.</param>
-      <returns>
-        <paramref name="exceptionHandler" />, unless the override returns something else.</returns>
     </member>
     <member name="M:PostSharp.Reflection.MethodBody.MethodBodyVisitor.VisitFieldExpression(PostSharp.Reflection.MethodBody.IFieldExpression)">
       <summary>

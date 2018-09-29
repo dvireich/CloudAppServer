@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationService", "Au
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceLoadTaskQueue", "ServiceLoadTaskQueue\ServiceLoadTaskQueue.csproj", "{3BC43E4D-BAA6-48F9-AF82-850854D209D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfLogger", "WcfLogger\WcfLogger.csproj", "{22EA23A9-9ADC-4871-9304-8F4C284317C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{3BC43E4D-BAA6-48F9-AF82-850854D209D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BC43E4D-BAA6-48F9-AF82-850854D209D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BC43E4D-BAA6-48F9-AF82-850854D209D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22EA23A9-9ADC-4871-9304-8F4C284317C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22EA23A9-9ADC-4871-9304-8F4C284317C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22EA23A9-9ADC-4871-9304-8F4C284317C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22EA23A9-9ADC-4871-9304-8F4C284317C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

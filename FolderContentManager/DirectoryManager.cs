@@ -5,13 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FolderContentHelper.Interfaces;
-
+using PostSharp.Extensibility;
+using PostSharp.Patterns.Diagnostics;
 using Path = Pri.LongPath.Path;
 using Directory = Pri.LongPath.Directory;
 using DirectoryInfo = Pri.LongPath.DirectoryInfo;
 
 namespace FolderContentHelper
 {
+    [Log(AttributeTargetElements = MulticastTargets.Method, AttributeTargetTypeAttributes = MulticastAttributes.Public, AttributeTargetMemberAttributes = MulticastAttributes.Public)]
     public class DirectoryManager : IDirectoryManager
     {
         private void ValidateNameLength(string name)

@@ -35,7 +35,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PostSharp, Version=6.0.27.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
+      <HintPath>..\packages\PostSharp.Redist.6.0.27\lib\net45\PostSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PostSharp.Patterns.Common, Version=6.0.27.0, Culture=neutral, PublicKeyToken=e7f631e6ce13f078, processorArchitecture=MSIL">
+      <HintPath>..\packages\PostSharp.Patterns.Common.Redist.6.0.27\lib\net46\PostSharp.Patterns.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="PostSharp.Patterns.Diagnostics, Version=6.0.27.0, Culture=neutral, PublicKeyToken=e7f631e6ce13f078, processorArchitecture=MSIL">
+      <HintPath>..\packages\PostSharp.Patterns.Diagnostics.Redist.6.0.27\lib\net46\PostSharp.Patterns.Diagnostics.dll</HintPath>
+    </Reference>
+    <Reference Include="PostSharp.Patterns.Diagnostics.Backends.Log4Net, Version=6.0.27.0, Culture=neutral, PublicKeyToken=e7f631e6ce13f078, processorArchitecture=MSIL">
+      <HintPath>..\packages\PostSharp.Patterns.Diagnostics.Log4Net.6.0.27\lib\net40\PostSharp.Patterns.Diagnostics.Backends.Log4Net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -65,11 +80,16 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FolderContentManager\FolderContentManager.csproj">
       <Project>{752d469b-04b7-4548-8566-6daf162e4a83}</Project>
       <Name>FolderContentManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WcfLogger\WcfLogger.csproj">
+      <Project>{22EA23A9-9ADC-4871-9304-8F4C284317C6}</Project>
+      <Name>WcfLogger</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

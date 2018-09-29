@@ -14,6 +14,12 @@
             Initializes a new <see cref="T:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackend" />.
             </summary>
     </member>
+    <member name="M:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackend.#ctor(log4net.Repository.ILoggerRepository)">
+      <summary>
+            Initializes a new <see cref="T:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackend" />. 
+            </summary>
+      <param name="repository">Repository to store loggers in.</param>
+    </member>
     <member name="M:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackend.CreateRecordBuilder">
       <summary>
             Creates a new <see cref="T:PostSharp.Patterns.Diagnostics.RecordBuilders.LogRecordBuilder" />.
@@ -69,6 +75,11 @@
             Gets the back-end options.
             </summary>
     </member>
+    <member name="P:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackend.Repository">
+      <summary>
+            Gets the log4net repository from which the loggers are retrieved.
+            </summary>
+    </member>
     <member name="T:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackendOptions">
       <summary>
             Options for <see cref="T:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackend" />.
@@ -86,7 +97,7 @@
     <member name="P:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingBackendOptions.GetLogger">
       <summary>
             Function that returns a Log4Net <c>ILog</c> for a given <see cref="T:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingTypeSource" />.
-            The default implementation is to call <c>LogManager.GetLogger( typeSource.Role )</c>.
+            The default implementation is to call <c>LogManager.GetLogger( backend.Repository.Name, typeSource.Role )</c>.
             </summary>
     </member>
     <member name="T:PostSharp.Patterns.Diagnostics.Backends.Log4Net.Log4NetLoggingTypeSource">

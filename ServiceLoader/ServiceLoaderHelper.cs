@@ -5,9 +5,12 @@ using System.ServiceModel;
 using System.ServiceModel.Description;
 using AuthenticationService;
 using CloudAppServer;
+using PostSharp.Extensibility;
+using PostSharp.Patterns.Diagnostics;
 
 namespace ServiceLoader
 {
+    [Log(AttributeTargetElements = MulticastTargets.Method, AttributeTargetTypeAttributes = MulticastAttributes.Public, AttributeTargetMemberAttributes = MulticastAttributes.Public)]
     public static class ServiceLoaderHelper
     {
         private static readonly List<ServiceHost> OpenChannels = new List<ServiceHost>();
@@ -59,7 +62,7 @@ namespace ServiceLoader
         private static ServiceHost InitializeCORESServiceReferences<TC, TI>(string endpointName)
         {
             //Put Public ip of the server computer
-            var endpoint = $"http://192.168.1.14:80/{endpointName}";
+            var endpoint = $"http://localhost:80/{endpointName}";
             var uri = new Uri(endpoint);
 
             var serviceHost = new CorsEnabledServiceHost(typeof(TC), new []{uri});

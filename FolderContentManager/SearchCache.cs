@@ -6,9 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FolderContentHelper.Interfaces;
+using PostSharp.Extensibility;
+using PostSharp.Patterns.Diagnostics;
 
 namespace FolderContentHelper
 {
+    [Log(AttributeTargetElements = MulticastTargets.Method, AttributeTargetTypeAttributes = MulticastAttributes.Public, AttributeTargetMemberAttributes = MulticastAttributes.Public)]
     public class SearchCache : ISearchCache
     {
         private readonly ConcurrentDictionary<string, IFolderContent[]> _strSearchToResult;

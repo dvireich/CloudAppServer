@@ -9,3 +9,16 @@ C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\obj\Debug\CloudAppServ
 C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\obj\Debug\CloudAppServer.dll
 C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\obj\Debug\CloudAppServer.pdb
 C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\bin\Debug\Pri.LongPath.dll
+C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\bin\Debug\log4net.dll
+C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\bin\Debug\PostSharp.dll
+C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\bin\Debug\PostSharp.Patterns.Common.dll
+C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\bin\Debug\PostSharp.Patterns.Diagnostics.Backends.Log4Net.dll
+C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\bin\Debug\PostSharp.Patterns.Diagnostics.dll
+C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\bin\Debug\WcfLogger.dll
+C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\bin\Debug\WcfLogger.pdb
+C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\bin\Debug\WcfLogger.dll.config
+C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\bin\Debug\log4net.xml
+C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\bin\Debug\PostSharp.xml
+C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\bin\Debug\PostSharp.Patterns.Common.xml
+C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\bin\Debug\PostSharp.Patterns.Diagnostics.xml
+C:\Users\dvire\source\repos\CloudAppServer\CloudAppServer\bin\Debug\PostSharp.Patterns.Diagnostics.Backends.Log4Net.xml

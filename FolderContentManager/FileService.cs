@@ -7,9 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 using CloudAppServer.Model;
 using FolderContentManager.Model;
+using PostSharp.Extensibility;
+using PostSharp.Patterns.Diagnostics;
 
 namespace FolderContentHelper
 {
+    [Log(AttributeTargetElements = MulticastTargets.Method, AttributeTargetTypeAttributes = MulticastAttributes.Public, AttributeTargetMemberAttributes = MulticastAttributes.Public)]
     public sealed class FileService : IFileService
     {
         #region Singelton

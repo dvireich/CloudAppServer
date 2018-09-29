@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Symbols LinesOfCode="44" PostSharpLinesOfCode="0" EnhancedTypesCount="1" SchemaVersion="1" PostSharpVersion="6.0.27.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
+  <Class Class="#1=T:[PostSharp.Patterns.Diagnostics]PostSharp.Patterns.Diagnostics.LogAttribute">
+    <Instance Declaration="#2=M:[Program]Program.Program::CreateDataBase()" Id="4886ae8a00be2301">
+      <Target>
+        <JoinPoint Advising="#1" Description="#3=Adds logging" Ordinal="0" LinesAvoided="5" />
+      </Target>
+    </Instance>
+    <Instance Declaration="#4=M:[Program]Program.Program::RunAsConsole()" Id="4886ae8a8bf595aa">
+      <Target>
+        <JoinPoint Advising="#1" Description="#3" LinesAvoided="5" />
+      </Target>
+    </Instance>
+  </Class>
+</Symbols>

@@ -5,9 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using CloudAppServer.Model;
 using FolderContentHelper.Interfaces;
+using PostSharp.Extensibility;
+using PostSharp.Patterns.Diagnostics;
 
 namespace FolderContentHelper
 {
+    [Log(AttributeTargetElements = MulticastTargets.Method, AttributeTargetTypeAttributes = MulticastAttributes.Public, AttributeTargetMemberAttributes = MulticastAttributes.Public)]
     public class FolderContentFileManager : IFolderContentFileManager
     {
         private readonly IFileManager _fileManager;

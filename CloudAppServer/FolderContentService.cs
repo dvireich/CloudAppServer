@@ -10,6 +10,7 @@ using FolderContentHelper;
 using FolderContentHelper.Interfaces;
 using FolderContentHelper.Model;
 using FolderContentManager.Model;
+using WcfLogger;
 
 namespace CloudAppServer
 {
@@ -63,11 +64,13 @@ namespace CloudAppServer
             fixedPath = path.Replace("\"", "");
         }
 
+        [WcfLogging]
         public bool Ping()
         {
             return true;
         }
 
+        [WcfLogging]
         public void Logout()
         {
             var endpoint = OperationContext.Current.EndpointDispatcher.EndpointAddress.ToString();
@@ -75,6 +78,7 @@ namespace CloudAppServer
             FolderContentManagerToClient.Instance.RemoveClient(userId);
         }
 
+        [WcfLogging]
         public string GetFolderContent(PageRequest pageRequest)
         {
             if (pageRequest == null) return string.Empty;
@@ -86,6 +90,7 @@ namespace CloudAppServer
             });
         }
 
+        [WcfLogging]
         public int GetNumberOfPage(NumberOfPageRequest numberOfPageRequest)
         {
             if (numberOfPageRequest == null) return -1;
@@ -96,11 +101,13 @@ namespace CloudAppServer
             });
         }
 
+        [WcfLogging]
         public int GetRequestId()
         {
             return Perform(() => _fileService.GetRequestId());
         }
 
+        [WcfLogging]
         public void CreateNewFolder(FolderContentObj newFolder)
         {
             Perform(() =>
@@ -110,6 +117,7 @@ namespace CloudAppServer
             });
         }
 
+        [WcfLogging]
         public void DeleteFolder(FolderContentObj folder)
         {
             Perform(() =>
@@ -119,6 +127,7 @@ namespace CloudAppServer
             });
         }
 
+        [WcfLogging]
         public void DeleteFile(FolderContentObj file)
         {
             Perform(() =>
@@ -128,7 +137,7 @@ namespace CloudAppServer
             });
         }
 
-
+        [WcfLogging]
         public void Rename(FolderContentRenameObj folderContent)
         {
             Perform(() =>
@@ -139,6 +148,7 @@ namespace CloudAppServer
             });
         }
 
+        [WcfLogging]
         public void Copy(FolderContentCopyObj folderContent)
         {
             Perform(() =>
@@ -150,6 +160,7 @@ namespace CloudAppServer
             });
         }
 
+        [WcfLogging]
         public void CreateFile(CreateFolderContentFileObj folderContent)
         {
             Perform(() =>
@@ -187,6 +198,7 @@ namespace CloudAppServer
             });
         }
 
+        [WcfLogging]
         public void ClearUpload(int requestId)
         {
             Perform(() =>
@@ -196,6 +208,7 @@ namespace CloudAppServer
             });
         }
 
+        [WcfLogging]
         public int GetFileRequestId(GetFileRequest getFileRequest)
         {
             if (getFileRequest == null) return -1;
@@ -215,6 +228,7 @@ namespace CloudAppServer
             });
         }
 
+        [WcfLogging(LogReturnVal = false)]
         public Stream GetFile(string requestId)
         {
             requestId = requestId.Replace("\"", "");
@@ -226,6 +240,7 @@ namespace CloudAppServer
             return downloadData.FileStream;
         }
 
+        [WcfLogging]
         public string Search(SearchRequest searchRequest)
         {
             if (searchRequest == null) return string.Empty;

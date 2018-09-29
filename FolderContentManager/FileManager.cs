@@ -2,11 +2,13 @@
 using System.IO;
 using System.Linq;
 using System.Web.Script.Serialization;
-
+using PostSharp.Extensibility;
+using PostSharp.Patterns.Diagnostics;
 using File = Pri.LongPath.File;
 
 namespace FolderContentHelper
 {
+    [Log(AttributeTargetElements = MulticastTargets.Method, AttributeTargetTypeAttributes = MulticastAttributes.Public, AttributeTargetMemberAttributes = MulticastAttributes.Public)]
     public class FileManager : IFileManager
     {
         private readonly JavaScriptSerializer _serializer;
