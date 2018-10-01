@@ -10,6 +10,6 @@ namespace FolderContentManager.Model
     public class FileDownloadData
     {
         public string FileName;
-        public Stream FileStream;
+        public string FilePath;
     }
 }

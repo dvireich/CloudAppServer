@@ -22,7 +22,7 @@ namespace CloudAppServer.Model
         {
             if (Type == FolderContentType.File)
             {
-                return new FileObj(Name, Path, FileType, new string[0], Size, CreationTime, ModificationTime);
+                return new FileObj(Name, Path, FileType, Size, CreationTime, ModificationTime);
             }
 
             return new FolderContent(Name, Path, Type, CreationTime, ModificationTime);

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Web.Script.Serialization;
@@ -166,17 +169,12 @@ namespace CloudAppServer
             Perform(() =>
             {
                 if (folderContent == null) return;
-                var values = new string[folderContent.NumOfChunks];
-                for (var i = 0; i < values.Length; i++)
-                {
-                    values[i] = null;
-                }
 
-                _fileService.CreateFile(folderContent.RequestId, new FileObj(folderContent.Name,
+                _fileService.CreateFile(folderContent.RequestId, new TmpFileObj(folderContent.Name,
                     folderContent.Path,
                     folderContent.FileType,
-                    values,
-                    folderContent.Size));
+                    folderContent.Size,
+                    new bool[folderContent.NumOfChunks]));
             });
         }
 
@@ -194,7 +192,7 @@ namespace CloudAppServer
                 var file = _fileService.GetFile(folderContent.RequestId);
                 if (file == null) return;
 
-                _folderContentManager.CreateFile(file.Name, file.Path, file.FileType, file.Value, file.Size);
+                _folderContentManager.CreateFile(file.Name, file.Path, file.FileType, file.TmpCreationPath, file.Size);
             });
         }
 
@@ -215,12 +213,11 @@ namespace CloudAppServer
             return Perform(() =>
             {
                 FixNameAndPath(getFileRequest.Name, getFileRequest.Path, out var fixedName, out var fixedPath);
-                var file = _folderContentManager.GetFile(fixedName, FixPath(fixedPath));
                 var requestId = _fileService.GetRequestIdForDownload();
                 var downloadData = new FileDownloadData()
                 {
                     FileName = fixedName,
-                    FileStream = file
+                    FilePath = FixPath(fixedPath)
                 };
                 _fileService.PrepareFileToDownload(requestId, downloadData);
 
@@ -233,11 +230,21 @@ namespace CloudAppServer
         {
             requestId = requestId.Replace("\"", "");
             var downloadData = _fileService.GetDownloadFileData(int.Parse(requestId));
-            WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Disposition",
-                "attachment; filename=" + downloadData.FileName);
-            WebOperationContext.Current.OutgoingResponse.ContentLength = downloadData.FileStream.Length;
+            var file = _folderContentManager.GetFile(downloadData.FileName, downloadData.FilePath);
+            if (WebOperationContext.Current != null)
+            {
+                WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Disposition",
+                    "attachment; filename=" + downloadData.FileName);
+                WebOperationContext.Current.OutgoingResponse.ContentType = "application/octet-stream";
+                WebOperationContext.Current.OutgoingResponse.ContentLength = file.Length;
+            }
 
-            return downloadData.FileStream;
+            var clientContext = OperationContext.Current;
+            clientContext.OperationCompleted += delegate
+            {
+                file?.Dispose();
+            };
+            return file;
         }
 
         [WcfLogging]

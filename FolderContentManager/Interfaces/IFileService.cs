@@ -4,17 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CloudAppServer.Model;
+using FolderContentManager.Interfaces;
 using FolderContentManager.Model;
 
 namespace FolderContentHelper
 {
     public interface IFileService
     {
-        void CreateFile(int requestId, IFile file);
+        void CreateFile(int requestId, ITmpFile file);
 
         void UpdateFileValue(int requestId, int index, string value);
 
-        IFile GetFile(int requestId);
+        ITmpFile GetFile(int requestId);
 
         void Finish(int requestId);
 

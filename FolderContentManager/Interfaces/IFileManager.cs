@@ -13,7 +13,7 @@ namespace FolderContentHelper
 
         void WriteJson(string path, object obj);
 
-        void WriteFileContent(string path, string[] value);
+        void WriteFileContent(string path, string tmpFilePath);
 
         Stream GetFile(string path);
 

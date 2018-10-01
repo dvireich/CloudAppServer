@@ -22,7 +22,13 @@ namespace ServiceLoader
 
         protected override void OnOpening()
         {
-            ServiceEndpoint endpoint = this.AddServiceEndpoint(this.contractType, new WebHttpBinding(), "");
+
+            ServiceEndpoint endpoint = this.AddServiceEndpoint(this.contractType, new WebHttpBinding()
+            {
+                MaxReceivedMessageSize = int.MaxValue,
+                MaxBufferSize = int.MaxValue,
+                MaxBufferPoolSize = int.MaxValue
+            }, "");
 
             List<OperationDescription> corsEnabledOperations = endpoint.Contract.Operations
                 .Where(o => o.Behaviors.Find<CorsEnabledAttribute>() != null)

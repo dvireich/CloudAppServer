@@ -196,10 +196,10 @@ namespace FolderContentHelper
             }
         }
 
-        public void CreateFile(string name, string path, string fileType, string[] value, long size)
+        public void CreateFile(string name, string path, string fileType, string tmpCreationPath, long size)
         {
             _searchCache.ClearCache();
-           _folderContentFileManager.CreateFile(name, path, fileType, value, size);
+           _folderContentFileManager.CreateFile(name, path, fileType, tmpCreationPath, size);
         }
 
         public Stream GetFile(string name, string path)

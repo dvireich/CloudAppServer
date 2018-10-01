@@ -20,7 +20,7 @@ namespace FolderContentHelper.Interfaces
         void Copy(string copyObjName, string copyObjPath, string copyObjTypeStr, string copyToName,
             string copyToPath);
 
-        void CreateFile(string name, string path, string fileType, string[] value, long size);
+        void CreateFile(string name, string path, string fileType, string tmpCreationPath, long size);
 
         Stream GetFile(string name, string path);
 

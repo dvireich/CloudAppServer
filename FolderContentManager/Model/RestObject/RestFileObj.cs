@@ -10,12 +10,11 @@ namespace CloudAppServer.Model
     public class RestFileObj : RestFolderContent
     {
         public string FileType { get; set; }
-        public string[] Value { get; set; }
         public long Size { get; set; }
 
         public IFile MapToIFileContent()
         {
-            return new FileObj(Name, Path, FileType, Value, Size , CreationTime, ModificationTime);
+            return new FileObj(Name, Path, FileType, Size , CreationTime, ModificationTime);
         }
     }
 }

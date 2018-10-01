@@ -8,7 +8,7 @@ namespace FolderContentHelper.Interfaces
 {
     public interface IFolderContentFileManager
     {
-        void CreateFile(string name, string path, string fileType, string[] value, long size);
+        void CreateFile(string name, string path, string fileType, string tmpCreationPath, long size);
 
         void DeleteFile(string name, string path, int page);
 

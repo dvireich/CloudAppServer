@@ -13,6 +13,5 @@ namespace CloudAppServer.Model
     public interface IFile : IFolderContent, IFileTrackInfo
     {
         string FileType { get; set; }
-        string[] Value { get; set; }
     }
 }

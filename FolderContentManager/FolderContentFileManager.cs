@@ -40,9 +40,9 @@ namespace FolderContentHelper
             _fileManager = new FileManager();
         }
 
-        public void CreateFile(string name, string path, string fileType, string[] value, long size)
+        public void CreateFile(string name, string path, string fileType, string tmpCreationPath, long size)
         {
-            var file = new FileObj(name, path, fileType, new string[0], size);
+            var file = new FileObj(name, path, fileType, size);
             var parent = _folderContentFolderManager.GetParentFolder(file);
             _folderContentPageManager.ValidateNameInPages(parent, file);
 
@@ -50,7 +50,7 @@ namespace FolderContentHelper
                 file);
 
             _fileManager.WriteFileContent(CreateFilePath(name, path),
-                value);
+                                          tmpCreationPath);
 
             _folderContentFolderManager.UpdateNextPageToWrite(parent);
 

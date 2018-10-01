@@ -50,7 +50,7 @@ namespace FolderContentHelper
             }
         }
 
-        public void WriteFileContent(string path, string[] value)
+        public void WriteFileContent(string path, string tmpFilePath)
         {
             var name = path.Split('\\').Last();
             ValidateNameLength(name);
@@ -60,31 +60,36 @@ namespace FolderContentHelper
                 File.Delete(path);
             }
 
-            using (var file = new BinaryWriter(File.Create(path)))
-            {
-                foreach (var s in value)
+            using (var tmpFile = new StreamReader(tmpFilePath))
+            { 
+                using (var file = new BinaryWriter(File.Create(path)))
                 {
-                    var bytesToWrite = Convert.FromBase64String(s);
-                    file.Write(bytesToWrite);
-                    file.Flush();
+                    string line;
+                    while (( line = tmpFile.ReadLine()) != null)
+                    {
+                        var bytesToWrite = Convert.FromBase64String(line);
+                        file.Write(bytesToWrite);
+                        file.Flush();
+                    }
                 }
             }
         }
 
         public Stream GetFile(string path)
         {
-            var f = new FileStream(path, FileMode.Open);
-            int length = (int) f.Length;
-            byte[] buffer = new byte[length];
-            int sum = 0;
-            int count;
-            while ((count = f.Read(buffer, sum, length - sum)) > 0)
-            {
-                sum += count;
-            }
+            //var f = new FileStream(path, FileMode.Open);
+            //int length = (int) f.Length;
+            //byte[] buffer = new byte[length];
+            //int sum = 0;
+            //int count;
+            //while ((count = f.Read(buffer, sum, length - sum)) > 0)
+            //{
+            //    sum += count;
+            //}
 
-            f.Close();
-            return new MemoryStream(buffer);
+            //f.Close();
+            //return new MemoryStream(buffer);
+            return File.OpenRead(path);
         }
 
         public void Delete(string path)

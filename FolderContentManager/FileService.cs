@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CloudAppServer.Model;
+using FolderContentManager.Interfaces;
 using FolderContentManager.Model;
 using PostSharp.Extensibility;
 using PostSharp.Patterns.Diagnostics;
@@ -22,9 +23,11 @@ namespace FolderContentHelper
         private FileService()
         {
             _requestIdToFileStream = new ConcurrentDictionary<int, FileDownloadData>();
-            this._requestIdToFiles = new ConcurrentDictionary<int, IFile>();
+            this._requestIdToFiles = new ConcurrentDictionary<int, ITmpFile>();
+            _requestIdToStreamWriter = new ConcurrentDictionary<int, StreamWriter>();
         }
 
+        [Log(AttributeExclude = true)]
         public static FileService Instance
         {
             get
@@ -37,20 +40,35 @@ namespace FolderContentHelper
         }
         #endregion Singelton
 
-        private readonly ConcurrentDictionary<int, IFile> _requestIdToFiles;
+        private readonly ConcurrentDictionary<int, ITmpFile> _requestIdToFiles;
         private readonly ConcurrentDictionary<int, FileDownloadData> _requestIdToFileStream;
+        private readonly ConcurrentDictionary<int, StreamWriter> _requestIdToStreamWriter;
 
-        public void CreateFile(int requestId, IFile file)
+        public void CreateFile(int requestId, ITmpFile file)
         {
             _requestIdToFiles[requestId] = file;
+            if (string.IsNullOrEmpty(file.TmpCreationPath))
+            {
+                file.TmpCreationPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+            }
+
+            _requestIdToStreamWriter[requestId] = new StreamWriter(file.TmpCreationPath);
         }
 
+        [Log(AttributeExclude = true)]
         public void UpdateFileValue(int requestId, int index,  string value)
         {
             try
             {
                 var file = _requestIdToFiles[requestId];
-                file.Value[index] = value;
+                file.ValueChunks[index] = true;
+                var sr = _requestIdToStreamWriter[requestId];
+                sr.WriteLine(value.ToCharArray());
+
+                if (!IsFileFullyUploaded(requestId)) return;
+                _requestIdToStreamWriter[requestId].Close();
+                _requestIdToStreamWriter.TryRemove(requestId, out var streamWriter);
+
             }
             catch (Exception e)
             {
@@ -58,7 +76,7 @@ namespace FolderContentHelper
             }
         }
 
-        public IFile GetFile(int requestId)
+        public ITmpFile GetFile(int requestId)
         {
             try
             {
@@ -97,12 +115,13 @@ namespace FolderContentHelper
             } 
         }
 
+        [Log(AttributeExclude = true)]
         public bool IsFileFullyUploaded(int requestId)
         {
             if (!_requestIdToFiles.ContainsKey(requestId)) return true;
 
             var file = _requestIdToFiles[requestId];
-            return file.Value.All(element => element != null);
+            return file.ValueChunks.All(element => element);
         }
 
         public int GetRequestIdForDownload()
@@ -130,8 +149,10 @@ namespace FolderContentHelper
 
         public FileDownloadData GetDownloadFileData(int requestId)
         {
-            _requestIdToFileStream.TryRemove(requestId, out var fileDownloadData);
-            return fileDownloadData;
+            //_requestIdToFileStream.TryRemove(requestId, out var fileDownloadData);
+            //return fileDownloadData;
+
+            return _requestIdToFileStream[requestId];
         }
     }
 }
