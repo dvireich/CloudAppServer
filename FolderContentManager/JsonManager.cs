@@ -49,6 +49,13 @@ namespace FolderContentHelper
                 _fileManager.ReadJson<RestFolderPageObj>(CreateFolderPageJsonPath(folder.Name, folder.Path, page)).MapToIFolderPage();
         }
 
+        public IFile GetFileObj(string name, string path)
+        {
+            return !IsFolderContentExist(name, path, FolderContentType.File) ?
+                null :
+                _fileManager.ReadJson<RestFileObj>(CreateJsonPath(name, path, FolderContentType.File)).MapToIFileContent();
+        }
+
         public IFolderContent GetFolderIfFolderType(IFolderContent folderContent)
         {
             return folderContent.Type == FolderContentType.Folder ? GetFolder(folderContent.Name, folderContent.Path) : folderContent;

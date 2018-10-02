@@ -31,5 +31,7 @@ namespace FolderContentHelper.Interfaces
         IFolderPage GetFolderPage(string name, string path, int page);
 
         IFolderContent[] Search(string name, int page);
+
+        IFile GetFileObj(string name, string path);
     }
 }

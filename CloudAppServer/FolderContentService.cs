@@ -227,21 +227,21 @@ namespace CloudAppServer
         {
             requestId = requestId.Replace("\"", "");
             var downloadData = _fileService.GetDownloadFileData(int.Parse(requestId));
-            var file = _folderContentManager.GetFile(downloadData.FileName, downloadData.FilePath);
+            var fileStream = _folderContentManager.GetFile(downloadData.FileName, downloadData.FilePath);
             if (WebOperationContext.Current != null)
             {
                 WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Disposition",
                     "attachment; filename=" + downloadData.FileName);
                 WebOperationContext.Current.OutgoingResponse.ContentType = "application/octet-stream";
-                WebOperationContext.Current.OutgoingResponse.ContentLength = file.Length;
+                WebOperationContext.Current.OutgoingResponse.ContentLength = fileStream.Length;
             }
 
             OperationContext clientContext = OperationContext.Current;
             clientContext.OperationCompleted += delegate
             {
-                file?.Dispose();
+                fileStream?.Dispose();
             };
-            return file;
+            return fileStream;
         }
 
         [WcfLogging]

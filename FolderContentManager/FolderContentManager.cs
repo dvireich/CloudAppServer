@@ -240,6 +240,11 @@ namespace FolderContentHelper
             return _jsonManager.GetFolderPage(folder, page);
         }
 
+        public IFile GetFileObj(string name, string path)
+        {
+            return _jsonManager.GetFileObj(name, path);
+        }
+
         public IFolderContent[] Search(string name, int page)
         {
             var numOfElementToSkip = (page - 1 ) * _constance.MaxFolderContentOnPage;

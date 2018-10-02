@@ -27,7 +27,8 @@ namespace ServiceLoader
             {
                 MaxReceivedMessageSize = int.MaxValue,
                 MaxBufferSize = int.MaxValue,
-                MaxBufferPoolSize = int.MaxValue
+                MaxBufferPoolSize = int.MaxValue,
+                TransferMode = TransferMode.StreamedResponse
             }, "");
 
             List<OperationDescription> corsEnabledOperations = endpoint.Contract.Operations

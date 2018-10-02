@@ -18,6 +18,8 @@ namespace FolderContentHelper.Interfaces
 
         IFolderContent GetFolderIfFolderType(IFolderContent folderContent);
 
+        IFile GetFileObj(string name, string path);
+
         bool IsFolderContentExist(string name, string path, FolderContentType type);
 
         bool IsFolderPageExist(string name, string path, int page);
