@@ -16323,3 +16323,145 @@
 2018-10-02 20:08:19,588 [12] DEBUG Trace - FolderContentManager.GetFolderPage("home", "", 1) | Succeeded, returnValue = {FolderContentHelper.Model.FolderPage}.
 2018-10-02 20:08:19,589 [12] DEBUG WcfLogger.Log4netLoggingStrategy - 10/02/2018 08:08:19.5884 PM | Operation: GetFolderContent | Log type: Result | Return value: {"Name":"home","Path":"","Type":3,"Content":[{"FileType":"","Size":1755849970,"Name":"big file.rar","Path":"home","Type":0,"CreationTime":"02/10/2018 20:03:45","ModificationTime":"02/10/2018 20:03:45"},{"Name":"dvir","Path":"home","Type":1,"CreationTime":"02/10/2018 20:08:19","ModificationTime":"02/10/2018 20:08:19"}],"CreationTime":null,"ModificationTime":null} | 
 
+2018-10-02 20:09:00,132 [17] DEBUG WcfLogger.Log4netLoggingStrategy - 10/02/2018 08:09:00.1326 PM | Caller Ip: ::1 | Caller Port: 54182 | Operation: Logout | Log type: Invoke | 
+
+2018-10-02 20:09:06,337 [15] DEBUG Trace - ConnectecClients.get_Instance() | Starting.
+2018-10-02 20:09:06,338 [15] DEBUG Trace - ConnectecClients.get_Instance() | Succeeded, returnValue = {AuthenticationService.ConnectecClients}.
+2018-10-02 20:09:06,339 [15] DEBUG WcfLogger.Log4netLoggingStrategy - 10/02/2018 08:09:06.3391 PM | Caller Ip: ::1 | Caller Port: 54234 | Operation: Authenticate | Log type: Invoke | Inputs: userName=dvir; password=1234 | 
+
+2018-10-02 20:09:06,339 [15] DEBUG Trace - Authentication.Authenticate("dvir", *******) | Starting.
+2018-10-02 20:09:06,340 [15] DEBUG Trace -   Authentication.Perform({System.Func`1[System.String]}) | Starting.
+2018-10-02 20:09:06,340 [15] DEBUG Trace -     AuthenticationManager.Authenticate("dvir", *******) | Starting.
+2018-10-02 20:09:06,341 [15] DEBUG Trace -       UserRepositoryFactory.GetUserRepository() | Starting.
+2018-10-02 20:09:06,344 [15] DEBUG Trace -       UserRepositoryFactory.GetUserRepository() | Succeeded, returnValue = {DBManager.UserRepository}.
+2018-10-02 20:09:06,344 [15] DEBUG Trace -       UserRepository.CheckUserNameAndPassword("dvir", *******, <out>) | Starting.
+2018-10-02 20:09:06,345 [15] DEBUG Trace -         UserRepository.CheckUserNameExists("dvir") | Starting.
+2018-10-02 20:09:06,415 [15] DEBUG Trace -         UserRepository.CheckUserNameExists("dvir") | Succeeded, returnValue = true.
+2018-10-02 20:09:06,415 [15] DEBUG Trace -       UserRepository.CheckUserNameAndPassword("dvir", *******, <out>) | Succeeded, user = {DBManager.User}, returnValue = true.
+2018-10-02 20:09:06,417 [15] DEBUG Trace -       ConnectecClients.Contains("9ff84740-37b5-447a-a156-961af6a33ffc") | Starting.
+2018-10-02 20:09:06,417 [15] DEBUG Trace -       ConnectecClients.Contains("9ff84740-37b5-447a-a156-961af6a33ffc") | Succeeded, returnValue = true.
+2018-10-02 20:09:06,428 [15] WARN Trace -     AuthenticationManager.Authenticate("dvir", *******) | Failed, exception = {Exception}.
+2018-10-02 20:09:06,441 [15] WARN Trace -   Authentication.Perform({System.Func`1[System.String]}) | Failed, exception = {System.ServiceModel.Web.WebFaultException<string>}.
+2018-10-02 20:09:06,441 [15] WARN Trace - Authentication.Authenticate("dvir", *******) | Failed, exception = {System.ServiceModel.Web.WebFaultException<string>}.
+2018-10-02 20:09:10,136 [17] DEBUG Trace - ConnectecClients.Remove("9ff84740-37b5-447a-a156-961af6a33ffc") | Starting.
+2018-10-02 20:09:10,136 [17] DEBUG Trace - ConnectecClients.Remove("9ff84740-37b5-447a-a156-961af6a33ffc") | Succeeded.
+2018-10-02 20:09:10,136 [17] DEBUG WcfLogger.Log4netLoggingStrategy - 10/02/2018 08:09:10.1366 PM | Operation: Logout | Log type: Result | 
+
+2018-10-02 20:09:16,976 [19] DEBUG Trace - ConnectecClients.get_Instance() | Starting.
+2018-10-02 20:09:16,976 [19] DEBUG Trace - ConnectecClients.get_Instance() | Succeeded, returnValue = {AuthenticationService.ConnectecClients}.
+2018-10-02 20:09:16,978 [19] DEBUG WcfLogger.Log4netLoggingStrategy - 10/02/2018 08:09:16.9782 PM | Caller Ip: ::1 | Caller Port: 54234 | Operation: Authenticate | Log type: Invoke | Inputs: userName=dvir; password=1234 | 
+
+2018-10-02 20:09:16,979 [19] DEBUG Trace - Authentication.Authenticate("dvir", *******) | Starting.
+2018-10-02 20:09:16,979 [19] DEBUG Trace -   Authentication.Perform({System.Func`1[System.String]}) | Starting.
+2018-10-02 20:09:16,979 [19] DEBUG Trace -     AuthenticationManager.Authenticate("dvir", *******) | Starting.
+2018-10-02 20:09:16,980 [19] DEBUG Trace -       UserRepositoryFactory.GetUserRepository() | Starting.
+2018-10-02 20:09:16,982 [19] DEBUG Trace -       UserRepositoryFactory.GetUserRepository() | Succeeded, returnValue = {DBManager.UserRepository}.
+2018-10-02 20:09:16,982 [19] DEBUG Trace -       UserRepository.CheckUserNameAndPassword("dvir", *******, <out>) | Starting.
+2018-10-02 20:09:16,982 [19] DEBUG Trace -         UserRepository.CheckUserNameExists("dvir") | Starting.
+2018-10-02 20:09:17,053 [19] DEBUG Trace -         UserRepository.CheckUserNameExists("dvir") | Succeeded, returnValue = true.
+2018-10-02 20:09:17,054 [19] DEBUG Trace -       UserRepository.CheckUserNameAndPassword("dvir", *******, <out>) | Succeeded, user = {DBManager.User}, returnValue = true.
+2018-10-02 20:09:17,055 [19] DEBUG Trace -       ConnectecClients.Contains("9ff84740-37b5-447a-a156-961af6a33ffc") | Starting.
+2018-10-02 20:09:17,056 [19] DEBUG Trace -       ConnectecClients.Contains("9ff84740-37b5-447a-a156-961af6a33ffc") | Succeeded, returnValue = false.
+2018-10-02 20:09:17,056 [19] DEBUG Trace -       ConnectecClients.Add("9ff84740-37b5-447a-a156-961af6a33ffc") | Starting.
+2018-10-02 20:09:17,056 [19] DEBUG Trace -       ConnectecClients.Add("9ff84740-37b5-447a-a156-961af6a33ffc") | Succeeded.
+2018-10-02 20:09:17,056 [19] DEBUG Trace -     AuthenticationManager.Authenticate("dvir", *******) | Succeeded, returnValue = "9ff84740-37b5-447a-a156-961af6a33ffc".
+2018-10-02 20:09:17,057 [19] DEBUG Trace -   Authentication.Perform({System.Func`1[System.String]}) | Succeeded, returnValue = "9ff84740-37b5-447a-a156-961af6a33ffc".
+2018-10-02 20:09:17,057 [19] DEBUG Trace - Authentication.Authenticate("dvir", *******) | Succeeded, returnValue = "9ff84740-37b5-447a-a156-961af6a33ffc".
+2018-10-02 20:09:17,057 [19] DEBUG WcfLogger.Log4netLoggingStrategy - 10/02/2018 08:09:17.0577 PM | Operation: Authenticate | Log type: Result | Return value: 9ff84740-37b5-447a-a156-961af6a33ffc | 
+
+2018-10-02 20:09:17,187 [1] DEBUG Trace -   ServiceLoaderHelper.LoadCloudAppService("9ff84740-37b5-447a-a156-961af6a33ffc", {System.Action}) | Starting.
+2018-10-02 20:09:17,187 [1] DEBUG Trace -     DirectoryManager.Exists("C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc") | Starting.
+2018-10-02 20:09:17,188 [1] DEBUG Trace -     DirectoryManager.Exists("C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc") | Succeeded, returnValue = true.
+2018-10-02 20:09:17,188 [1] DEBUG Trace -     FolderContentFolderManager.CreateFolderPath("home", "") | Starting.
+2018-10-02 20:09:17,189 [1] DEBUG Trace -     FolderContentFolderManager.CreateFolderPath("home", "") | Succeeded, returnValue = "C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc\home".
+2018-10-02 20:09:17,189 [1] DEBUG Trace -     DirectoryManager.Exists("C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc\home") | Starting.
+2018-10-02 20:09:17,190 [1] DEBUG Trace -     DirectoryManager.Exists("C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc\home") | Succeeded, returnValue = true.
+2018-10-02 20:09:17,198 [1] DEBUG Trace -   ServiceLoaderHelper.LoadCloudAppService("9ff84740-37b5-447a-a156-961af6a33ffc", {System.Action}) | Succeeded.
+2018-10-02 20:09:17,199 [4] DEBUG WcfLogger.Log4netLoggingStrategy - 10/02/2018 08:09:17.1991 PM | Caller Ip: ::1 | Caller Port: 54966 | Operation: Ping | Log type: Invoke | 
+
+2018-10-02 20:09:17,200 [4] DEBUG WcfLogger.Log4netLoggingStrategy - 10/02/2018 08:09:17.2001 PM | Operation: Ping | Log type: Result | Return value: True | 
+
+2018-10-02 20:09:17,227 [4] DEBUG WcfLogger.Log4netLoggingStrategy - 10/02/2018 08:09:17.2272 PM | Caller Ip: ::1 | Caller Port: 54966 | Operation: GetNumberOfPage | Log type: Invoke | Inputs: numberOfPageRequest=null | 
+
+2018-10-02 20:09:17,228 [4] DEBUG WcfLogger.Log4netLoggingStrategy - 10/02/2018 08:09:17.2282 PM | Operation: GetNumberOfPage | Log type: Result | Return value: -1 | 
+
+2018-10-02 20:09:17,231 [4] DEBUG WcfLogger.Log4netLoggingStrategy - 10/02/2018 08:09:17.2312 PM | Caller Ip: ::1 | Caller Port: 54967 | Operation: GetFolderContent | Log type: Invoke | Inputs: pageRequest=null | 
+
+2018-10-02 20:09:17,231 [4] DEBUG WcfLogger.Log4netLoggingStrategy - 10/02/2018 08:09:17.2312 PM | Operation: GetFolderContent | Log type: Result | 
+
+2018-10-02 20:09:17,247 [4] DEBUG WcfLogger.Log4netLoggingStrategy - 10/02/2018 08:09:17.2472 PM | Caller Ip: ::1 | Caller Port: 54967 | Operation: GetNumberOfPage | Log type: Invoke | Inputs: numberOfPageRequest={Name=home, Path=} | 
+
+2018-10-02 20:09:17,248 [4] DEBUG Trace - FolderContentManager.GetNumOfFolderPages("home", "") | Starting.
+2018-10-02 20:09:17,248 [4] DEBUG Trace -   JsonManager.IsFolderContentExist("home", "", {Folder}) | Starting.
+2018-10-02 20:09:17,248 [4] DEBUG Trace -     JsonManager.CreateJsonPath("home", "", {Folder}) | Starting.
+2018-10-02 20:09:17,249 [4] DEBUG Trace -     JsonManager.CreateJsonPath("home", "", {Folder}) | Succeeded, returnValue = "C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc\homeFolder.json".
+2018-10-02 20:09:17,249 [12] DEBUG WcfLogger.Log4netLoggingStrategy - 10/02/2018 08:09:17.2492 PM | Caller Ip: ::1 | Caller Port: 54966 | Operation: GetFolderContent | Log type: Invoke | Inputs: pageRequest={Name=home, Path=, Page=1} | 
+
+2018-10-02 20:09:17,250 [4] DEBUG Trace -     FileManager.Exists("C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc\homeFolder.json") | Starting.
+2018-10-02 20:09:17,251 [4] DEBUG Trace -     FileManager.Exists("C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc\homeFolder.json") | Succeeded, returnValue = true.
+2018-10-02 20:09:17,251 [4] DEBUG Trace -   JsonManager.IsFolderContentExist("home", "", {Folder}) | Succeeded, returnValue = true.
+2018-10-02 20:09:17,252 [4] DEBUG Trace -   JsonManager.CreateJsonPath("home", "", {Folder}) | Starting.
+2018-10-02 20:09:17,252 [4] DEBUG Trace -   JsonManager.CreateJsonPath("home", "", {Folder}) | Succeeded, returnValue = "C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc\homeFolder.json".
+2018-10-02 20:09:17,252 [4] DEBUG Trace -   FileManager.ReadJson("C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc\homeFolder.json") | Starting.
+2018-10-02 20:09:17,253 [4] DEBUG Trace -   FileManager.ReadJson("C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc\homeFolder.json") | Succeeded, returnValue = {CloudAppServer.Model.RestFolderObj}.
+2018-10-02 20:09:17,254 [4] DEBUG Trace - FolderContentManager.GetNumOfFolderPages("home", "") | Succeeded, returnValue = 1.
+2018-10-02 20:09:17,254 [4] DEBUG WcfLogger.Log4netLoggingStrategy - 10/02/2018 08:09:17.2542 PM | Operation: GetNumberOfPage | Log type: Result | Return value: 1 | 
+
+2018-10-02 20:09:17,259 [12] DEBUG Trace - FolderContentManager.GetFolderPage("home", "", 1) | Starting.
+2018-10-02 20:09:17,260 [12] DEBUG Trace -   JsonManager.GetFolder("home", "") | Starting.
+2018-10-02 20:09:17,260 [12] DEBUG Trace -     JsonManager.IsFolderContentExist("home", "", {Folder}) | Starting.
+2018-10-02 20:09:17,261 [12] DEBUG Trace -       JsonManager.CreateJsonPath("home", "", {Folder}) | Starting.
+2018-10-02 20:09:17,261 [12] DEBUG Trace -       JsonManager.CreateJsonPath("home", "", {Folder}) | Succeeded, returnValue = "C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc\homeFolder.json".
+2018-10-02 20:09:17,262 [12] DEBUG Trace -       FileManager.Exists("C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc\homeFolder.json") | Starting.
+2018-10-02 20:09:17,263 [12] DEBUG Trace -       FileManager.Exists("C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc\homeFolder.json") | Succeeded, returnValue = true.
+2018-10-02 20:09:17,264 [12] DEBUG Trace -     JsonManager.IsFolderContentExist("home", "", {Folder}) | Succeeded, returnValue = true.
+2018-10-02 20:09:17,264 [12] DEBUG Trace -     JsonManager.CreateJsonPath("home", "", {Folder}) | Starting.
+2018-10-02 20:09:17,265 [12] DEBUG Trace -     JsonManager.CreateJsonPath("home", "", {Folder}) | Succeeded, returnValue = "C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc\homeFolder.json".
+2018-10-02 20:09:17,266 [12] DEBUG Trace -     FileManager.ReadJson("C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc\homeFolder.json") | Starting.
+2018-10-02 20:09:17,266 [12] DEBUG Trace -     FileManager.ReadJson("C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc\homeFolder.json") | Succeeded, returnValue = {CloudAppServer.Model.RestFolderObj}.
+2018-10-02 20:09:17,267 [12] DEBUG Trace -   JsonManager.GetFolder("home", "") | Succeeded, returnValue = {CloudAppServer.Model.FolderObj}.
+2018-10-02 20:09:17,268 [12] DEBUG Trace -   JsonManager.GetFolderPage({CloudAppServer.Model.FolderObj}, 1) | Starting.
+2018-10-02 20:09:17,269 [12] DEBUG Trace -     JsonManager.IsFolderPageExist("home", "", 1) | Starting.
+2018-10-02 20:09:17,269 [12] DEBUG Trace -       JsonManager.CreateFolderPageJsonPath("home", "", 1) | Starting.
+2018-10-02 20:09:17,270 [12] DEBUG Trace -       JsonManager.CreateFolderPageJsonPath("home", "", 1) | Succeeded, returnValue = "C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc\homeFolderPage.1.json".
+2018-10-02 20:09:17,270 [12] DEBUG Trace -       FileManager.Exists("C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc\homeFolderPage.1.json") | Starting.
+2018-10-02 20:09:17,271 [12] DEBUG Trace -       FileManager.Exists("C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc\homeFolderPage.1.json") | Succeeded, returnValue = true.
+2018-10-02 20:09:17,280 [12] DEBUG Trace -     JsonManager.IsFolderPageExist("home", "", 1) | Succeeded, returnValue = true.
+2018-10-02 20:09:17,280 [12] DEBUG Trace -     JsonManager.CreateFolderPageJsonPath("home", "", 1) | Starting.
+2018-10-02 20:09:17,281 [12] DEBUG Trace -     JsonManager.CreateFolderPageJsonPath("home", "", 1) | Succeeded, returnValue = "C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc\homeFolderPage.1.json".
+2018-10-02 20:09:17,281 [12] DEBUG Trace -     FileManager.ReadJson("C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc\homeFolderPage.1.json") | Starting.
+2018-10-02 20:09:17,282 [12] DEBUG Trace -     FileManager.ReadJson("C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc\homeFolderPage.1.json") | Succeeded, returnValue = {FolderContentHelper.Model.RestObject.RestFolderPageObj}.
+2018-10-02 20:09:17,282 [12] DEBUG Trace -   JsonManager.GetFolderPage({CloudAppServer.Model.FolderObj}, 1) | Succeeded, returnValue = {FolderContentHelper.Model.FolderPage}.
+2018-10-02 20:09:17,282 [12] DEBUG Trace - FolderContentManager.GetFolderPage("home", "", 1) | Succeeded, returnValue = {FolderContentHelper.Model.FolderPage}.
+2018-10-02 20:09:17,283 [12] DEBUG WcfLogger.Log4netLoggingStrategy - 10/02/2018 08:09:17.2833 PM | Operation: GetFolderContent | Log type: Result | Return value: {"Name":"home","Path":"","Type":3,"Content":[{"FileType":"","Size":1755849970,"Name":"big file.rar","Path":"home","Type":0,"CreationTime":"02/10/2018 20:03:45","ModificationTime":"02/10/2018 20:03:45"},{"Name":"dvir","Path":"home","Type":1,"CreationTime":"02/10/2018 20:08:19","ModificationTime":"02/10/2018 20:08:19"}],"CreationTime":null,"ModificationTime":null} | 
+
+2018-10-02 20:09:19,857 [3] DEBUG WcfLogger.Log4netLoggingStrategy - 10/02/2018 08:09:19.8576 PM | Caller Ip: ::1 | Caller Port: 54966 | Operation: GetFileRequestId | Log type: Invoke | Inputs: getFileRequest=null | 
+
+2018-10-02 20:09:19,858 [3] DEBUG WcfLogger.Log4netLoggingStrategy - 10/02/2018 08:09:19.8586 PM | Operation: GetFileRequestId | Log type: Result | Return value: -1 | 
+
+2018-10-02 20:09:19,864 [3] DEBUG WcfLogger.Log4netLoggingStrategy - 10/02/2018 08:09:19.8646 PM | Caller Ip: ::1 | Caller Port: 54966 | Operation: GetFileRequestId | Log type: Invoke | Inputs: getFileRequest={Name=big file.rar, Path=home} | 
+
+2018-10-02 20:09:19,865 [3] DEBUG Trace - FileService.GetRequestIdForDownload() | Starting.
+2018-10-02 20:09:19,865 [3] DEBUG Trace - FileService.GetRequestIdForDownload() | Succeeded, returnValue = 1.
+2018-10-02 20:09:19,866 [3] DEBUG Trace - FileService.PrepareFileToDownload(1, {FolderContentManager.Model.FileDownloadData}) | Starting.
+2018-10-02 20:09:19,866 [3] DEBUG Trace - FileService.PrepareFileToDownload(1, {FolderContentManager.Model.FileDownloadData}) | Succeeded.
+2018-10-02 20:09:19,867 [3] DEBUG WcfLogger.Log4netLoggingStrategy - 10/02/2018 08:09:19.8676 PM | Operation: GetFileRequestId | Log type: Result | Return value: 1 | 
+
+2018-10-02 20:09:19,901 [3] DEBUG WcfLogger.Log4netLoggingStrategy - 10/02/2018 08:09:19.9017 PM | Caller Ip: ::1 | Caller Port: 54183 | Operation: GetFile | Log type: Invoke | Inputs: requestId="1" | 
+
+2018-10-02 20:09:19,903 [3] DEBUG Trace - FileService.GetDownloadFileData(1) | Starting.
+2018-10-02 20:09:19,903 [3] DEBUG Trace - FileService.GetDownloadFileData(1) | Succeeded, returnValue = {FolderContentManager.Model.FileDownloadData}.
+2018-10-02 20:09:19,904 [3] DEBUG Trace - FolderContentManager.GetFile("big file.rar", "home") | Starting.
+2018-10-02 20:09:19,904 [3] DEBUG Trace -   FolderContentFileManager.CreateFilePath("big file.rar", "home") | Starting.
+2018-10-02 20:09:19,905 [3] DEBUG Trace -   FolderContentFileManager.CreateFilePath("big file.rar", "home") | Succeeded, returnValue = "C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc\home\big file.rar".
+2018-10-02 20:09:19,905 [3] DEBUG Trace -   FileManager.GetFile("C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc\home\big file.rar") | Starting.
+2018-10-02 20:09:19,906 [3] DEBUG Trace -   FileManager.GetFile("C:\foldercontentmanager\9ff84740-37b5-447a-a156-961af6a33ffc\home\big file.rar") | Succeeded, returnValue = {System.IO.FileStream}.
+2018-10-02 20:09:19,906 [3] DEBUG Trace - FolderContentManager.GetFile("big file.rar", "home") | Succeeded, returnValue = {System.IO.FileStream}.
+2018-10-02 20:09:19,907 [3] DEBUG WcfLogger.Log4netLoggingStrategy - 10/02/2018 08:09:19.9077 PM | Operation: GetFile | Log type: Result | Return value: System.Void, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 | 
+
+2018-10-02 20:09:29,723 [14] DEBUG WcfLogger.Log4netLoggingStrategy - 10/02/2018 08:09:29.7237 PM | Caller Ip: ::1 | Caller Port: 54966 | Operation: Logout | Log type: Invoke | 
+
+2018-10-02 20:09:39,725 [14] DEBUG Trace - ConnectecClients.Remove("9ff84740-37b5-447a-a156-961af6a33ffc") | Starting.
+2018-10-02 20:09:39,726 [14] DEBUG Trace - ConnectecClients.Remove("9ff84740-37b5-447a-a156-961af6a33ffc") | Succeeded.
+2018-10-02 20:09:39,727 [14] DEBUG WcfLogger.Log4netLoggingStrategy - 10/02/2018 08:09:39.7271 PM | Operation: Logout | Log type: Result | 
+
