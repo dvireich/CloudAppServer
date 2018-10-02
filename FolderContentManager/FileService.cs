@@ -56,16 +56,14 @@ namespace FolderContentHelper
         }
 
         [Log(AttributeExclude = true)]
-        public void UpdateFileValue(int requestId, int index,  string value)
+        public void UpdateFileValue(int requestId, string value, long sent, long size)
         {
             try
             {
-                var file = _requestIdToFiles[requestId];
-                file.ValueChunks[index] = true;
                 var sr = _requestIdToStreamWriter[requestId];
                 sr.WriteLine(value.ToCharArray());
 
-                if (!IsFileFullyUploaded(requestId)) return;
+                if (sent < size) return;
                 _requestIdToStreamWriter[requestId].Close();
                 _requestIdToStreamWriter.TryRemove(requestId, out var streamWriter);
 
@@ -113,15 +111,6 @@ namespace FolderContentHelper
 
                 return -1;
             } 
-        }
-
-        [Log(AttributeExclude = true)]
-        public bool IsFileFullyUploaded(int requestId)
-        {
-            if (!_requestIdToFiles.ContainsKey(requestId)) return true;
-
-            var file = _requestIdToFiles[requestId];
-            return file.ValueChunks.All(element => element);
         }
 
         public int GetRequestIdForDownload()

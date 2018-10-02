@@ -9,8 +9,6 @@ namespace FolderContentManager.Interfaces
 {
     public interface ITmpFile : IFile
     {
-        bool[] ValueChunks { get; set; }
-
         string TmpCreationPath { get; set; }
     }
 }

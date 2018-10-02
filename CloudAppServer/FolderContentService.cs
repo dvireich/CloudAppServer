@@ -173,8 +173,7 @@ namespace CloudAppServer
                 _fileService.CreateFile(folderContent.RequestId, new TmpFileObj(folderContent.Name,
                     folderContent.Path,
                     folderContent.FileType,
-                    folderContent.Size,
-                    new bool[folderContent.NumOfChunks]));
+                    folderContent.Size));
             });
         }
 
@@ -184,11 +183,9 @@ namespace CloudAppServer
             {
                 if (folderContent == null) return;
 
-                _fileService.UpdateFileValue(folderContent.RequestId, folderContent.NewValueIndex,
-                    folderContent.NewValue);
+                _fileService.UpdateFileValue(folderContent.RequestId,folderContent.NewValue, folderContent.Sent, folderContent.Size);
 
-                if (!_fileService.IsFileFullyUploaded(folderContent.RequestId)) return;
-
+                if (folderContent.Sent < folderContent.Size) return;
                 var file = _fileService.GetFile(folderContent.RequestId);
                 if (file == null) return;
 
@@ -239,7 +236,7 @@ namespace CloudAppServer
                 WebOperationContext.Current.OutgoingResponse.ContentLength = file.Length;
             }
 
-            var clientContext = OperationContext.Current;
+            OperationContext clientContext = OperationContext.Current;
             clientContext.OperationCompleted += delegate
             {
                 file?.Dispose();

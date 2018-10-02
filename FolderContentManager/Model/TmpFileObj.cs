@@ -10,7 +10,6 @@ namespace FolderContentManager.Model
 {
     public class TmpFileObj: FileObj, ITmpFile
     {
-        public bool[] ValueChunks { get; set; }
         public string TmpCreationPath { get; set; }
 
         public TmpFileObj(
@@ -18,10 +17,8 @@ namespace FolderContentManager.Model
             string path, 
             string fileType, 
             long size, 
-            bool[] valueChunks, 
             string tmpCreationPath) : base(name, path, fileType, size)
         {
-            ValueChunks = valueChunks;
             TmpCreationPath = tmpCreationPath;
         }
 
@@ -29,10 +26,8 @@ namespace FolderContentManager.Model
             string name,
             string path,
             string fileType,
-            long size,
-            bool[] valueChunks) : base(name, path, fileType, size)
+            long size) : base(name, path, fileType, size)
         {
-            ValueChunks = valueChunks;
             TmpCreationPath = string.Empty;
         }
 
@@ -43,16 +38,13 @@ namespace FolderContentManager.Model
             long size,
             string creationTime,
             string modificationTime,
-            bool[] valueChunks,
             string tmpCreationPath) : base(name, path, fileType, size, creationTime, modificationTime)
         {
-            ValueChunks = valueChunks;
             TmpCreationPath = tmpCreationPath;
         }
 
         public TmpFileObj()
         {
-            ValueChunks = new bool[0];
             TmpCreationPath = string.Empty;
         }
     }

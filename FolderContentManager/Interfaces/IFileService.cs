@@ -13,15 +13,13 @@ namespace FolderContentHelper
     {
         void CreateFile(int requestId, ITmpFile file);
 
-        void UpdateFileValue(int requestId, int index, string value);
+        void UpdateFileValue(int requestId, string value, long sent, long size);
 
         ITmpFile GetFile(int requestId);
 
         void Finish(int requestId);
 
         int GetRequestId();
-
-        bool IsFileFullyUploaded(int requestId);
 
         int GetRequestIdForDownload();
 
