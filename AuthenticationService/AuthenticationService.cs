@@ -49,6 +49,11 @@ namespace AuthenticationService
             }
         }
 
+        public void GetOptions()
+        {
+           
+        }
+
         [WcfLogging]
         public string Authenticate(string userName, string password)
         {

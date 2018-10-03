@@ -67,6 +67,10 @@ namespace CloudAppServer
             fixedPath = path.Replace("\"", "");
         }
 
+        public void GetOptions()
+        {
+        }
+
         [WcfLogging]
         public bool Ping()
         {

@@ -13,6 +13,10 @@ namespace AuthenticationService
     public interface IAuthentication
     {
         [OperationContract]
+        [WebInvoke(Method = "OPTIONS", UriTemplate = "*")]
+        void GetOptions();
+
+        [OperationContract]
         [WebGet(
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare,
