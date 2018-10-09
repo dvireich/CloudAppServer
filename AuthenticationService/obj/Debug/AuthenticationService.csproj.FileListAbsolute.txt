@@ -1,5 +1,4 @@
 C:\Users\dvire\source\repos\CloudAppServer\AuthenticationService\bin\Debug\AuthenticationService.pssym
-C:\Users\dvire\source\repos\CloudAppServer\AuthenticationService\bin\Debug\AuthenticationService.dll.config
 C:\Users\dvire\source\repos\CloudAppServer\AuthenticationService\bin\Debug\AuthenticationService.dll
 C:\Users\dvire\source\repos\CloudAppServer\AuthenticationService\bin\Debug\AuthenticationService.pdb
 C:\Users\dvire\source\repos\CloudAppServer\AuthenticationService\bin\Debug\DBManager.dll

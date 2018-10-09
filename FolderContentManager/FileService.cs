@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CloudAppServer.Model;
+using FolderContentHelper.Interfaces;
+using FolderContentManager;
 using FolderContentManager.Interfaces;
 using FolderContentManager.Model;
 using PostSharp.Extensibility;
@@ -16,36 +18,25 @@ namespace FolderContentHelper
     [Log(AttributeTargetElements = MulticastTargets.Method, AttributeTargetTypeAttributes = MulticastAttributes.Public, AttributeTargetMemberAttributes = MulticastAttributes.Public)]
     public sealed class FileService : IFileService
     {
-        #region Singelton
-        private static FileService _instance = null;
-        private static readonly object Padlock = new object();
 
-        private FileService()
+        public FileService(IFolderContentConcurrentManager concurrentManager)
         {
+            _concurrentManager = concurrentManager;
             _requestIdToFileStream = new ConcurrentDictionary<int, FileDownloadData>();
             this._requestIdToFiles = new ConcurrentDictionary<int, ITmpFile>();
             _requestIdToStreamWriter = new ConcurrentDictionary<int, StreamWriter>();
         }
 
-        [Log(AttributeExclude = true)]
-        public static FileService Instance
-        {
-            get
-            {
-                lock (Padlock)
-                {
-                    return _instance ?? (_instance = new FileService());
-                }
-            }
-        }
-        #endregion Singelton
-
         private readonly ConcurrentDictionary<int, ITmpFile> _requestIdToFiles;
         private readonly ConcurrentDictionary<int, FileDownloadData> _requestIdToFileStream;
         private readonly ConcurrentDictionary<int, StreamWriter> _requestIdToStreamWriter;
+        private readonly IFolderContentConcurrentManager _concurrentManager;
 
         public void CreateFile(int requestId, ITmpFile file)
         {
+            //Synchronization starts here and end in the folder content manager in CreateFile
+            _concurrentManager.AcquireSynchronization(new List<IFolderContent>(){new FolderContent(file.Name, file.Path, file.Type)});
+
             _requestIdToFiles[requestId] = file;
             if (string.IsNullOrEmpty(file.TmpCreationPath))
             {
@@ -97,7 +88,7 @@ namespace FolderContentHelper
 
         public int GetRequestId()
         {
-            lock (Padlock)
+            lock (this)
             {
                 var takenIds = new HashSet<int>(_requestIdToFiles.Keys);
                 for (var i = 0; i < int.MaxValue; i++)
@@ -115,7 +106,7 @@ namespace FolderContentHelper
 
         public int GetRequestIdForDownload()
         {
-            lock (Padlock)
+            lock (this)
             {
                 var ids = new HashSet<int>(_requestIdToFileStream.Keys);
                 for (var i = 0; i < int.MaxValue; i++)
@@ -138,9 +129,6 @@ namespace FolderContentHelper
 
         public FileDownloadData GetDownloadFileData(int requestId)
         {
-            //_requestIdToFileStream.TryRemove(requestId, out var fileDownloadData);
-            //return fileDownloadData;
-
             return _requestIdToFileStream[requestId];
         }
     }

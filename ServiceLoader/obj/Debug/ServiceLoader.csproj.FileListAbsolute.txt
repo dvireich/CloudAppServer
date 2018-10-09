@@ -20,7 +20,6 @@ C:\Users\dvire\source\repos\CloudAppServer\ServiceLoader\bin\Debug\WcfLogger.dll
 C:\Users\dvire\source\repos\CloudAppServer\ServiceLoader\bin\Debug\FolderContentManager.dll
 C:\Users\dvire\source\repos\CloudAppServer\ServiceLoader\bin\Debug\Pri.LongPath.dll
 C:\Users\dvire\source\repos\CloudAppServer\ServiceLoader\bin\Debug\AuthenticationService.pdb
-C:\Users\dvire\source\repos\CloudAppServer\ServiceLoader\bin\Debug\AuthenticationService.dll.config
 C:\Users\dvire\source\repos\CloudAppServer\ServiceLoader\bin\Debug\CloudAppServer.pdb
 C:\Users\dvire\source\repos\CloudAppServer\ServiceLoader\bin\Debug\CloudAppServer.dll.config
 C:\Users\dvire\source\repos\CloudAppServer\ServiceLoader\bin\Debug\log4net.xml

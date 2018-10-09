@@ -20,15 +20,16 @@ namespace ServiceLoader
             InitializeCORESServiceReferences<Authentication, IAuthentication>("CloudAppServer/Authentication");
         }
 
-        public static void LoadCloudAppService(string id, Action onRemove)
+        public static void LoadCloudAppService(string id)
         {
             FolderContentManagerToClient.Instance.AddClient(id);
+            if(!FolderContentManagerToClient.Instance.NeedToCreateService(id)) return;
+
             var sh =InitializeCORESServiceReferences<FolderContentService, IFolderContentService>($"CloudAppServer/{id}");
             FolderContentManagerToClient.Instance.AddOnRemoveCallBack(id, () =>
             {
                 OpenChannels.Remove(sh);
                 sh.Close();
-                onRemove();
             });
         }
 

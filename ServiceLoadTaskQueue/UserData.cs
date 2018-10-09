@@ -9,6 +9,5 @@ namespace ServiceLoadTaskQueue
     public class UserData
     {
         public string Id;
-        public Action OnRemove;
     }
 }

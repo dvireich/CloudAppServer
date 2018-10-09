@@ -50,7 +50,7 @@ namespace ServiceLoader
                 reply.Properties.Add(HttpResponseMessageProperty.Name, httpProp);
             }
 
-            httpProp.Headers.Add(CorsConstants.AccessControlAllowOrigin, CorsConstants.AllowedOriginALL);
+            httpProp.Headers.Add(CorsConstants.AccessControlAllowOrigin, CorsConstants.AllowedOriginAll);
             httpProp.Headers.Add(CorsConstants.AccessControlAllowMethods, CorsConstants.AllowedMethods);
             httpProp.Headers.Add(CorsConstants.AccessControlAllowHeaders, CorsConstants.AllowedHeaders);
             httpProp.Headers.Add(CorsConstants.AccessControlAllowCredentials, "True");

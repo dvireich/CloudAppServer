@@ -27,7 +27,6 @@ C:\Users\dvire\source\repos\CloudAppServer\Program\bin\Debug\PostSharp.Patterns.
 C:\Users\dvire\source\repos\CloudAppServer\Program\bin\Debug\PostSharp.Patterns.Diagnostics.xml
 C:\Users\dvire\source\repos\CloudAppServer\Program\bin\Debug\PostSharp.Patterns.Diagnostics.Backends.Log4Net.xml
 C:\Users\dvire\source\repos\CloudAppServer\Program\bin\Debug\AuthenticationService.pdb
-C:\Users\dvire\source\repos\CloudAppServer\Program\bin\Debug\AuthenticationService.dll.config
 C:\Users\dvire\source\repos\CloudAppServer\Program\bin\Debug\CloudAppServer.pdb
 C:\Users\dvire\source\repos\CloudAppServer\Program\bin\Debug\CloudAppServer.dll.config
 C:\Users\dvire\source\repos\CloudAppServer\Program\bin\Debug\WcfLogger.pdb

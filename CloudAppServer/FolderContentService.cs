@@ -25,10 +25,10 @@ namespace CloudAppServer
 
         public FolderContentService()
         {
-            _fileService = FileService.Instance;
             var endpoint = OperationContext.Current.EndpointDispatcher.EndpointAddress.ToString();
             var userId = endpoint.Split('/').Last();
-            _folderContentManager = FolderContentManagerToClient.Instance.GetClient(userId);
+            _fileService = FolderContentManagerToClient.Instance.GetFileService(userId);
+            _folderContentManager = FolderContentManagerToClient.Instance.GetFolderContentManager(userId);
         }
 
         private T Perform<T>(Func<T> task)

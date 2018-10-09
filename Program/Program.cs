@@ -37,7 +37,7 @@ namespace Program
 
 
                     var userData = serviceLoadTaskQueue.GetNextTask();
-                    ServiceLoaderHelper.LoadCloudAppService(userData.Id, userData.OnRemove);
+                    ServiceLoaderHelper.LoadCloudAppService(userData.Id);
                 }
             }
             finally

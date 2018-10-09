@@ -18,7 +18,7 @@ namespace ServiceLoader
         internal const string PreflightSuffix = "_preflight_";
 
         internal const string AllowedMethods = "GET,PUT,POST,DELETE,OPTIONS";
-        internal const string AllowedHeaders = "Content-Length, Authorization, Origin, X-Requested-With, Content-Type, Accept, application/json";
-        internal const string AllowedOriginALL = "*";
+        internal const string AllowedHeaders = "Content-Length, Authorization, Origin, X-Requested-With, Content-Type, Accept";
+        internal const string AllowedOriginAll = "*";
     }
 }

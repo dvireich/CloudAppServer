@@ -72,6 +72,7 @@
     <Compile Include="Constance.cs" />
     <Compile Include="DirectoryManager.cs" />
     <Compile Include="FileService.cs" />
+    <Compile Include="FolderContentConcurrentManager.cs" />
     <Compile Include="FolderContentFolderManager.cs" />
     <Compile Include="FolderContentManager.cs" />
     <Compile Include="FolderContentFileManager.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Interfaces\IFileService.cs" />
     <Compile Include="Interfaces\IFileManager.cs" />
     <Compile Include="FileManager.cs" />
+    <Compile Include="Interfaces\IFolderContentConcurrentManager.cs" />
     <Compile Include="Interfaces\IFolderContentFileManager.cs" />
     <Compile Include="Interfaces\IFolderContentFolderManager.cs" />
     <Compile Include="Interfaces\IFolderContentManager.cs" />
