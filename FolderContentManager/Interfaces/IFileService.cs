@@ -26,5 +26,7 @@ namespace FolderContentHelper
         void PrepareFileToDownload(int requestId, FileDownloadData fileDownloadData);
 
         FileDownloadData GetDownloadFileData(int requestId);
+
+        void Cancel(int requestId);
     }
 }

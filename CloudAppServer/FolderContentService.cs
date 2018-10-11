@@ -208,6 +208,16 @@ namespace CloudAppServer
         }
 
         [WcfLogging]
+        public void CancelUpload(int requestId)
+        {
+            Perform(() =>
+            {
+                _fileService.Cancel(requestId);
+
+            });
+        }
+
+        [WcfLogging]
         public int GetFileRequestId(GetFileRequest getFileRequest)
         {
             if (getFileRequest == null) return -1;

@@ -86,6 +86,12 @@ namespace FolderContentHelper
             _requestIdToFiles.TryRemove(requestId, out var file);
         }
 
+        public void Cancel(int requestId)
+        {
+            _requestIdToFiles.TryRemove(requestId, out var file);
+            _concurrentManager.ReleaseSynchronization(new List<IFolderContent>() { new FolderContent(file.Name, file.Path, file.Type) });
+        }
+
         public int GetRequestId()
         {
             lock (this)

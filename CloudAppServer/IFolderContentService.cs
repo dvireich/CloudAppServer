@@ -112,6 +112,12 @@ namespace CloudAppServer
         [WebInvoke(
             Method = "POST",
             BodyStyle = WebMessageBodyStyle.Bare,
+            UriTemplate = "/FolderContent/CancelUpload")]
+        void CancelUpload(int requestId);
+
+        [WebInvoke(
+            Method = "POST",
+            BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "/FolderContent/GetFileRequestId")]
         int GetFileRequestId(GetFileRequest getFileRequest);
 
