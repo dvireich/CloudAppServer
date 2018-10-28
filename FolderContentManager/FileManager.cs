@@ -50,7 +50,7 @@ namespace FolderContentHelper
             }
         }
 
-        public void WriteFileContent(string path, string tmpFilePath)
+        public void MoveFileFromTmpPathToPath(string path, string tmpFilePath)
         {
             var name = path.Split('\\').Last();
             ValidateNameLength(name);
@@ -60,35 +60,11 @@ namespace FolderContentHelper
                 File.Delete(path);
             }
 
-            using (var tmpFile = new StreamReader(tmpFilePath))
-            { 
-                using (var file = new BinaryWriter(File.Create(path)))
-                {
-                    string line;
-                    while (( line = tmpFile.ReadLine()) != null)
-                    {
-                        var bytesToWrite = Convert.FromBase64String(line);
-                        file.Write(bytesToWrite);
-                        file.Flush();
-                    }
-                }
-            }
+            Move(tmpFilePath, path);
         }
 
         public Stream GetFile(string path)
         {
-            //var f = new FileStream(path, FileMode.Open);
-            //int length = (int) f.Length;
-            //byte[] buffer = new byte[length];
-            //int sum = 0;
-            //int count;
-            //while ((count = f.Read(buffer, sum, length - sum)) > 0)
-            //{
-            //    sum += count;
-            //}
-
-            //f.Close();
-            //return new MemoryStream(buffer);
             return File.OpenRead(path);
         }
 
@@ -111,6 +87,11 @@ namespace FolderContentHelper
         public bool Exists(string path)
         {
             return File.Exists(path);
+        }
+
+        public Stream Create(string path)
+        {
+            return File.Create(path);
         }
     }
 }

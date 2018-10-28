@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using CloudAppServer.Model;
+using FolderContentManager.Model;
 
 namespace CloudAppServer.Model
 {
@@ -24,10 +25,12 @@ namespace CloudAppServer.Model
         public int NextPageToWrite { get; set; }
         DateTime CreationTime { get; set; }
         DateTime ModificationTime { get; set; }
+        public SortType SortType { get; set; }
+
 
         public IFolder MapToIFolder()
         {
-            return new FolderObj(Name, Path, NumOfPages, NextPageToWrite, CreationTime, ModificationTime);
+            return new FolderObj(Name, Path, NumOfPages, NextPageToWrite, CreationTime, ModificationTime, SortType);
         }
     }
 }

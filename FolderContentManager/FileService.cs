@@ -22,15 +22,19 @@ namespace FolderContentHelper
         public FileService(IFolderContentConcurrentManager concurrentManager)
         {
             _concurrentManager = concurrentManager;
+            _pathManager = new PathManager();
+            _fileManager = new FileManager();
             _requestIdToFileStream = new ConcurrentDictionary<int, FileDownloadData>();
             this._requestIdToFiles = new ConcurrentDictionary<int, ITmpFile>();
-            _requestIdToStreamWriter = new ConcurrentDictionary<int, StreamWriter>();
+            _requestIdToBinaryWriter = new ConcurrentDictionary<int, BinaryWriter>();
         }
 
         private readonly ConcurrentDictionary<int, ITmpFile> _requestIdToFiles;
         private readonly ConcurrentDictionary<int, FileDownloadData> _requestIdToFileStream;
-        private readonly ConcurrentDictionary<int, StreamWriter> _requestIdToStreamWriter;
+        private readonly ConcurrentDictionary<int, BinaryWriter> _requestIdToBinaryWriter;
         private readonly IFolderContentConcurrentManager _concurrentManager;
+        private readonly IFileManager _fileManager;
+        private readonly IPathManager _pathManager;
 
         public void CreateFile(int requestId, ITmpFile file)
         {
@@ -40,10 +44,16 @@ namespace FolderContentHelper
             _requestIdToFiles[requestId] = file;
             if (string.IsNullOrEmpty(file.TmpCreationPath))
             {
-                file.TmpCreationPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+                file.TmpCreationPath = _pathManager.Combine(_pathManager.GetTempPath(), Guid.NewGuid().ToString());
             }
 
-            _requestIdToStreamWriter[requestId] = new StreamWriter(file.TmpCreationPath);
+            if (_requestIdToBinaryWriter.ContainsKey(requestId))
+            {
+                var writer = _requestIdToBinaryWriter[requestId];
+                writer.Close();
+            }
+
+            _requestIdToBinaryWriter[requestId] = new BinaryWriter(_fileManager.Create(file.TmpCreationPath));
         }
 
         [Log(AttributeExclude = true)]
@@ -51,13 +61,13 @@ namespace FolderContentHelper
         {
             try
             {
-                var sr = _requestIdToStreamWriter[requestId];
-                sr.WriteLine(value.ToCharArray());
+                var binaryWriter = _requestIdToBinaryWriter[requestId];
+                var bytesToWrite = Convert.FromBase64String(value);
+                binaryWriter.Write(bytesToWrite);
 
                 if (sent < size) return;
-                _requestIdToStreamWriter[requestId].Close();
-                _requestIdToStreamWriter.TryRemove(requestId, out var streamWriter);
-
+                _requestIdToBinaryWriter[requestId].Close();
+                _requestIdToBinaryWriter.TryRemove(requestId, out var writer);
             }
             catch (Exception e)
             {

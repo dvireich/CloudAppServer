@@ -49,7 +49,7 @@ namespace FolderContentHelper
             _fileManager.WriteJson(_jsonManager.CreateJsonPath(name, path, FolderContentType.File),
                 file);
 
-            _fileManager.WriteFileContent(CreateFilePath(name, path),
+            _fileManager.MoveFileFromTmpPathToPath(CreateFilePath(name, path),
                                           tmpCreationPath);
 
             _folderContentFolderManager.UpdateNextPageToWrite(parent);

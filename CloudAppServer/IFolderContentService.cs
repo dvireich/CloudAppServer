@@ -2,6 +2,8 @@
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using CloudAppServer.ServiceModel;
+using FolderContentManager.Model;
+using FolderMetadata = CloudAppServer.ServiceModel.FolderMetadata;
 
 namespace CloudAppServer
 {
@@ -40,8 +42,22 @@ namespace CloudAppServer
         [WebInvoke(
             Method = "POST",
             BodyStyle = WebMessageBodyStyle.Bare,
+            UriTemplate = "/FolderContent/UpdateFolderMetadata")]
+        void UpdateFolderMetaData(FolderMetadata folderMetadata);
+
+        [OperationContract]
+        [WebInvoke(
+            Method = "POST",
+            BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "/FolderContent/GetNumberOfPages")]
         int GetNumberOfPage(NumberOfPageRequest numberOfPageRequest);
+
+        [OperationContract]
+        [WebInvoke(
+            Method = "POST",
+            BodyStyle = WebMessageBodyStyle.Bare,
+            UriTemplate = "/FolderContent/GetSortType")]
+        SortType GetSortType(FolderContentObj folderContent);
 
         [OperationContract]
         [WebInvoke(

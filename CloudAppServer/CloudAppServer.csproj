@@ -72,6 +72,7 @@
     <Compile Include="ServiceModel\FolderContentCopyObj.cs" />
     <Compile Include="ServiceModel\FolderContentObj.cs" />
     <Compile Include="ServiceModel\FolderContentRenameObj.cs" />
+    <Compile Include="ServiceModel\FolderMetadata.cs" />
     <Compile Include="ServiceModel\GetFileRequest.cs" />
     <Compile Include="ServiceModel\NumberOfPageRequest.cs" />
     <Compile Include="ServiceModel\PageRequest.cs" />

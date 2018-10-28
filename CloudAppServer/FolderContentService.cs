@@ -14,6 +14,7 @@ using FolderContentHelper.Interfaces;
 using FolderContentHelper.Model;
 using FolderContentManager.Model;
 using WcfLogger;
+using FolderMetadata = CloudAppServer.ServiceModel.FolderMetadata;
 
 namespace CloudAppServer
 {
@@ -97,6 +98,20 @@ namespace CloudAppServer
             });
         }
 
+        public void UpdateFolderMetaData(FolderMetadata folderMetadata)
+        {
+            if (folderMetadata == null) return;
+            Perform(() =>
+            {
+                _folderContentManager.UpdateFolderMetaData(new FolderContentManager.Model.FolderMetadata()
+                {
+                    Name = folderMetadata.Name,
+                    Path = folderMetadata.Path,
+                    SortType = folderMetadata.SortType
+                });
+            });
+        }
+
         [WcfLogging]
         public int GetNumberOfPage(NumberOfPageRequest numberOfPageRequest)
         {
@@ -105,6 +120,16 @@ namespace CloudAppServer
             {
                 FixNameAndPath(numberOfPageRequest.Name, numberOfPageRequest.Path, out var fixedName, out var fixedPath);
                 return _folderContentManager.GetNumOfFolderPages(fixedName, FixPath(fixedPath));
+            });
+        }
+
+        public SortType GetSortType(FolderContentObj folderContent)
+        {
+            if (folderContent == null) return default(SortType);
+            return Perform(() =>
+            {
+                var folder = _folderContentManager.GetFolderObj(folderContent.Name, folderContent.Path);
+                return folder.SortType;
             });
         }
 

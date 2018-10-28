@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CloudAppServer.Model;
 using FolderContentHelper.Model;
+using FolderContentManager.Model;
 
 namespace CloudAppServer.Model
 {
@@ -13,5 +14,6 @@ namespace CloudAppServer.Model
     {
         int NumOfPages { get; set; }
         int NextPageToWrite { get; set; }
+        SortType SortType { get; set; }
     }
 }

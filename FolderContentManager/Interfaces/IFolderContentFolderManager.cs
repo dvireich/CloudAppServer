@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CloudAppServer.Model;
+using FolderContentManager.Model;
 
 namespace FolderContentHelper.Interfaces
 {
@@ -22,5 +23,7 @@ namespace FolderContentHelper.Interfaces
         void UpdateNextPageToWrite(IFolder folder);
 
         void CreateFolder(string name, string path);
+
+        void UpdateFolderMetaData(FolderMetadata folderMetadata);
     }
 }

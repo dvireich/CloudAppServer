@@ -7,6 +7,7 @@ using FolderContentHelper.Interfaces;
 using FolderContentHelper.Model;
 using FolderContentManager;
 using FolderContentManager.Interfaces;
+using FolderContentManager.Model;
 using PostSharp.Extensibility;
 using PostSharp.Patterns.Diagnostics;
 
@@ -73,6 +74,7 @@ namespace FolderContentHelper
             _directoryManager.CreateDirectory(_constance.BaseFolderPath);
         }
 
+
         private void InitializeHomeFolder()
         {
             var homeFolderPath = _folderContentFolderManager.CreateFolderPath(_constance.HomeFolderName, string.Empty);
@@ -84,6 +86,16 @@ namespace FolderContentHelper
             _fileManager.WriteJson(jsonPath, homeFolder);
 
             _folderContentPageManager.CreateNewFolderPage(1, homeFolder);
+        }
+
+        public IFolder GetFolderObj(string name, string path)
+        {
+            return _jsonManager.GetFolder(name, path);
+        }
+
+        public void UpdateFolderMetaData(FolderMetadata folderMetadata)
+        {
+            _folderContentFolderManager.UpdateFolderMetaData(folderMetadata);
         }
 
         public void CreateFolder(string name, string path)

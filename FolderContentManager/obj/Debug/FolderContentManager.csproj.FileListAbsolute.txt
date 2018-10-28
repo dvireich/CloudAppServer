@@ -12,6 +12,7 @@ C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\bin\Debug\PostSh
 C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\bin\Debug\PostSharp.Patterns.Common.xml
 C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\bin\Debug\PostSharp.Patterns.Diagnostics.xml
 C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\bin\Debug\PostSharp.Patterns.Diagnostics.Backends.Log4Net.xml
+C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\obj\Debug\FolderContentManager.csprojAssemblyReference.cache
 C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\obj\Debug\FolderContentManager.csproj.CoreCompileInputs.cache
 C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\obj\Debug\FolderContentManager.csproj.CopyComplete
 C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\obj\Debug\PostSharp\touch
@@ -19,4 +20,3 @@ C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\obj\Debug\PostSh
 C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\obj\Debug\FolderContentManager.dll
 C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\obj\Debug\FolderContentManager.pdb
 C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\obj\Debug\PostSharp\postsharp.app.config
-C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\obj\Debug\FolderContentManager.csprojAssemblyReference.cache

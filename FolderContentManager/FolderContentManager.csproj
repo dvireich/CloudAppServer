@@ -90,6 +90,7 @@
     <Compile Include="Interfaces\IJsonManager.cs" />
     <Compile Include="Interfaces\ISearchCache.cs" />
     <Compile Include="Interfaces\ITmpFile.cs" />
+    <Compile Include="IPathManager.cs" />
     <Compile Include="JsonManager.cs" />
     <Compile Include="Model\FileDownloadData.cs" />
     <Compile Include="Model\FileObj.cs" />
@@ -109,7 +110,10 @@
     <Compile Include="Model\RestObject\RestFolderContent.cs" />
     <Compile Include="Model\RestObject\RestFolderObj.cs" />
     <Compile Include="Model\RestObject\RestFolderPageObj.cs" />
+    <Compile Include="Model\SortType.cs" />
     <Compile Include="Model\TmpFileObj.cs" />
+    <Compile Include="Model\FolderMetadata.cs" />
+    <Compile Include="PathManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchCache.cs" />
   </ItemGroup>

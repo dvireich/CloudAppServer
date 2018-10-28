@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CloudAppServer.Model;
 using FolderContentHelper.Model;
+using FolderContentManager.Model;
 
 namespace FolderContentHelper.Interfaces
 {
@@ -33,5 +34,9 @@ namespace FolderContentHelper.Interfaces
         IFolderContent[] Search(string name, int page);
 
         IFile GetFileObj(string name, string path);
+
+        IFolder GetFolderObj(string name, string path);
+
+        void UpdateFolderMetaData(FolderMetadata folderMetadata);
     }
 }

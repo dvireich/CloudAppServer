@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CloudAppServer.Model;
 using FolderContentHelper.Interfaces;
 using FolderContentHelper.Model;
+using FolderContentManager.Model;
 using PostSharp.Extensibility;
 using PostSharp.Patterns.Diagnostics;
 
@@ -216,6 +217,14 @@ namespace FolderContentHelper
                 folder.NumOfPages++;
                 _folderContentPageManager.CreateNewFolderPage(folder.NextPageToWrite, folder);
             }
+            var path = _jsonManager.CreateJsonPath(folder.Name, folder.Path, folder.Type);
+            _fileManager.WriteJson(path, folder);
+        }
+
+        public void UpdateFolderMetaData(FolderMetadata folderMetadata)
+        {
+            var folder = _jsonManager.GetFolder(folderMetadata.Name, folderMetadata.Path);
+            folder.SortType = folderMetadata.SortType;
             var path = _jsonManager.CreateJsonPath(folder.Name, folder.Path, folder.Type);
             _fileManager.WriteJson(path, folder);
         }

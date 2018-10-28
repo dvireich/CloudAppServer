@@ -13,7 +13,7 @@ namespace FolderContentHelper
 
         void WriteJson(string path, object obj);
 
-        void WriteFileContent(string path, string tmpFilePath);
+        void MoveFileFromTmpPathToPath(string path, string tmpFilePath);
 
         Stream GetFile(string path);
 
@@ -24,5 +24,7 @@ namespace FolderContentHelper
         void Copy(string fromPath, string toPath);
 
         bool Exists(string path);
+
+        Stream Create(string path);
     }
 }
