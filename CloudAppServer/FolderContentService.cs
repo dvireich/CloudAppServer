@@ -123,6 +123,7 @@ namespace CloudAppServer
             });
         }
 
+        [WcfLogging]
         public int GetSortType(FolderContentObj folderContent)
         {
             if (folderContent == null) return 0;
