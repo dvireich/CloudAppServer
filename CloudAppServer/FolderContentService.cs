@@ -123,13 +123,14 @@ namespace CloudAppServer
             });
         }
 
-        public SortType GetSortType(FolderContentObj folderContent)
+        public int GetSortType(FolderContentObj folderContent)
         {
-            if (folderContent == null) return default(SortType);
+            if (folderContent == null) return 0;
             return Perform(() =>
             {
-                var folder = _folderContentManager.GetFolderObj(folderContent.Name, folderContent.Path);
-                return folder.SortType;
+                FixNameAndPath(folderContent.Name, folderContent.Path, out var fixedName, out var fixedPath);
+                var folder = _folderContentManager.GetFolderObj(fixedName, fixedPath);
+                return (int)folder.SortType;
             });
         }
 

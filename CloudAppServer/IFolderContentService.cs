@@ -57,7 +57,7 @@ namespace CloudAppServer
             Method = "POST",
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "/FolderContent/GetSortType")]
-        SortType GetSortType(FolderContentObj folderContent);
+        int GetSortType(FolderContentObj folderContent);
 
         [OperationContract]
         [WebInvoke(
