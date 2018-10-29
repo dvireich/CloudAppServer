@@ -10,7 +10,6 @@ namespace FolderContentManager.Model
     {
         Name,
         Type,
-        Size,
         DateCreated,
         DateModified
     }
