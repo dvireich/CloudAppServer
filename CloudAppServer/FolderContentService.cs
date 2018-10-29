@@ -131,6 +131,8 @@ namespace CloudAppServer
             {
                 FixNameAndPath(folderContent.Name, folderContent.Path, out var fixedName, out var fixedPath);
                 var folder = _folderContentManager.GetFolderObj(fixedName, fixedPath);
+                if (folder == null) return 0;
+
                 return (int)folder.SortType;
             });
         }
