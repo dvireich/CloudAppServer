@@ -130,7 +130,7 @@ namespace CloudAppServer
             return Perform(() =>
             {
                 FixNameAndPath(folderContent.Name, folderContent.Path, out var fixedName, out var fixedPath);
-                var folder = _folderContentManager.GetFolderObj(fixedName, fixedPath);
+                var folder = _folderContentManager.GetFolderObj(fixedName, FixPath(fixedPath));
                 if (folder == null) return 0;
 
                 return (int)folder.SortType;
