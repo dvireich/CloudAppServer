@@ -16,16 +16,16 @@ namespace CloudAppServer.Model
             string path, 
             int numOfPages, 
             int nextPageToWrite,
-            DateTime creationTime, 
-            DateTime modificationTime, 
+            string creationTime,
+            string modificationTime, 
             SortType sortType)
         {
             Name = name;
             Path = path;
             NumOfPages = numOfPages;
             NextPageToWrite = nextPageToWrite;
-            CreationTime = creationTime.ToString("{0:G}");
-            ModificationTime = modificationTime.ToString("{0:G}");
+            CreationTime = creationTime;
+            ModificationTime = modificationTime;
             Type = FolderContentType.Folder;
             SortType = sortType;
         }

@@ -23,8 +23,8 @@ namespace CloudAppServer.Model
         public FolderContentType Type { get; set; }
         public int NumOfPages { get; set; }
         public int NextPageToWrite { get; set; }
-        DateTime CreationTime { get; set; }
-        DateTime ModificationTime { get; set; }
+        public string CreationTime { get; set; }
+        public string ModificationTime { get; set; }
         public SortType SortType { get; set; }
 
 
