@@ -190,17 +190,11 @@ namespace FolderContentHelper
                 () =>
                 {
                     _searchCache.ClearCache();
-                    //Validate folder to copy to
+                    
                     var folderToCopyTo = _jsonManager.GetFolder(copyToName, copyToPath);
-                    _folderContentFolderManager.UpdateNextPageToWrite(folderToCopyTo);
-                    if (folderToCopyTo == null)
-                        throw new Exception("The folder you are trying to copy to does not exists!");
-
-                    //Validate folder content to copy
-
                     var folderContentToCopy = _jsonManager.GetFolderContent(copyObjName, copyObjPath, copyObjType);
-                    if (folderContentToCopy == null)
-                        throw new Exception("The folder content you are trying to copy does not exists!");
+
+                    ValidateFoldersOnCopy(folderToCopyTo, folderContentToCopy);
 
                     //Add the new folder content and fix the path
                     var folderContentToCopyOldPath = folderContentToCopy.Path;
@@ -208,47 +202,98 @@ namespace FolderContentHelper
                         ? folderToCopyTo.Name
                         : $"{folderToCopyTo.Path}/{folderToCopyTo.Name}";
 
-                    var pageOfFolderToCopyTo =
-                        _jsonManager.GetFolderPage(folderToCopyTo, folderToCopyTo.NextPageToWrite);
-                    _folderContentPageManager.AddToFolderPage(folderToCopyTo.NextPageToWrite, pageOfFolderToCopyTo,
-                        folderContentToCopy);
-
+                    AddToTragetFolderPageTheSourceFolderOnCopy(folderToCopyTo, folderContentToCopy);
 
                     //Fix the path in the folder content json file
                     folderContentToCopy.Path = folderContentToCopyOldPath;
                     folderContentToCopy = _jsonManager.GetFolderIfFolderType(folderContentToCopy);
-                    folderContentToCopy.Path = string.IsNullOrEmpty(folderToCopyTo.Path)
-                        ? folderToCopyTo.Name
-                        : $"{folderToCopyTo.Path}/{folderToCopyTo.Name}";
-                    _fileManager.WriteJson(
-                        _jsonManager.CreateJsonPath(folderContentToCopy.Name, folderContentToCopy.Path,
-                            folderContentToCopy.Type),
-                        folderContentToCopy);
+
+                    UpdateFolderContentToCopyJson(folderContentToCopy, folderToCopyTo);
 
                     switch (folderContentToCopy.Type)
                     {
                         //Fix the children path and move the directory
                         case FolderContentType.Folder:
-                            _directoryManager.DirectoryCopy(
-                                _folderContentFolderManager.CreateFolderPath(folderContentToCopy.Name,
-                                    folderContentToCopyOldPath),
-                                $"{_folderContentFolderManager.CreateFolderPath(folderToCopyTo.Name, folderToCopyTo.Path)}\\{folderContentToCopy.Name}",
-                                true);
-
-
-                            _folderContentFolderManager.UpdateChildrenPath(folderContentToCopy,
-                                $"{folderContentToCopy.Path}/{folderContentToCopy.Name}",
-                                $"{folderContentToCopyOldPath}/{folderContentToCopy.Name}");
+                            HandleFolderCopy(folderContentToCopy, folderContentToCopyOldPath, folderToCopyTo);
                             break;
                         case FolderContentType.File:
-                            _fileManager.Copy(
-                                _folderContentFileManager.CreateFilePath(folderContentToCopy.Name,
-                                    folderContentToCopyOldPath),
-                                _folderContentFileManager.CreateFilePath(folderContentToCopy.Name,
-                                    folderContentToCopy.Path));
+                            HandleFileCopy(folderContentToCopy, folderContentToCopyOldPath);
+                            break;
+                        case FolderContentType.FolderPageResult:
+                            break;
+                        case FolderContentType.FolderPage:
                             break;
                     }
                 });
+        }
+
+        private void AddToTragetFolderPageTheSourceFolderOnCopy(IFolder folderToCopyTo, IFolderContent folderContentToCopy)
+        {
+            var pageOfFolderToCopyTo =
+                _jsonManager.GetFolderPage(folderToCopyTo, folderToCopyTo.NextPageToWrite);
+            _folderContentPageManager.AddToFolderPage(folderToCopyTo.NextPageToWrite, pageOfFolderToCopyTo,
+                folderContentToCopy);
+        }
+
+        private void HandleFileCopy(IFolderContent folderContentToCopy, string folderContentToCopyOldPath)
+        {
+            _fileManager.Copy(
+                _folderContentFileManager.CreateFilePath(folderContentToCopy.Name,
+                    folderContentToCopyOldPath),
+                _folderContentFileManager.CreateFilePath(folderContentToCopy.Name,
+                    folderContentToCopy.Path));
+        }
+
+        private void HandleFolderCopy(IFolderContent folderContentToCopy, string folderContentToCopyOldPath,
+            IFolder folderToCopyTo)
+        {
+            _directoryManager.DirectoryCopy(
+                _folderContentFolderManager.CreateFolderPath(folderContentToCopy.Name,
+                    folderContentToCopyOldPath),
+                $"{_folderContentFolderManager.CreateFolderPath(folderToCopyTo.Name, folderToCopyTo.Path)}\\{folderContentToCopy.Name}",
+                true);
+
+            //Move folder content to copy pages to the new location
+            CopyFolderContentToCopyPagesToNewLocation((IFolder) folderContentToCopy, folderContentToCopyOldPath,
+                folderToCopyTo);
+
+            _folderContentFolderManager.UpdateChildrenPath(folderContentToCopy,
+                $"{folderContentToCopy.Path}/{folderContentToCopy.Name}",
+                $"{folderContentToCopyOldPath}/{folderContentToCopy.Name}");
+        }
+
+        private void CopyFolderContentToCopyPagesToNewLocation(IFolder folderContentToCopy,
+            string folderContentToCopyOldPath, IFolderContent folderToCopyTo)
+        {
+            folderContentToCopy.Path = folderContentToCopyOldPath;
+            var folderContentToCopyNewPath = string.IsNullOrEmpty(folderToCopyTo.Path)
+                ? folderToCopyTo.Name
+                : $"{folderToCopyTo.Path}/{folderToCopyTo.Name}";
+            _folderContentPageManager.MoveAllRootPagesToPath(folderContentToCopy, folderContentToCopyNewPath);
+            folderContentToCopy.Path = folderContentToCopyNewPath;
+        }
+
+        private void UpdateFolderContentToCopyJson(IFolderContent folderContentToCopy, IFolder folderToCopyTo)
+        {
+            folderContentToCopy.Path = string.IsNullOrEmpty(folderToCopyTo.Path)
+                ? folderToCopyTo.Name
+                : $"{folderToCopyTo.Path}/{folderToCopyTo.Name}";
+            _fileManager.WriteJson(
+                _jsonManager.CreateJsonPath(folderContentToCopy.Name, folderContentToCopy.Path,
+                    folderContentToCopy.Type),
+                folderContentToCopy);
+        }
+
+        private void ValidateFoldersOnCopy(IFolder folderToCopyTo, IFolderContent folderContentToCopy)
+        {
+            //Validate folder to copy to
+            _folderContentFolderManager.UpdateNextPageToWrite(folderToCopyTo);
+            if (folderToCopyTo == null)
+                throw new Exception("The folder you are trying to copy to does not exists!");
+
+            //Validate folder content to copy
+            if (folderContentToCopy == null)
+                throw new Exception("The folder content you are trying to copy does not exists!");
         }
 
         public void CreateFile(string name, string path, string fileType, string tmpCreationPath, long size)

@@ -167,6 +167,17 @@ namespace FolderContentHelper
             _fileManager.WriteJson(pathToPage, page);
         }
 
+        public void MoveAllRootPagesToPath(IFolder folder,  string newPath)
+        {
+            for (var i = 1; i <= folder.NumOfPages; i++)
+            {
+                var page = _jsonManager.GetFolderPage(folder, i);
+                page.Path = ReplacePrefixString(page.Path, folder.Path, newPath);
+                var pathToPage = _jsonManager.CreateFolderPageJsonPath(page.Name, newPath, i);
+                _fileManager.WriteJson(pathToPage, page);
+            }
+        }
+
         public void UpdateDeleteFolderContentInParentPages(IFolder parentFolder,IFolderContent folder, int page)
         {
             var folderPage = _jsonManager.GetFolderPage(parentFolder, page);

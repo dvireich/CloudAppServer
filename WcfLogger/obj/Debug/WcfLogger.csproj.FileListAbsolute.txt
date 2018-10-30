@@ -47,7 +47,6 @@ C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\bin\Debug\PostSharp.Pattern
 C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\bin\Debug\PostSharp.Patterns.Diagnostics.xml
 C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\bin\Debug\PostSharp.Patterns.Diagnostics.Backends.Log4Net.xml
 C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\bin\Debug\PostSharp.Patterns.Threading.xml
-C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\obj\Debug\WcfLogger.csprojAssemblyReference.cache
 C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\obj\Debug\WcfLogger.csproj.CoreCompileInputs.cache
 C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\obj\Debug\WcfLogger.csproj.CopyComplete
 C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\obj\Debug\PostSharp\touch

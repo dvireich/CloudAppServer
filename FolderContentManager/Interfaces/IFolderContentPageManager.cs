@@ -26,5 +26,7 @@ namespace FolderContentHelper.Interfaces
         void ValidateNameInPages(IFolder folderToValidate, IFolderContent newFolderContent);
 
         void RenameFolderPageInternalNameField(IFolder folder, string newName);
+
+        void MoveAllRootPagesToPath(IFolder folder, string newPath);
     }
 }
