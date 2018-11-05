@@ -11,10 +11,11 @@ namespace CloudAppServer.Model
         public FolderContentType Type { get; set; }
         public string CreationTime { get; set; }
         public string ModificationTime { get; set; }
+        public long Size { get; set; }
 
         public virtual IFolderContent Map()
         {
-            return new FolderContent(Name, Path, Type, CreationTime, ModificationTime);
+            return new FolderContent(Name, Path, Type, CreationTime, ModificationTime, Size);
         }
     }
 }

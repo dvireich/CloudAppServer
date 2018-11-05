@@ -10,7 +10,7 @@ using FolderContentHelper.Model;
 namespace CloudAppServer.Model
 {
 
-    public interface IFile : IFolderContent, IFileTrackInfo
+    public interface IFile : IFolderContent
     {
         string FileType { get; set; }
     }

@@ -11,23 +11,19 @@ namespace CloudAppServer.Model
     {
 
         public string FileType { get; set; }
-        public long Size { get; set; }
-
         public FileObj(string name, string path, string fileType, long size, string creationTime, string modificationTime) : 
-            base(name, path, FolderContentType.File, creationTime, modificationTime)
+            base(name, path, FolderContentType.File, creationTime, modificationTime, size)
         {
             FileType = fileType;
-            Size = size;
         }
 
         public FileObj(string name, string path, string fileType, long size) :
-            base(name, path, FolderContentType.File)
+            base(name, path, FolderContentType.File, size)
         {
             FileType = fileType;
-            Size = size;
         }
 
-        public FileObj() : base(null, null, FolderContentType.File, DateTime.Now.ToLongDateString(), DateTime.Now.ToLongDateString())
+        public FileObj() : base(null, null, FolderContentType.File, DateTime.Now.ToLongDateString(), DateTime.Now.ToLongDateString(), 0)
         {
         }
     }

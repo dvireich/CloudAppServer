@@ -8,5 +8,6 @@ namespace CloudAppServer.Model
         string Name { get; set; }
         string Path { get; set; }
         FolderContentType Type { get; set; }
+        long Size { get; set; }
     }
 }

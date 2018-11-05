@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Symbols LinesOfCode="1245" PostSharpLinesOfCode="0" EnhancedTypesCount="5" SchemaVersion="1" PostSharpVersion="6.0.27.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
+<Symbols LinesOfCode="1255" PostSharpLinesOfCode="0" EnhancedTypesCount="5" SchemaVersion="1" PostSharpVersion="6.0.27.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
   <Class Class="#1=T:[PostSharp.Patterns.Diagnostics]PostSharp.Patterns.Diagnostics.LogAttribute">
-    <Instance Declaration="#2=T:[FolderContentManager]FolderContentManager.Services.FolderContentService" Id="2fa06dc5c6ef8be5">
+    <Instance Declaration="#2=T:[FolderContentManager]FolderContentManager.Services.FolderContentService" Id="2fa06dc5877d437f">
       <Target Target="#3=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::CreateFolder(System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4=Adds logging" Ordinal="0" LinesAvoided="5" />
       </Target>
@@ -39,7 +39,7 @@
         <JoinPoint Advising="#1" Description="#4" Ordinal="11" LinesAvoided="5" />
       </Target>
     </Instance>
-    <Instance Declaration="#16=T:[FolderContentManager]FolderContentManager.Helpers.DirectoryManager" Id="2fa06dc52f400355">
+    <Instance Declaration="#16=T:[FolderContentManager]FolderContentManager.Helpers.DirectoryManager" Id="2fa06dc52f4a7b73">
       <Target Target="#17=M:[FolderContentManager]FolderContentManager.Helpers.DirectoryManager::Delete(System.String, System.Boolean)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="12" LinesAvoided="5" />
       </Target>
@@ -53,7 +53,7 @@
         <JoinPoint Advising="#1" Description="#4" Ordinal="15" LinesAvoided="5" />
       </Target>
     </Instance>
-    <Instance Declaration="#21=T:[FolderContentManager]FolderContentManager.Helpers.FileManager" Id="2fa06dc56f91d1d6">
+    <Instance Declaration="#21=T:[FolderContentManager]FolderContentManager.Helpers.FileManager" Id="2fa06dc5e0703679">
       <Target Target="#22=M:[FolderContentManager]FolderContentManager.Helpers.FileManager::GetFile(System.String)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="16" LinesAvoided="5" />
       </Target>
@@ -82,7 +82,7 @@
         <JoinPoint Advising="#1" Description="#4" Ordinal="24" LinesAvoided="5" />
       </Target>
     </Instance>
-    <Instance Declaration="#31=T:[FolderContentManager]FolderContentHelper.FileService" Id="2fa06dc54c85efb1">
+    <Instance Declaration="#31=T:[FolderContentManager]FolderContentHelper.FileService" Id="2fa06dc5275cd1d4">
       <Target Target="#32=M:[FolderContentManager]FolderContentHelper.FileService::CreateFile(System.Int32, [FolderContentManager]FolderContentManager.Interfaces.ITmpFile)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="25" LinesAvoided="5" />
       </Target>
@@ -108,7 +108,7 @@
         <JoinPoint Advising="#1" Description="#4" Ordinal="32" LinesAvoided="5" />
       </Target>
     </Instance>
-    <Instance Declaration="#40=T:[FolderContentManager]FolderContentHelper.SearchCache" Id="2fa06dc5e8f72275">
+    <Instance Declaration="#40=T:[FolderContentManager]FolderContentHelper.SearchCache" Id="2fa06dc53f5bedaf">
       <Target Target="#41=M:[FolderContentManager]FolderContentHelper.SearchCache::AddToCache(System.String, [FolderContentManager]CloudAppServer.Model.IFolderContent[])">
         <JoinPoint Advising="#1" Description="#4" Ordinal="33" LinesAvoided="5" />
       </Target>
