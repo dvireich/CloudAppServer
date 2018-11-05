@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using FolderContentHelper;
 using FolderContentManager;
-using FolderContentManager = FolderContentHelper.FolderContentManager;
 
 namespace CloudAppServer
 {
@@ -22,7 +21,7 @@ namespace CloudAppServer
             _fileServiceToClient = new ConcurrentDictionary<string, FileService>();
             _clientToNumberOfLogins = new ConcurrentDictionary<string, long>();
             _clientToRemoveAction = new ConcurrentDictionary<string, Action>();
-            _folderContentManagerToClient = new ConcurrentDictionary<string, FolderContentHelper.FolderContentManager>();
+            _folderContentManagerToClient = new ConcurrentDictionary<string, FolderContentManager.Services.IFolderContentService>();
         }
 
         public static FolderContentManagerToClient Instance
@@ -38,7 +37,7 @@ namespace CloudAppServer
 
         #endregion Singelton
 
-        private readonly ConcurrentDictionary<string, FolderContentHelper.FolderContentManager> _folderContentManagerToClient;
+        private readonly ConcurrentDictionary<string, FolderContentManager.Services.IFolderContentService> _folderContentManagerToClient;
         private readonly ConcurrentDictionary<string, FileService> _fileServiceToClient;
         private readonly ConcurrentDictionary<string, Action> _clientToRemoveAction;
         private readonly ConcurrentDictionary<string, long> _clientToNumberOfLogins;
@@ -56,7 +55,7 @@ namespace CloudAppServer
             var folderContentManagerConstance = new Constance();
             folderContentManagerConstance.BaseFolderPath = $"{folderContentManagerConstance.BaseFolderPath}\\{id}";
             var folderContentConcurrentManager = new FolderContentConcurrentManager(folderContentManagerConstance);
-            _folderContentManagerToClient[id] = new FolderContentHelper.FolderContentManager(folderContentManagerConstance, folderContentConcurrentManager);
+            _folderContentManagerToClient[id] = new FolderContentManager.Services.FolderContentService(folderContentManagerConstance, folderContentConcurrentManager);
             _fileServiceToClient[id] = new FileService(folderContentConcurrentManager);
         }
 
@@ -82,7 +81,7 @@ namespace CloudAppServer
             onRemove?.Invoke();
         }
 
-        public FolderContentHelper.FolderContentManager GetFolderContentManager(string id)
+        public FolderContentManager.Services.IFolderContentService GetFolderContentManager(string id)
         {
             return _folderContentManagerToClient[id];
         }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace CloudAppServer.ServiceModel
 {
     [DataContract]
-    public class CreateFolderContentFileObj
+    public class FolderContentFileObj
     {
         [DataMember]
         public string Name;

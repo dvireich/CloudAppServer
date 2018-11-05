@@ -69,29 +69,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constance.cs" />
-    <Compile Include="DirectoryManager.cs" />
-    <Compile Include="FileService.cs" />
-    <Compile Include="FolderContentConcurrentManager.cs" />
-    <Compile Include="FolderContentFolderManager.cs" />
-    <Compile Include="FolderContentManager.cs" />
-    <Compile Include="FolderContentFileManager.cs" />
-    <Compile Include="FolderContentPageManager.cs" />
-    <Compile Include="Interfaces\IConstance.cs" />
-    <Compile Include="Interfaces\IDirectoryManager.cs" />
-    <Compile Include="Interfaces\IFileService.cs" />
-    <Compile Include="Interfaces\IFileManager.cs" />
-    <Compile Include="FileManager.cs" />
-    <Compile Include="Interfaces\IFolderContentConcurrentManager.cs" />
-    <Compile Include="Interfaces\IFolderContentFileManager.cs" />
-    <Compile Include="Interfaces\IFolderContentFolderManager.cs" />
-    <Compile Include="Interfaces\IFolderContentManager.cs" />
-    <Compile Include="Interfaces\IFolderContentPageManager.cs" />
-    <Compile Include="Interfaces\IJsonManager.cs" />
-    <Compile Include="Interfaces\ISearchCache.cs" />
-    <Compile Include="Interfaces\ITmpFile.cs" />
-    <Compile Include="IPathManager.cs" />
-    <Compile Include="JsonManager.cs" />
+    <Compile Include="Helpers\Constance.cs" />
+    <Compile Include="Helpers\DirectoryManager.cs" />
+    <Compile Include="Extentions\Extensions.cs" />
+    <Compile Include="Helpers\FileService.cs" />
+    <Compile Include="Helpers\FolderContentConcurrentManager.cs" />
+    <Compile Include="Helpers\IConstance.cs" />
+    <Compile Include="Helpers\IDirectoryManager.cs" />
+    <Compile Include="Helpers\IFileService.cs" />
+    <Compile Include="Helpers\IFileManager.cs" />
+    <Compile Include="Helpers\FileManager.cs" />
+    <Compile Include="Helpers\IFolderContentConcurrentManager.cs" />
+    <Compile Include="Services\FolderContentFileService.cs" />
+    <Compile Include="Services\FolderContentService.cs" />
+    <Compile Include="Services\IFolderContentFileService.cs" />
+    <Compile Include="Services\IFolderContentFolderService.cs" />
+    <Compile Include="Helpers\ISearchCache.cs" />
+    <Compile Include="Model\ITmpFile.cs" />
+    <Compile Include="Helpers\IPathManager.cs" />
     <Compile Include="Model\FileDownloadData.cs" />
     <Compile Include="Model\FileObj.cs" />
     <Compile Include="Model\FolderContent.cs" />
@@ -106,20 +101,33 @@
     <Compile Include="Model\IFolderContentTrackInfo.cs" />
     <Compile Include="Model\IFolderPage.cs" />
     <Compile Include="Model\IFolderPageSearchResult.cs" />
-    <Compile Include="Model\RestObject\RestFileObj.cs" />
-    <Compile Include="Model\RestObject\RestFolderContent.cs" />
-    <Compile Include="Model\RestObject\RestFolderObj.cs" />
-    <Compile Include="Model\RestObject\RestFolderPageObj.cs" />
+    <Compile Include="Model\MappableObjects\MappableFile.cs" />
+    <Compile Include="Model\MappableObjects\MappableFolderContent.cs" />
+    <Compile Include="Model\MappableObjects\MappableFolder.cs" />
+    <Compile Include="Model\MappableObjects\MappableFolderPage.cs" />
     <Compile Include="Model\SortType.cs" />
     <Compile Include="Model\TmpFileObj.cs" />
     <Compile Include="Model\FolderMetadata.cs" />
-    <Compile Include="PathManager.cs" />
+    <Compile Include="Helpers\PathManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SearchCache.cs" />
+    <Compile Include="Repositories\FolderContentFileRepository.cs" />
+    <Compile Include="Repositories\FolderContentFolderRepository.cs" />
+    <Compile Include="Repositories\FolderContentPageRepository.cs" />
+    <Compile Include="Repositories\GenericFolderContentRepository.cs" />
+    <Compile Include="Repositories\IFolderContentFileRepository.cs" />
+    <Compile Include="Repositories\IFolderContentFolderRepository.cs" />
+    <Compile Include="Repositories\IFolderContentPageRepository.cs" />
+    <Compile Include="Repositories\IMappable.cs" />
+    <Compile Include="Helpers\SearchCache.cs" />
+    <Compile Include="Services\FolderContentFolderService.cs" />
+    <Compile Include="Services\FolderContentPageService.cs" />
+    <Compile Include="Services\IFolderContentPageService.cs" />
+    <Compile Include="Services\IFolderContentService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

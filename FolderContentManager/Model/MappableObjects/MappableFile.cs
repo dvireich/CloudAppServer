@@ -1,15 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Threading.Tasks;
+using FolderContentManager.Repositories;
 
 namespace CloudAppServer.Model
 {
-    public class RestFolderContent
+    public class MappableFile : IMappable<IFile>
     {
-        public RestFolderContent()
-        {
-
-        }
-
         public string Name { get; set; }
         public string Path { get; set; }
         public FolderContentType Type { get; set; }
@@ -18,14 +18,9 @@ namespace CloudAppServer.Model
         public long Size { get; set; }
         public string FileType { get; set; }
 
-        public IFolderContent MapToIFolderContent()
+        public IFile Map()
         {
-            if (Type == FolderContentType.File)
-            {
-                return new FileObj(Name, Path, FileType, Size, CreationTime, ModificationTime);
-            }
-
-            return new FolderContent(Name, Path, Type, CreationTime, ModificationTime);
+            return new FileObj(Name, Path, FileType, Size, CreationTime, ModificationTime);
         }
     }
 }

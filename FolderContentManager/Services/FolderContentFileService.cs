@@ -1,0 +1,108 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using CloudAppServer.Model;
+using FolderContentHelper.Interfaces;
+using FolderContentManager.Repositories;
+
+namespace FolderContentManager.Services
+{
+    public class FolderContentFileService : IFolderContentFileService
+    {
+        private readonly IFolderContentFileRepository _folderContentFileRepository;
+        private readonly IFolderContentFolderService _folderContentFolderService;
+        private readonly IFolderContentPageService _folderContentPageService;
+
+        public FolderContentFileService(IConstance constance)
+        {
+            _folderContentPageService = new FolderContentPageService(constance);
+            _folderContentFolderService = new FolderContentFolderService(constance);
+            _folderContentFileRepository = new FolderContentFileRepository(constance);
+        }
+
+        public void CreateFile(string name, string path, string fileType, string tmpCreationPath, long size)
+        {
+            var file = new FileObj(name, path, fileType, size);
+            var parent = _folderContentFolderService.GetParentFolder(file);
+
+            //Validate that the file is unique in all pages. If the file is unique then save it
+            _folderContentPageService.ValidateUniquenessOnAllFolderPages(parent, file);
+            _folderContentFileRepository.CreateOrUpdateFolderContentFile(name, path, file);
+            
+            _folderContentFileRepository.Move(name, path, tmpCreationPath);
+            _folderContentFolderService.UpdateNextPageToWrite(parent);
+            _folderContentPageService.AddToFolderPage(parent, parent.NextPageToWrite, file);
+        }
+
+        public void DeleteFile(string name, string path, int page)
+        {
+            var file = _folderContentFileRepository.GetFolderContentFile(name, path);
+            if(file == null) return;;
+
+            _folderContentFileRepository.Delete(name, path);
+
+            var parent = _folderContentFolderService.GetParentFolder(file);
+            _folderContentPageService.RemoveFolderContentFromPage(parent, file, page);
+        }
+
+        public Stream GetFile(string name, string path)
+        {
+            return _folderContentFileRepository.GetFile(name, path);
+        }
+
+        public IFile GetFolderContentFile(string name, string path)
+        {
+            return _folderContentFileRepository.GetFolderContentFile(name, path);
+        }
+
+        public void MoveFileToNewLocation(string sourceName, string sourcePath, string destName, string destPath)
+        {
+            var sourceFolderContentFile = _folderContentFileRepository.GetFolderContentFile(sourceName, sourcePath);
+            _folderContentFileRepository.CreateOrUpdateFolderContentFile(destName, destPath, sourceFolderContentFile);
+            _folderContentFileRepository.Move(destName, destPath, sourceName, sourcePath);
+            _folderContentFileRepository.Delete(sourceName, sourcePath);
+        }
+
+        public void UpdateFolderContentFile(IFile file)
+        {
+            _folderContentFileRepository.CreateOrUpdateFolderContentFile(file.Name, file.Path, file);
+        }
+
+        public void RenameFile(string oldName, string newName, string path)
+        {
+            var folderContentFile = GetFolderContentFile(oldName, path);
+            if (folderContentFile == null) throw new Exception("file does not exists!");
+            folderContentFile.Name = newName;
+            folderContentFile.ModificationTime = $"{DateTime.Now:G}";
+            UpdateFolderContentFile(folderContentFile);
+            MoveFileToNewLocation(oldName, path, newName, path);
+            var folder = _folderContentFolderService.GetParentFolder(folderContentFile);
+            _folderContentPageService.RenameFolderContentInFolderPages(folder, oldName, newName, folderContentFile);
+        }
+
+        public void Copy(string copyFromName, string copyFromPath, string copyToName, string copyToPath)
+        {
+            var folderToCopyTo = _folderContentFolderService.GetFolder(copyToName, copyToPath);
+            if (folderToCopyTo == null)
+            {
+                throw new Exception("The folder you are trying to copy to does not exists!");
+            }
+
+            _folderContentFolderService.UpdateNextPageToWrite(folderToCopyTo);
+
+            var fileToCopy = GetFolderContentFile(copyFromName, copyFromPath);
+            if (fileToCopy == null)
+            {
+                throw new Exception("The file you are trying to copy does not exists!");
+            }
+            var copyFromNewPath = string.IsNullOrEmpty(folderToCopyTo.Path) ? folderToCopyTo.Name : $"{folderToCopyTo.Path}/{folderToCopyTo.Name}";
+            fileToCopy.Path = copyFromNewPath;
+            _folderContentPageService.AddToFolderPage(folderToCopyTo, folderToCopyTo.NextPageToWrite, fileToCopy);
+            UpdateFolderContentFile(fileToCopy);
+            _folderContentFileRepository.Copy(copyFromName, copyFromNewPath, copyFromName, copyFromPath);
+        }
+    }
+}

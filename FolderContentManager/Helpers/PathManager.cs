@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Path = Pri.LongPath.Path;
-namespace FolderContentManager
+﻿using Path = Pri.LongPath.Path;
+namespace FolderContentManager.Helpers
 {
     public class PathManager : IPathManager
     {
@@ -16,6 +11,11 @@ namespace FolderContentManager
         public string GetTempPath()
         {
             return Path.GetTempPath();
+        }
+
+        public string GetFileExtension(string fileName)
+        {
+            return Path.GetExtension(fileName);
         }
     }
 }

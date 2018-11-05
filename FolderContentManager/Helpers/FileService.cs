@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using CloudAppServer.Model;
 using FolderContentHelper.Interfaces;
 using FolderContentManager;
+using FolderContentManager.Helpers;
 using FolderContentManager.Interfaces;
 using FolderContentManager.Model;
 using PostSharp.Extensibility;
@@ -71,7 +72,7 @@ namespace FolderContentHelper
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Could not Update request id: {requestId} for file value content with the following exception: {e.Message}");
+                Console.WriteLine($"Could not CreateOrUpdate request id: {requestId} for file value content with the following exception: {e.Message}");
             }
         }
 

@@ -1,16 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Web.Script.Serialization;
-using CloudAppServer.Model;
 using CloudAppServer.ServiceModel;
 using FolderContentHelper;
-using FolderContentHelper.Interfaces;
 using FolderContentHelper.Model;
 using FolderContentManager.Model;
 using WcfLogger;
@@ -20,7 +15,7 @@ namespace CloudAppServer
 {
     public class FolderContentService : IFolderContentService
     {
-        private readonly IFolderContentManager _folderContentManager;
+        private readonly FolderContentManager.Services.IFolderContentService _folderContentManager;
         private readonly JavaScriptSerializer _serializer = new JavaScriptSerializer();
         private readonly IFileService _fileService;
 
@@ -57,16 +52,16 @@ namespace CloudAppServer
             }
         }
 
-        private string FixPath(string path)
-        {
-            return path.Replace(',', '/');
-        }
+        //private string FixPath(string path)
+        //{
+        //    return path.Replace(',', '/');
+        //}
 
-        private void FixNameAndPath(string name, string path, out string fixedNamed, out string fixedPath)
-        {
-            fixedNamed = name.Replace("\"", "");
-            fixedPath = path.Replace("\"", "");
-        }
+        //private void FixNameAndPath(string name, string path, out string fixedNamed, out string fixedPath)
+        //{
+        //    fixedNamed = name.Replace("\"", "");
+        //    fixedPath = path.Replace("\"", "");
+        //}
 
         public void GetOptions()
         {
@@ -92,8 +87,7 @@ namespace CloudAppServer
             if (pageRequest == null) return string.Empty;
             return Perform(() =>
             {
-                FixNameAndPath(pageRequest.Name, pageRequest.Path, out var fixedName, out var fixedPath);
-                var folderPage = _folderContentManager.GetFolderPage(fixedName, FixPath(fixedPath), int.Parse(pageRequest.Page));
+                var folderPage = _folderContentManager.GetFolderPage(pageRequest.Name, pageRequest.Path, int.Parse(pageRequest.Page));
                 return folderPage == null ? null : _serializer.Serialize(folderPage);
             });
         }
@@ -116,25 +110,14 @@ namespace CloudAppServer
         public int GetNumberOfPage(NumberOfPageRequest numberOfPageRequest)
         {
             if (numberOfPageRequest == null) return -1;
-            return Perform(() =>
-            {
-                FixNameAndPath(numberOfPageRequest.Name, numberOfPageRequest.Path, out var fixedName, out var fixedPath);
-                return _folderContentManager.GetNumOfFolderPages(fixedName, FixPath(fixedPath));
-            });
+            return Perform(() => _folderContentManager.GetNumOfFolderPages(numberOfPageRequest.Name, numberOfPageRequest.Path));
         }
 
         [WcfLogging]
         public int GetSortType(FolderContentObj folderContent)
         {
             if (folderContent == null) return 0;
-            return Perform(() =>
-            {
-                FixNameAndPath(folderContent.Name, folderContent.Path, out var fixedName, out var fixedPath);
-                var folder = _folderContentManager.GetFolderObj(fixedName, FixPath(fixedPath));
-                if (folder == null) return 0;
-
-                return (int)folder.SortType;
-            });
+            return Perform(() => _folderContentManager.GetSortType(folderContent.Name, folderContent.Path));
         }
 
         [WcfLogging]
@@ -149,7 +132,7 @@ namespace CloudAppServer
             Perform(() =>
             {
                 if (newFolder == null) return;
-                _folderContentManager.CreateFolder(newFolder.Name, FixPath(newFolder.Path));
+                _folderContentManager.CreateFolder(newFolder.Name, newFolder.Path);
             });
         }
 
@@ -159,7 +142,7 @@ namespace CloudAppServer
             Perform(() =>
             {
                 if (folder == null) return;
-                _folderContentManager.DeleteFolder(folder.Name, FixPath(folder.Path), folder.Page);
+                _folderContentManager.DeleteFolder(folder.Name, folder.Path, folder.Page);
             });
         }
 
@@ -169,7 +152,7 @@ namespace CloudAppServer
             Perform(() =>
             {
                 if (file == null) return;
-                _folderContentManager.DeleteFile(file.Name, FixPath(file.Path), file.Page);
+                _folderContentManager.DeleteFile(file.Name, file.Path, file.Page);
             });
         }
 
@@ -179,7 +162,7 @@ namespace CloudAppServer
             Perform(() =>
             {
                 if (folderContent == null) return;
-                _folderContentManager.Rename(folderContent.Name, FixPath(folderContent.Path), folderContent.Type,
+                _folderContentManager.Rename(folderContent.Name, folderContent.Path, folderContent.Type,
                     folderContent.NewName);
             });
         }
@@ -197,7 +180,7 @@ namespace CloudAppServer
         }
 
         [WcfLogging]
-        public void CreateFile(CreateFolderContentFileObj folderContent)
+        public void CreateFile(FolderContentFileObj folderContent)
         {
             Perform(() =>
             {
@@ -210,7 +193,7 @@ namespace CloudAppServer
             });
         }
 
-        public void UpdateFileContent(CreateFolderContentFileObj folderContent)
+        public void UpdateFileContent(FolderContentFileObj folderContent)
         {
             Perform(() =>
             {
@@ -252,12 +235,11 @@ namespace CloudAppServer
             if (getFileRequest == null) return -1;
             return Perform(() =>
             {
-                FixNameAndPath(getFileRequest.Name, getFileRequest.Path, out var fixedName, out var fixedPath);
                 var requestId = _fileService.GetRequestIdForDownload();
                 var downloadData = new FileDownloadData()
                 {
-                    FileName = fixedName,
-                    FilePath = FixPath(fixedPath)
+                    FileName = getFileRequest.Name,
+                    FilePath = getFileRequest.Path
                 };
                 _fileService.PrepareFileToDownload(requestId, downloadData);
 
@@ -293,9 +275,8 @@ namespace CloudAppServer
             if (searchRequest == null) return string.Empty;
             return Perform(() =>
             {
-                FixNameAndPath(searchRequest.Name, searchRequest.Page, out var fixedName, out var fixedPage);
-                var result = _folderContentManager.Search(fixedName, int.Parse(fixedPage));
-                var folderPage = new FolderPageSearchResult(fixedName, result);
+                var result = _folderContentManager.Search(searchRequest.Name, int.Parse(searchRequest.Page));
+                var folderPage = new FolderPageSearchResult(searchRequest.Name, result);
                 return _serializer.Serialize(folderPage);
             });
         }

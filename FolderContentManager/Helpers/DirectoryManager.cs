@@ -1,22 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FolderContentHelper.Interfaces;
-using FolderContentManager;
 using PostSharp.Extensibility;
 using PostSharp.Patterns.Diagnostics;
 using Directory = Pri.LongPath.Directory;
 using DirectoryInfo = Pri.LongPath.DirectoryInfo;
 
-namespace FolderContentHelper
+namespace FolderContentManager.Helpers
 {
     [Log(AttributeTargetElements = MulticastTargets.Method, AttributeTargetTypeAttributes = MulticastAttributes.Public, AttributeTargetMemberAttributes = MulticastAttributes.Public)]
     public class DirectoryManager : IDirectoryManager
     {
-        private IPathManager _pathManager;
+        private readonly IPathManager _pathManager;
 
         public DirectoryManager()
         {

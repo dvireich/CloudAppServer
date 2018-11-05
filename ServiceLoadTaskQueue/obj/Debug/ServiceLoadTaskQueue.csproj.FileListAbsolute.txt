@@ -15,3 +15,4 @@ C:\Users\dvire\source\repos\CloudAppServer\ServiceLoadTaskQueue\obj\Debug\Servic
 C:\Users\dvire\source\repos\CloudAppServer\ServiceLoadTaskQueue\obj\Debug\ServiceLoadTaskQueue.csproj.CopyComplete
 C:\Users\dvire\source\repos\CloudAppServer\ServiceLoadTaskQueue\obj\Debug\ServiceLoadTaskQueue.dll
 C:\Users\dvire\source\repos\CloudAppServer\ServiceLoadTaskQueue\obj\Debug\ServiceLoadTaskQueue.pdb
+C:\Users\dvire\source\repos\CloudAppServer\ServiceLoadTaskQueue\obj\Debug\ServiceLoadTaskQueue.csprojAssemblyReference.cache

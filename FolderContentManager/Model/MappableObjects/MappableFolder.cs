@@ -6,13 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using CloudAppServer.Model;
 using FolderContentManager.Model;
+using FolderContentManager.Repositories;
 
 namespace CloudAppServer.Model
 {
-    public class RestFolderObj
+    public class MappableFolder: IMappable<IFolder>
     {
-
-        public RestFolderObj()
+        public MappableFolder()
         {
             Type = FolderContentType.Folder;
             NumOfPages = NextPageToWrite = 1;
@@ -27,8 +27,7 @@ namespace CloudAppServer.Model
         public string ModificationTime { get; set; }
         public SortType SortType { get; set; }
 
-
-        public IFolder MapToIFolder()
+        public IFolder Map()
         {
             return new FolderObj(Name, Path, NumOfPages, NextPageToWrite, CreationTime, ModificationTime, SortType);
         }

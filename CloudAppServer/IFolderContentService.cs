@@ -111,13 +111,13 @@ namespace CloudAppServer
             Method = "POST",
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "/FolderContent/CreateFile")]
-        void CreateFile(CreateFolderContentFileObj folderContent);
+        void CreateFile(FolderContentFileObj folderContent);
 
         [WebInvoke(
             Method = "POST",
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "/FolderContent/UpdateFileContent")]
-        void UpdateFileContent(CreateFolderContentFileObj folderContent);
+        void UpdateFileContent(FolderContentFileObj folderContent);
 
         [WebInvoke(
             Method = "POST",

@@ -9,20 +9,21 @@ using FolderContentHelper;
 using FolderContentHelper.Interfaces;
 using FolderContentManager.Interfaces;
 using FolderContentManager.Model;
+using FolderContentManager.Services;
 
 namespace FolderContentManager
 {
     public class FolderContentConcurrentManager : IFolderContentConcurrentManager
     {
 
-        private readonly IJsonManager _jsonManager;
-        private readonly IFolderContentFolderManager _folderContentFolderManager;
+        private readonly IFolderContentFolderService _folderContentFolderService;
+        private readonly IFolderContentPageService _folderContentPageService;
         private readonly Dictionary<IFolderContent, ICollection<IFolderContent>> _concurrentOperationToFolderContent;
 
         public FolderContentConcurrentManager(IConstance constance)
         {
-            _folderContentFolderManager = new FolderContentFolderManager(constance);
-            _jsonManager = new JsonManager(constance);
+            _folderContentPageService = new FolderContentPageService(constance);
+            _folderContentFolderService = new FolderContentFolderService(constance);
             _concurrentOperationToFolderContent = new Dictionary<IFolderContent, ICollection<IFolderContent>>();
         }
 
@@ -79,7 +80,7 @@ namespace FolderContentManager
                 {
                     //Get all the sub children of the folder content because we may updates the children folder content in changes on the parent folder
                     var forbiddenFolderContents = GetSubs(fc);
-                    var parent = _folderContentFolderManager.GetParentFolder(fc);
+                    var parent = _folderContentFolderService.GetParentFolder(fc);
                     if (parent != null)
                     {
                         //Add the parent because we updates the parent folder in changes on the folder content
@@ -113,10 +114,10 @@ namespace FolderContentManager
                 subs.Add(fc);
                 if (fc.Type != FolderContentType.Folder) return;
 
-                var folder = _jsonManager.GetFolder(fc.Name, fc.Path);
+                var folder = _folderContentFolderService.GetFolder(fc.Name, fc.Path);
                 for (var i = 1; (folder != null && i <= folder.NumOfPages); i++)
                 {
-                    var page = _jsonManager.GetFolderPage(folder, i);
+                    var page = _folderContentPageService.GetFolderPage(folder, i);
                     foreach (var content in page.Content)
                     {
                         GetAllSubs(content, subs);
