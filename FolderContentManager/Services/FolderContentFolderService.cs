@@ -17,14 +17,23 @@ namespace FolderContentManager.Services
     {
         private readonly IFolderContentFolderRepository _folderContentFolderRepository;
         private readonly IFolderContentPageService _folderContentPageService;
+        private readonly IFolderContentFileService _folderContentFileService;
         private readonly IConstance _constance;
 
         public FolderContentFolderService(IConstance constance)
         {
             _folderContentFolderRepository = new FolderContentFolderRepository(constance);
             _folderContentPageService = new FolderContentPageService(constance);
+            _folderContentFileService = new FolderContentFileService(constance, this);
             this._constance = constance;
-           
+        }
+
+        public FolderContentFolderService(IConstance constance, IFolderContentFileService folderContentFileService)
+        {
+            _folderContentFolderRepository = new FolderContentFolderRepository(constance);
+            _folderContentPageService = new FolderContentPageService(constance);
+            _folderContentFileService = folderContentFileService;
+            this._constance = constance;
         }
 
         public IFolder GetParentFolder(IFolderContent folder)
@@ -98,13 +107,15 @@ namespace FolderContentManager.Services
 
             for (var i = 1; i <= folder.NumOfPages; i++)
             {
-
                 _folderContentPageService.UpdatePathOnPage(folder, i, oldPathPrefix, newPathPrefix);
-
                 var page = _folderContentPageService.GetFolderPage(folder, i);
 
                 foreach (var fc in page.Content)
                 {
+                    if (fc.Type == FolderContentType.File)
+                    {
+                        _folderContentFileService.UpdateFilePrefixPath(fc.Name, fc.Path, newPathPrefix, oldPathPrefix);
+                    }
                     UpdateFolderChildrenPath(fc, newPathPrefix, oldPathPrefix);
                 }
             }

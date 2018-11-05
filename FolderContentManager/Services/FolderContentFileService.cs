@@ -22,7 +22,14 @@ namespace FolderContentManager.Services
         public FolderContentFileService(IConstance constance)
         {
             _folderContentPageService = new FolderContentPageService(constance);
-            _folderContentFolderService = new FolderContentFolderService(constance);
+            _folderContentFolderService = new FolderContentFolderService(constance, this);
+            _folderContentFileRepository = new FolderContentFileRepository(constance);
+        }
+
+        public FolderContentFileService(IConstance constance, IFolderContentFolderService folderContentFolderService)
+        {
+            _folderContentFolderService = folderContentFolderService;
+            _folderContentPageService = new FolderContentPageService(constance);
             _folderContentFileRepository = new FolderContentFileRepository(constance);
         }
 
@@ -106,6 +113,14 @@ namespace FolderContentManager.Services
             _folderContentPageService.AddToFolderPage(folderToCopyTo, folderToCopyTo.NextPageToWrite, fileToCopy);
             UpdateFolderContentFile(fileToCopy);
             _folderContentFileRepository.Copy(copyFromName, copyFromNewPath, copyFromName, copyFromPath);
+        }
+
+        public void UpdateFilePrefixPath(string fileName, string filePath, string newPathPrefix, string oldPathPrefix)
+        {
+            var folderContentFile = GetFolderContentFile(fileName, filePath);
+            if (!folderContentFile.Path.StartsWith(oldPathPrefix)) return;
+            folderContentFile.Path = folderContentFile.Path.ReplacePrefixInString(oldPathPrefix, newPathPrefix);
+            UpdateFolderContentFile(folderContentFile);
         }
     }
 }

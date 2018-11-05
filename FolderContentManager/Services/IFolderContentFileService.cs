@@ -25,5 +25,7 @@ namespace FolderContentManager.Services
         void RenameFile(string oldName, string newName, string path);
 
         void Copy(string copyFromName, string copyFromPath, string copyToName, string copyToPath);
+
+        void UpdateFilePrefixPath(string fileName, string filePath, string newPathPrefix, string oldPathPrefix);
     }
 }
