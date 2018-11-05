@@ -1,128 +1,304 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Symbols LinesOfCode="1255" PostSharpLinesOfCode="0" EnhancedTypesCount="5" SchemaVersion="1" PostSharpVersion="6.0.27.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
+<Symbols LinesOfCode="1257" PostSharpLinesOfCode="0" EnhancedTypesCount="12" SchemaVersion="1" PostSharpVersion="6.0.27.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
   <Class Class="#1=T:[PostSharp.Patterns.Diagnostics]PostSharp.Patterns.Diagnostics.LogAttribute">
-    <Instance Declaration="#2=T:[FolderContentManager]FolderContentManager.Services.FolderContentService" Id="2fa06dc5877d437f">
-      <Target Target="#3=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::CreateFolder(System.String, System.String)">
-        <JoinPoint Advising="#1" Description="#4=Adds logging" Ordinal="0" LinesAvoided="5" />
+    <Instance Declaration="#2=T:[FolderContentManager]FolderContentManager.Repositories.FolderContentFileRepository" Id="2fa06dc538a3bbb9">
+      <Target Target="#3=M:[FolderContentManager]FolderContentManager.Repositories.FolderContentFileRepository::GetFolderContentFile(System.String, System.String)">
+        <JoinPoint Advising="#1" Description="#4=Adds logging" Ordinal="6" LinesAvoided="5" />
       </Target>
-      <Target Target="#5=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::DeleteFolder(System.String, System.String, System.Int32)">
-        <JoinPoint Advising="#1" Description="#4" LinesAvoided="5" />
-      </Target>
-      <Target Target="#6=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::DeleteFile(System.String, System.String, System.Int32)">
-        <JoinPoint Advising="#1" Description="#4" Ordinal="2" LinesAvoided="5" />
-      </Target>
-      <Target Target="#7=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::GetFile(System.String, System.String)">
-        <JoinPoint Advising="#1" Description="#4" Ordinal="3" LinesAvoided="5" />
-      </Target>
-      <Target Target="#8=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::GetFolderPage(System.String, System.String, System.Int32)">
-        <JoinPoint Advising="#1" Description="#4" Ordinal="4" LinesAvoided="5" />
-      </Target>
-      <Target Target="#9=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::GetSortType(System.String, System.String)">
-        <JoinPoint Advising="#1" Description="#4" Ordinal="5" LinesAvoided="5" />
-      </Target>
-      <Target Target="#10=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::GetNumOfFolderPages(System.String, System.String)">
-        <JoinPoint Advising="#1" Description="#4" Ordinal="6" LinesAvoided="5" />
-      </Target>
-      <Target Target="#11=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::Rename(System.String, System.String, System.String, System.String)">
+      <Target Target="#5=M:[FolderContentManager]FolderContentManager.Repositories.FolderContentFileRepository::CreateOrUpdateFolderContentFile(System.String, System.String, [FolderContentManager]CloudAppServer.Model.IFile)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="7" LinesAvoided="5" />
       </Target>
-      <Target Target="#12=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::CreateFile(System.String, System.String, System.String, System.String, System.Int64)">
+      <Target Target="#6=M:[FolderContentManager]FolderContentManager.Repositories.FolderContentFileRepository::GetFile(System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="8" LinesAvoided="5" />
       </Target>
-      <Target Target="#13=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::Copy(System.String, System.String, System.String, System.String, System.String)">
+      <Target Target="#7=M:[FolderContentManager]FolderContentManager.Repositories.FolderContentFileRepository::Delete(System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="9" LinesAvoided="5" />
       </Target>
-      <Target Target="#14=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::UpdateFolderMetaData([FolderContentManager]FolderContentManager.Model.FolderMetadata)">
+      <Target Target="#8=M:[FolderContentManager]FolderContentManager.Repositories.FolderContentFileRepository::Move(System.String, System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="10" LinesAvoided="5" />
       </Target>
-      <Target Target="#15=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::Search(System.String, System.Int32)">
+      <Target Target="#9=M:[FolderContentManager]FolderContentManager.Repositories.FolderContentFileRepository::Move(System.String, System.String, System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="11" LinesAvoided="5" />
       </Target>
-    </Instance>
-    <Instance Declaration="#16=T:[FolderContentManager]FolderContentManager.Helpers.DirectoryManager" Id="2fa06dc52f4a7b73">
-      <Target Target="#17=M:[FolderContentManager]FolderContentManager.Helpers.DirectoryManager::Delete(System.String, System.Boolean)">
+      <Target Target="#10=M:[FolderContentManager]FolderContentManager.Repositories.FolderContentFileRepository::Copy(System.String, System.String, System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="12" LinesAvoided="5" />
       </Target>
-      <Target Target="#18=M:[FolderContentManager]FolderContentManager.Helpers.DirectoryManager::CreateDirectory(System.String)">
+    </Instance>
+    <Instance Declaration="#11=T:[FolderContentManager]FolderContentManager.Repositories.FolderContentFolderRepository" Id="2fa06dc5440fe117">
+      <Target Target="#12=M:[FolderContentManager]FolderContentManager.Repositories.FolderContentFolderRepository::GetFolder(System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="13" LinesAvoided="5" />
       </Target>
-      <Target Target="#19=M:[FolderContentManager]FolderContentManager.Helpers.DirectoryManager::Exists(System.String)">
+      <Target Target="#13=M:[FolderContentManager]FolderContentManager.Repositories.FolderContentFolderRepository::CreateOrUpdateFolder(System.String, System.String, [FolderContentManager]CloudAppServer.Model.IFolder)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="14" LinesAvoided="5" />
       </Target>
-      <Target Target="#20=M:[FolderContentManager]FolderContentManager.Helpers.DirectoryManager::DirectoryCopy(System.String, System.String, System.Boolean)">
+      <Target Target="#14=M:[FolderContentManager]FolderContentManager.Repositories.FolderContentFolderRepository::CreateDirectory(System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="15" LinesAvoided="5" />
       </Target>
-    </Instance>
-    <Instance Declaration="#21=T:[FolderContentManager]FolderContentManager.Helpers.FileManager" Id="2fa06dc5e0703679">
-      <Target Target="#22=M:[FolderContentManager]FolderContentManager.Helpers.FileManager::GetFile(System.String)">
+      <Target Target="#15=M:[FolderContentManager]FolderContentManager.Repositories.FolderContentFolderRepository::DeleteFolder(System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="16" LinesAvoided="5" />
       </Target>
-      <Target Target="#23=M:[FolderContentManager]FolderContentManager.Helpers.FileManager::Delete(System.String)">
+      <Target Target="#16=M:[FolderContentManager]FolderContentManager.Repositories.FolderContentFolderRepository::DeleteDirectory(System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="17" LinesAvoided="5" />
       </Target>
-      <Target Target="#24=M:[FolderContentManager]FolderContentManager.Helpers.FileManager::Move(System.String, System.String)">
+      <Target Target="#17=M:[FolderContentManager]FolderContentManager.Repositories.FolderContentFolderRepository::CopyDirectory(System.String, System.String, System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="18" LinesAvoided="5" />
       </Target>
-      <Target Target="#25=M:[FolderContentManager]FolderContentManager.Helpers.FileManager::Copy(System.String, System.String)">
+      <Target Target="#18=M:[FolderContentManager]FolderContentManager.Repositories.FolderContentFolderRepository::CreateDirectoryPath(System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="19" LinesAvoided="5" />
       </Target>
-      <Target Target="#26=M:[FolderContentManager]FolderContentManager.Helpers.FileManager::Exists(System.String)">
+    </Instance>
+    <Instance Declaration="#19=T:[FolderContentManager]FolderContentManager.Repositories.FolderContentPageRepository" Id="2fa06dc56eb5fddb">
+      <Target Target="#20=M:[FolderContentManager]FolderContentManager.Repositories.FolderContentPageRepository::GetFolderPage(System.String, System.String, System.Int32)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="20" LinesAvoided="5" />
       </Target>
-      <Target Target="#27=M:[FolderContentManager]FolderContentManager.Helpers.FileManager::Create(System.String)">
+      <Target Target="#21=M:[FolderContentManager]FolderContentManager.Repositories.FolderContentPageRepository::CreateOrUpdateFolderPage(System.String, System.String, System.Int32, [FolderContentManager]FolderContentHelper.Model.IFolderPage)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="21" LinesAvoided="5" />
       </Target>
-      <Target Target="#28=M:[FolderContentManager]FolderContentManager.Helpers.FileManager::OpenText(System.String)">
+      <Target Target="#22=M:[FolderContentManager]FolderContentManager.Repositories.FolderContentPageRepository::DeletePage(System.String, System.String, System.Int32)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="22" LinesAvoided="5" />
       </Target>
-      <Target Target="#29=M:[FolderContentManager]FolderContentManager.Helpers.FileManager::CreateText(System.String)">
+    </Instance>
+    <Instance Declaration="#23=T:[FolderContentManager]FolderContentManager.Repositories.GenericFolderContentRepository{TModel,TMappable}" Id="2fa06dc519933bae">
+      <Target Target="#24=M:[FolderContentManager]FolderContentManager.Repositories.GenericFolderContentRepository{TModel,TMappable}::GetByFullPath(System.String, System.String, [FolderContentManager]CloudAppServer.Model.FolderContentType)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="0" LinesAvoided="5" />
+      </Target>
+      <Target Target="#25=M:[FolderContentManager]FolderContentManager.Repositories.GenericFolderContentRepository{TModel,TMappable}::GetByFullPath(System.String)">
+        <JoinPoint Advising="#1" Description="#4" LinesAvoided="5" />
+      </Target>
+      <Target Target="#26=M:[FolderContentManager]FolderContentManager.Repositories.GenericFolderContentRepository{TModel,TMappable}::CreateOrUpdate(System.Object, System.String, System.String, [FolderContentManager]CloudAppServer.Model.FolderContentType)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="2" LinesAvoided="5" />
+      </Target>
+      <Target Target="#27=M:[FolderContentManager]FolderContentManager.Repositories.GenericFolderContentRepository{TModel,TMappable}::CreateOrUpdate(System.Object, System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="3" LinesAvoided="5" />
+      </Target>
+      <Target Target="#28=M:[FolderContentManager]FolderContentManager.Repositories.GenericFolderContentRepository{TModel,TMappable}::Delete(System.String, System.String, [FolderContentManager]CloudAppServer.Model.FolderContentType)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="4" LinesAvoided="5" />
+      </Target>
+      <Target Target="#29=M:[FolderContentManager]FolderContentManager.Repositories.GenericFolderContentRepository{TModel,TMappable}::Delete(System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="5" LinesAvoided="5" />
+      </Target>
+    </Instance>
+    <Instance Declaration="#30=T:[FolderContentManager]FolderContentManager.Services.FolderContentFileService" Id="2fa06dc536935d31">
+      <Target Target="#31=M:[FolderContentManager]FolderContentManager.Services.FolderContentFileService::CreateFile(System.String, System.String, System.String, System.String, System.Int64)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="23" LinesAvoided="5" />
       </Target>
-      <Target Target="#30=M:[FolderContentManager]FolderContentManager.Helpers.FileManager::GetFileExtension(System.String)">
+      <Target Target="#32=M:[FolderContentManager]FolderContentManager.Services.FolderContentFileService::DeleteFile(System.String, System.String, System.Int32)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="24" LinesAvoided="5" />
       </Target>
-    </Instance>
-    <Instance Declaration="#31=T:[FolderContentManager]FolderContentHelper.FileService" Id="2fa06dc5275cd1d4">
-      <Target Target="#32=M:[FolderContentManager]FolderContentHelper.FileService::CreateFile(System.Int32, [FolderContentManager]FolderContentManager.Interfaces.ITmpFile)">
+      <Target Target="#33=M:[FolderContentManager]FolderContentManager.Services.FolderContentFileService::GetFile(System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="25" LinesAvoided="5" />
       </Target>
-      <Target Target="#33=M:[FolderContentManager]FolderContentHelper.FileService::GetFile(System.Int32)">
+      <Target Target="#34=M:[FolderContentManager]FolderContentManager.Services.FolderContentFileService::GetFolderContentFile(System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="26" LinesAvoided="5" />
       </Target>
-      <Target Target="#34=M:[FolderContentManager]FolderContentHelper.FileService::Finish(System.Int32)">
+      <Target Target="#35=M:[FolderContentManager]FolderContentManager.Services.FolderContentFileService::MoveFileToNewLocation(System.String, System.String, System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="27" LinesAvoided="5" />
       </Target>
-      <Target Target="#35=M:[FolderContentManager]FolderContentHelper.FileService::Cancel(System.Int32)">
+      <Target Target="#36=M:[FolderContentManager]FolderContentManager.Services.FolderContentFileService::UpdateFolderContentFile([FolderContentManager]CloudAppServer.Model.IFile)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="28" LinesAvoided="5" />
       </Target>
-      <Target Target="#36=M:[FolderContentManager]FolderContentHelper.FileService::GetRequestId()">
+      <Target Target="#37=M:[FolderContentManager]FolderContentManager.Services.FolderContentFileService::RenameFile(System.String, System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="29" LinesAvoided="5" />
       </Target>
-      <Target Target="#37=M:[FolderContentManager]FolderContentHelper.FileService::GetRequestIdForDownload()">
+      <Target Target="#38=M:[FolderContentManager]FolderContentManager.Services.FolderContentFileService::Copy(System.String, System.String, System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="30" LinesAvoided="5" />
       </Target>
-      <Target Target="#38=M:[FolderContentManager]FolderContentHelper.FileService::PrepareFileToDownload(System.Int32, [FolderContentManager]FolderContentManager.Model.FileDownloadData)">
+    </Instance>
+    <Instance Declaration="#39=T:[FolderContentManager]FolderContentManager.Services.FolderContentService" Id="2fa06dc5aaa1dcab">
+      <Target Target="#40=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::CreateFolder(System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="31" LinesAvoided="5" />
       </Target>
-      <Target Target="#39=M:[FolderContentManager]FolderContentHelper.FileService::GetDownloadFileData(System.Int32)">
+      <Target Target="#41=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::DeleteFolder(System.String, System.String, System.Int32)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="32" LinesAvoided="5" />
       </Target>
-    </Instance>
-    <Instance Declaration="#40=T:[FolderContentManager]FolderContentHelper.SearchCache" Id="2fa06dc53f5bedaf">
-      <Target Target="#41=M:[FolderContentManager]FolderContentHelper.SearchCache::AddToCache(System.String, [FolderContentManager]CloudAppServer.Model.IFolderContent[])">
+      <Target Target="#42=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::DeleteFile(System.String, System.String, System.Int32)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="33" LinesAvoided="5" />
       </Target>
-      <Target Target="#42=M:[FolderContentManager]FolderContentHelper.SearchCache::GetFromCache(System.String)">
+      <Target Target="#43=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::GetFile(System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="34" LinesAvoided="5" />
       </Target>
-      <Target Target="#43=M:[FolderContentManager]FolderContentHelper.SearchCache::RemoveFromCache(System.String)">
+      <Target Target="#44=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::GetFolderPage(System.String, System.String, System.Int32)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="35" LinesAvoided="5" />
       </Target>
-      <Target Target="#44=M:[FolderContentManager]FolderContentHelper.SearchCache::ClearCache()">
+      <Target Target="#45=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::GetSortType(System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="36" LinesAvoided="5" />
       </Target>
-      <Target Target="#45=M:[FolderContentManager]FolderContentHelper.SearchCache::Contains(System.String)">
+      <Target Target="#46=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::GetNumOfFolderPages(System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="37" LinesAvoided="5" />
+      </Target>
+      <Target Target="#47=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::Rename(System.String, System.String, System.String, System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="38" LinesAvoided="5" />
+      </Target>
+      <Target Target="#48=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::CreateFile(System.String, System.String, System.String, System.String, System.Int64)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="39" LinesAvoided="5" />
+      </Target>
+      <Target Target="#49=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::Copy(System.String, System.String, System.String, System.String, System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="40" LinesAvoided="5" />
+      </Target>
+      <Target Target="#50=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::UpdateFolderMetaData([FolderContentManager]FolderContentManager.Model.FolderMetadata)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="41" LinesAvoided="5" />
+      </Target>
+      <Target Target="#51=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::Search(System.String, System.Int32)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="42" LinesAvoided="5" />
+      </Target>
+    </Instance>
+    <Instance Declaration="#52=T:[FolderContentManager]FolderContentManager.Services.FolderContentFolderService" Id="2fa06dc5c3058e71">
+      <Target Target="#53=M:[FolderContentManager]FolderContentManager.Services.FolderContentFolderService::GetParentFolder([FolderContentManager]CloudAppServer.Model.IFolderContent)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="43" LinesAvoided="5" />
+      </Target>
+      <Target Target="#54=M:[FolderContentManager]FolderContentManager.Services.FolderContentFolderService::GetFolder(System.String, System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="44" LinesAvoided="5" />
+      </Target>
+      <Target Target="#55=M:[FolderContentManager]FolderContentManager.Services.FolderContentFolderService::CreateFolder(System.String, System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="45" LinesAvoided="5" />
+      </Target>
+      <Target Target="#56=M:[FolderContentManager]FolderContentManager.Services.FolderContentFolderService::DeleteFolder(System.String, System.String, System.Int32)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="46" LinesAvoided="5" />
+      </Target>
+      <Target Target="#57=M:[FolderContentManager]FolderContentManager.Services.FolderContentFolderService::RenameDirectory(System.String, System.String, System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="47" LinesAvoided="5" />
+      </Target>
+      <Target Target="#58=M:[FolderContentManager]FolderContentManager.Services.FolderContentFolderService::UpdateFolderChildrenPath([FolderContentManager]CloudAppServer.Model.IFolderContent, System.String, System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="48" LinesAvoided="5" />
+      </Target>
+      <Target Target="#59=M:[FolderContentManager]FolderContentManager.Services.FolderContentFolderService::UpdateFolderMetaData([FolderContentManager]FolderContentManager.Model.FolderMetadata)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="49" LinesAvoided="5" />
+      </Target>
+      <Target Target="#60=M:[FolderContentManager]FolderContentManager.Services.FolderContentFolderService::UpdateNextPageToWrite([FolderContentManager]CloudAppServer.Model.IFolder)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="50" LinesAvoided="5" />
+      </Target>
+      <Target Target="#61=M:[FolderContentManager]FolderContentManager.Services.FolderContentFolderService::CreateDirectory(System.String, System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="51" LinesAvoided="5" />
+      </Target>
+      <Target Target="#62=M:[FolderContentManager]FolderContentManager.Services.FolderContentFolderService::UpdateFolder([FolderContentManager]CloudAppServer.Model.IFolder)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="52" LinesAvoided="5" />
+      </Target>
+      <Target Target="#63=M:[FolderContentManager]FolderContentManager.Services.FolderContentFolderService::RenameFolder(System.String, System.String, System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="53" LinesAvoided="5" />
+      </Target>
+      <Target Target="#64=M:[FolderContentManager]FolderContentManager.Services.FolderContentFolderService::Copy(System.String, System.String, System.String, System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="54" LinesAvoided="5" />
+      </Target>
+    </Instance>
+    <Instance Declaration="#65=T:[FolderContentManager]FolderContentManager.Services.FolderContentPageService" Id="2fa06dc5762e4e07">
+      <Target Target="#66=M:[FolderContentManager]FolderContentManager.Services.FolderContentPageService::ValidateUniquenessOnAllFolderPages([FolderContentManager]CloudAppServer.Model.IFolder, [FolderContentManager]CloudAppServer.Model.IFolderContent)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="55" LinesAvoided="5" />
+      </Target>
+      <Target Target="#67=M:[FolderContentManager]FolderContentManager.Services.FolderContentPageService::AddNewFolderPageToFolder(System.Int32, [FolderContentManager]CloudAppServer.Model.IFolder)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="56" LinesAvoided="5" />
+      </Target>
+      <Target Target="#68=M:[FolderContentManager]FolderContentManager.Services.FolderContentPageService::GetNextAvailablePageToWrite([FolderContentManager]CloudAppServer.Model.IFolder)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="57" LinesAvoided="5" />
+      </Target>
+      <Target Target="#69=M:[FolderContentManager]FolderContentManager.Services.FolderContentPageService::AddToFolderPage([FolderContentManager]CloudAppServer.Model.IFolder, System.Int32, [FolderContentManager]CloudAppServer.Model.IFolderContent)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="58" LinesAvoided="5" />
+      </Target>
+      <Target Target="#70=M:[FolderContentManager]FolderContentManager.Services.FolderContentPageService::GetFolderPage([FolderContentManager]CloudAppServer.Model.IFolder, System.Int32)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="59" LinesAvoided="5" />
+      </Target>
+      <Target Target="#71=M:[FolderContentManager]FolderContentManager.Services.FolderContentPageService::DeletePage([FolderContentManager]CloudAppServer.Model.IFolder, System.Int32)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="60" LinesAvoided="5" />
+      </Target>
+      <Target Target="#72=M:[FolderContentManager]FolderContentManager.Services.FolderContentPageService::RemoveFolderContentFromPage([FolderContentManager]CloudAppServer.Model.IFolder, [FolderContentManager]CloudAppServer.Model.IFolderContent, System.Int32)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="61" LinesAvoided="5" />
+      </Target>
+      <Target Target="#73=M:[FolderContentManager]FolderContentManager.Services.FolderContentPageService::UpdatePathOnPage([FolderContentManager]CloudAppServer.Model.IFolder, System.Int32, System.String, System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="62" LinesAvoided="5" />
+      </Target>
+      <Target Target="#74=M:[FolderContentManager]FolderContentManager.Services.FolderContentPageService::MovePagesToNewLocation([FolderContentManager]CloudAppServer.Model.IFolder, System.String, System.String, System.String, System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="63" LinesAvoided="5" />
+      </Target>
+      <Target Target="#75=M:[FolderContentManager]FolderContentManager.Services.FolderContentPageService::CopyPagesToNewLocation([FolderContentManager]CloudAppServer.Model.IFolder, System.String, System.String, System.String, System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="64" LinesAvoided="5" />
+      </Target>
+      <Target Target="#76=M:[FolderContentManager]FolderContentManager.Services.FolderContentPageService::RenameFolderContentInFolderPages([FolderContentManager]CloudAppServer.Model.IFolder, System.String, System.String, [FolderContentManager]CloudAppServer.Model.IFolderContent)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="65" LinesAvoided="5" />
+      </Target>
+    </Instance>
+    <Instance Declaration="#77=T:[FolderContentManager]FolderContentManager.Helpers.DirectoryManager" Id="2fa06dc5cfbdbaed">
+      <Target Target="#78=M:[FolderContentManager]FolderContentManager.Helpers.DirectoryManager::Delete(System.String, System.Boolean)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="66" LinesAvoided="5" />
+      </Target>
+      <Target Target="#79=M:[FolderContentManager]FolderContentManager.Helpers.DirectoryManager::CreateDirectory(System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="67" LinesAvoided="5" />
+      </Target>
+      <Target Target="#80=M:[FolderContentManager]FolderContentManager.Helpers.DirectoryManager::Exists(System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="68" LinesAvoided="5" />
+      </Target>
+      <Target Target="#81=M:[FolderContentManager]FolderContentManager.Helpers.DirectoryManager::DirectoryCopy(System.String, System.String, System.Boolean)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="69" LinesAvoided="5" />
+      </Target>
+    </Instance>
+    <Instance Declaration="#82=T:[FolderContentManager]FolderContentManager.Helpers.FileManager" Id="2fa06dc5087ae06c">
+      <Target Target="#83=M:[FolderContentManager]FolderContentManager.Helpers.FileManager::GetFile(System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="70" LinesAvoided="5" />
+      </Target>
+      <Target Target="#84=M:[FolderContentManager]FolderContentManager.Helpers.FileManager::Delete(System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="71" LinesAvoided="5" />
+      </Target>
+      <Target Target="#85=M:[FolderContentManager]FolderContentManager.Helpers.FileManager::Move(System.String, System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="72" LinesAvoided="5" />
+      </Target>
+      <Target Target="#86=M:[FolderContentManager]FolderContentManager.Helpers.FileManager::Copy(System.String, System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="73" LinesAvoided="5" />
+      </Target>
+      <Target Target="#87=M:[FolderContentManager]FolderContentManager.Helpers.FileManager::Exists(System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="74" LinesAvoided="5" />
+      </Target>
+      <Target Target="#88=M:[FolderContentManager]FolderContentManager.Helpers.FileManager::Create(System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="75" LinesAvoided="5" />
+      </Target>
+      <Target Target="#89=M:[FolderContentManager]FolderContentManager.Helpers.FileManager::OpenText(System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="76" LinesAvoided="5" />
+      </Target>
+      <Target Target="#90=M:[FolderContentManager]FolderContentManager.Helpers.FileManager::CreateText(System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="77" LinesAvoided="5" />
+      </Target>
+      <Target Target="#91=M:[FolderContentManager]FolderContentManager.Helpers.FileManager::GetFileExtension(System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="78" LinesAvoided="5" />
+      </Target>
+    </Instance>
+    <Instance Declaration="#92=T:[FolderContentManager]FolderContentHelper.FileService" Id="2fa06dc5433513af">
+      <Target Target="#93=M:[FolderContentManager]FolderContentHelper.FileService::CreateFile(System.Int32, [FolderContentManager]FolderContentManager.Interfaces.ITmpFile)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="79" LinesAvoided="5" />
+      </Target>
+      <Target Target="#94=M:[FolderContentManager]FolderContentHelper.FileService::GetFile(System.Int32)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="80" LinesAvoided="5" />
+      </Target>
+      <Target Target="#95=M:[FolderContentManager]FolderContentHelper.FileService::Finish(System.Int32)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="81" LinesAvoided="5" />
+      </Target>
+      <Target Target="#96=M:[FolderContentManager]FolderContentHelper.FileService::Cancel(System.Int32)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="82" LinesAvoided="5" />
+      </Target>
+      <Target Target="#97=M:[FolderContentManager]FolderContentHelper.FileService::GetRequestId()">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="83" LinesAvoided="5" />
+      </Target>
+      <Target Target="#98=M:[FolderContentManager]FolderContentHelper.FileService::GetRequestIdForDownload()">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="84" LinesAvoided="5" />
+      </Target>
+      <Target Target="#99=M:[FolderContentManager]FolderContentHelper.FileService::PrepareFileToDownload(System.Int32, [FolderContentManager]FolderContentManager.Model.FileDownloadData)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="85" LinesAvoided="5" />
+      </Target>
+      <Target Target="#100=M:[FolderContentManager]FolderContentHelper.FileService::GetDownloadFileData(System.Int32)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="86" LinesAvoided="5" />
+      </Target>
+    </Instance>
+    <Instance Declaration="#101=T:[FolderContentManager]FolderContentHelper.SearchCache" Id="2fa06dc5d8576b6e">
+      <Target Target="#102=M:[FolderContentManager]FolderContentHelper.SearchCache::AddToCache(System.String, [FolderContentManager]CloudAppServer.Model.IFolderContent[])">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="87" LinesAvoided="5" />
+      </Target>
+      <Target Target="#103=M:[FolderContentManager]FolderContentHelper.SearchCache::GetFromCache(System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="88" LinesAvoided="5" />
+      </Target>
+      <Target Target="#104=M:[FolderContentManager]FolderContentHelper.SearchCache::RemoveFromCache(System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="89" LinesAvoided="5" />
+      </Target>
+      <Target Target="#105=M:[FolderContentManager]FolderContentHelper.SearchCache::ClearCache()">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="90" LinesAvoided="5" />
+      </Target>
+      <Target Target="#106=M:[FolderContentManager]FolderContentHelper.SearchCache::Contains(System.String)">
+        <JoinPoint Advising="#1" Description="#4" Ordinal="91" LinesAvoided="5" />
       </Target>
     </Instance>
   </Class>

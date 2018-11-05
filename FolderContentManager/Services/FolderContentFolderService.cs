@@ -174,14 +174,17 @@ namespace FolderContentManager.Services
             {
                 throw new Exception("The folder you are trying to copy does not exists!");
             }
+            
             _folderContentPageService.ValidateUniquenessOnAllFolderPages(folderToCopyTo, folderToCopy);
             var copyFromNewPath = string.IsNullOrEmpty(folderToCopyTo.Path) ? folderToCopyTo.Name : $"{folderToCopyTo.Path}/{folderToCopyTo.Name}";
+            var oldPath = $"{folderToCopy.Path}/{folderToCopy.Name}";
+            var newPath = $"{copyFromNewPath}/{folderToCopy.Name}";
             _folderContentFolderRepository.CopyDirectory(copyFromName, copyFromNewPath, copyFromName, copyFromPath);
             _folderContentPageService.CopyPagesToNewLocation(folderToCopy, folderToCopy.Name , copyFromPath, folderToCopy.Name, copyFromNewPath);
             folderToCopy.Path = copyFromNewPath;
             UpdateFolder(folderToCopy);
             _folderContentPageService.AddToFolderPage(folderToCopyTo, folderToCopyTo.NextPageToWrite, folderToCopy);
-            UpdateFolderChildrenPath(folderToCopyTo, $"{copyFromNewPath}/{copyFromName}", $"{copyToPath}/{copyFromName}");
+            UpdateFolderChildrenPath(folderToCopy, newPath, oldPath);
         }
 
         private void CreateFolder(IFolder folder)
