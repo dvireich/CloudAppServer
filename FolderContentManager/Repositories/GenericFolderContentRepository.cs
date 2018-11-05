@@ -8,9 +8,12 @@ using CloudAppServer.Model;
 using FolderContentHelper;
 using FolderContentHelper.Interfaces;
 using FolderContentManager.Helpers;
+using PostSharp.Extensibility;
+using PostSharp.Patterns.Diagnostics;
 
 namespace FolderContentManager.Repositories
 {
+    [Log(AttributeTargetElements = MulticastTargets.Method, AttributeTargetTypeAttributes = MulticastAttributes.Public, AttributeTargetMemberAttributes = MulticastAttributes.Public)]
     public class GenericFolderContentRepository<TModel,TMappable> where TMappable : IMappable<TModel>
     {
         internal readonly IFileManager FileManager;

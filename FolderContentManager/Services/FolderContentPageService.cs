@@ -8,9 +8,12 @@ using FolderContentHelper.Interfaces;
 using FolderContentHelper.Model;
 using FolderContentManager.Helpers;
 using FolderContentManager.Repositories;
+using PostSharp.Extensibility;
+using PostSharp.Patterns.Diagnostics;
 
 namespace FolderContentManager.Services
 {
+    [Log(AttributeTargetElements = MulticastTargets.Method, AttributeTargetTypeAttributes = MulticastAttributes.Public, AttributeTargetMemberAttributes = MulticastAttributes.Public)]
     public class FolderContentPageService : IFolderContentPageService
     {
         private readonly IConstance _constance;

@@ -52,17 +52,6 @@ namespace CloudAppServer
             }
         }
 
-        //private string FixPath(string path)
-        //{
-        //    return path.Replace(',', '/');
-        //}
-
-        //private void FixNameAndPath(string name, string path, out string fixedNamed, out string fixedPath)
-        //{
-        //    fixedNamed = name.Replace("\"", "");
-        //    fixedPath = path.Replace("\"", "");
-        //}
-
         public void GetOptions()
         {
         }
@@ -92,6 +81,7 @@ namespace CloudAppServer
             });
         }
 
+        [WcfLogging]
         public void UpdateFolderMetaData(FolderMetadata folderMetadata)
         {
             if (folderMetadata == null) return;

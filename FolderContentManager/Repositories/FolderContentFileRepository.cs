@@ -6,9 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using CloudAppServer.Model;
 using FolderContentHelper.Interfaces;
+using PostSharp.Extensibility;
+using PostSharp.Patterns.Diagnostics;
 
 namespace FolderContentManager.Repositories
 {
+    [Log(AttributeTargetElements = MulticastTargets.Method, AttributeTargetTypeAttributes = MulticastAttributes.Public, AttributeTargetMemberAttributes = MulticastAttributes.Public)]
     public class FolderContentFileRepository : GenericFolderContentRepository<IFile, MappableFile>, IFolderContentFileRepository
     {
         private readonly IConstance _constance;

@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 using CloudAppServer.Model;
 using FolderContentHelper.Interfaces;
 using FolderContentManager.Repositories;
+using PostSharp.Extensibility;
+using PostSharp.Patterns.Diagnostics;
 
 namespace FolderContentManager.Services
 {
+    [Log(AttributeTargetElements = MulticastTargets.Method, AttributeTargetTypeAttributes = MulticastAttributes.Public, AttributeTargetMemberAttributes = MulticastAttributes.Public)]
     public class FolderContentFileService : IFolderContentFileService
     {
         private readonly IFolderContentFileRepository _folderContentFileRepository;
