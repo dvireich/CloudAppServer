@@ -14,5 +14,9 @@ namespace AuthenticationService.AuthenticationModel
         public string UserName;
         [DataMember]
         public string Password;
+        [DataMember]
+        public string SecurityQuestion;
+        [DataMember]
+        public string SecurityAnswer;
     }
 }

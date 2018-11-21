@@ -46,7 +46,7 @@ namespace AuthenticationService
             return user.Id;
         }
 
-        public void Register(string userName, string password)
+        public void Register(string userName, string password, string securityAnswer, string securityQuestion)
         {
             var userRepository = _userRepositoryFactory.GetUserRepository();
             if (userRepository.CheckUserNameExists(userName))
@@ -58,7 +58,9 @@ namespace AuthenticationService
             {
                 Id = Guid.NewGuid().ToString(),
                 Password = password,
-                UserName = userName
+                UserName = userName,
+                SecurityAnswer = securityAnswer,
+                SecurityQuestion = securityQuestion
             });
         }
 

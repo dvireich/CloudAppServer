@@ -64,7 +64,7 @@ namespace AuthenticationService
         public void Register(RegisterUserArgs args)
         {
             if (args == null) return;
-            Perform(() => _authenticationManager.Register(args.UserName, args.Password));
+            Perform(() => _authenticationManager.Register(args.UserName, args.Password, args.SecurityAnswer, args.SecurityQuestion));
         }
 
         [WcfLogging]

@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Symbols LinesOfCode="92" PostSharpLinesOfCode="0" EnhancedTypesCount="3" SchemaVersion="1" PostSharpVersion="6.0.27.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
+<Symbols LinesOfCode="94" PostSharpLinesOfCode="0" EnhancedTypesCount="3" SchemaVersion="1" PostSharpVersion="6.0.27.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
   <Class Class="#1=T:[PostSharp.Patterns.Diagnostics]PostSharp.Patterns.Diagnostics.LogAttribute">
-    <Instance Declaration="#2=A:AuthenticationService" Id="2c86456ca969a63f">
+    <Instance Declaration="#2=A:AuthenticationService" Id="2c86456c4574b419">
       <Target Target="#3=M:[AuthenticationService]AuthenticationService.AuthenticationManager::Authenticate(System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4=Adds logging" Ordinal="0" LinesAvoided="5" />
       </Target>
-      <Target Target="#5=M:[AuthenticationService]AuthenticationService.AuthenticationManager::Register(System.String, System.String)">
+      <Target Target="#5=M:[AuthenticationService]AuthenticationService.AuthenticationManager::Register(System.String, System.String, System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4" LinesAvoided="5" />
       </Target>
       <Target Target="#6=M:[AuthenticationService]AuthenticationService.AuthenticationManager::IsUserNameTaken(System.String)">
