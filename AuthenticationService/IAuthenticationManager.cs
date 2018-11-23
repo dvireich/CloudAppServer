@@ -13,5 +13,9 @@ namespace AuthenticationService
         void Register(string userName, string password, string securityAnswer, string securityQuestion);
 
         bool IsUserNameTaken(string userName);
+
+        string GetSecurityQuestion(string userName);
+
+        string RestorePassword(string userName, string securityAnswer);
     }
 }

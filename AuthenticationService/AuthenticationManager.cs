@@ -64,6 +64,35 @@ namespace AuthenticationService
             });
         }
 
+        public string GetSecurityQuestion(string userName)
+        {
+            var userRepository = _userRepositoryFactory.GetUserRepository();
+            if (!userRepository.CheckUserNameExists(userName))
+            {
+                throw new Exception($"The user name: {userName} does not exists!");
+            }
+
+            var user = userRepository.GetUserByUserName(userName);
+            return user.SecurityQuestion;
+        }
+
+        public string RestorePassword(string userName, string securityAnswer)
+        {
+            var userRepository = _userRepositoryFactory.GetUserRepository();
+            if (!userRepository.CheckUserNameExists(userName))
+            {
+                throw new Exception($"The user name: {userName} does not exists!");
+            }
+            var user = userRepository.GetUserByUserName(userName);
+            if (user.SecurityAnswer.ToLower() != securityAnswer.ToLower())
+            {
+                throw new Exception($"The answer: {securityAnswer} does not match!");
+            }
+
+            return user.Password;
+        }
+        
+
         public bool IsUserNameTaken(string userName)
         {
             var userRepository = _userRepositoryFactory.GetUserRepository();

@@ -24,6 +24,22 @@ namespace AuthenticationService
             UriTemplate = "/Authenticate/username={userName}&password={password}")]
         string Authenticate(string userName, string password);
 
+        [OperationContract]
+        [WebGet(
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare,
+            RequestFormat = WebMessageFormat.Json,
+            UriTemplate = "/Authenticate/SecurityQuestion/username={userName}")]
+        string GetSecurityQuestion(string userName);
+
+        [OperationContract]
+        [WebGet(
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare,
+            RequestFormat = WebMessageFormat.Json,
+            UriTemplate = "/Authenticate/RestorePassword/username={userName}&securityAnswer={securityAnswer}")]
+        string RestorePassword(string userName, string securityAnswer);
+
 
         [OperationContract]
         [WebInvoke(

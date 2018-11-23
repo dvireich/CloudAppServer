@@ -60,6 +60,16 @@ namespace AuthenticationService
             return Perform(()=> _authenticationManager.Authenticate(userName, password));
         }
 
+        public string GetSecurityQuestion(string userName)
+        {
+            return Perform(() => _authenticationManager.GetSecurityQuestion(userName));
+        }
+
+        public string RestorePassword(string userName, string securityAnswer)
+        {
+            return Perform(() => _authenticationManager.RestorePassword(userName, securityAnswer));
+        }
+
         [WcfLogging]
         public void Register(RegisterUserArgs args)
         {
