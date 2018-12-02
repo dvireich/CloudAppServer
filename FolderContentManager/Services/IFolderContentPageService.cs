@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CloudAppServer.Model;
-using FolderContentHelper.Model;
+using FolderContentManager.Model;
 
 namespace FolderContentManager.Services
 {
@@ -31,6 +30,8 @@ namespace FolderContentManager.Services
         void RenameFolderContentInFolderPages(IFolder folder, string oldName, string newName, IFolderContent renamedObject);
 
         void CopyPagesToNewLocation(IFolder folder, string sourceName, string sourcePath, string destName, string destPath);
+
+        int GetNumberOfPages(IFolder folder);
 
     }
 }

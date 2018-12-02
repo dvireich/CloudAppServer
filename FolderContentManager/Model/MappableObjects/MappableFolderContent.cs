@@ -1,8 +1,6 @@
-﻿using System;
-using System.Runtime.Serialization;
-using FolderContentManager.Repositories;
+﻿using FolderContentManager.Repositories;
 
-namespace CloudAppServer.Model
+namespace FolderContentManager.Model.MappableObjects
 {
     public class MappableFolderContent : IMappable<IFolderContent>
     {

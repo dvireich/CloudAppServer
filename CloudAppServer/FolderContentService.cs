@@ -5,8 +5,7 @@ using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Web.Script.Serialization;
 using CloudAppServer.ServiceModel;
-using FolderContentHelper;
-using FolderContentHelper.Model;
+using FolderContentManager.Helpers;
 using FolderContentManager.Model;
 using WcfLogger;
 using FolderMetadata = CloudAppServer.ServiceModel.FolderMetadata;
@@ -91,7 +90,8 @@ namespace CloudAppServer
                 {
                     Name = folderMetadata.Name,
                     Path = folderMetadata.Path,
-                    SortType = folderMetadata.SortType
+                    SortType = folderMetadata.SortType,
+                    NumberOfPagesPerPage = folderMetadata.NumberOfPagesPerPage
                 });
             });
         }

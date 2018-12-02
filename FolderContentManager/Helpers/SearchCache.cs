@@ -1,15 +1,9 @@
-﻿using CloudAppServer.Model;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FolderContentHelper.Interfaces;
+﻿using System.Collections.Concurrent;
+using FolderContentManager.Model;
 using PostSharp.Extensibility;
 using PostSharp.Patterns.Diagnostics;
 
-namespace FolderContentHelper
+namespace FolderContentManager.Helpers
 {
     [Log(AttributeTargetElements = MulticastTargets.Method, AttributeTargetTypeAttributes = MulticastAttributes.Public, AttributeTargetMemberAttributes = MulticastAttributes.Public)]
     public class SearchCache : ISearchCache

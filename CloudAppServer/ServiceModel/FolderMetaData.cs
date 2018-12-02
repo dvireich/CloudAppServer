@@ -17,5 +17,7 @@ namespace CloudAppServer.ServiceModel
         public string Path;
         [DataMember]
         public SortType SortType;
+        [DataMember]
+        public int NumberOfPagesPerPage;
     }
 }

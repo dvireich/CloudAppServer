@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FolderContentHelper.Interfaces;
-
-namespace FolderContentHelper
+﻿namespace FolderContentManager.Helpers
 {
     public class Constance : IConstance
     {
@@ -13,5 +6,6 @@ namespace FolderContentHelper
         public string HomeFolderPath { get; } = "";
         public int MaxFolderContentOnPage { get; } = 136;
         public string BaseFolderPath { get; set; } = "C:\\foldercontentmanager";
+        public int DefaultNumberOfElementOnPage { get; set; } = 20;
     }
 }

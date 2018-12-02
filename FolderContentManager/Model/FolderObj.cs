@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using CloudAppServer.Model;
-using FolderContentManager.Model;
 
-namespace CloudAppServer.Model
+namespace FolderContentManager.Model
 {
     public class FolderObj : IFolder
     {
@@ -18,16 +11,18 @@ namespace CloudAppServer.Model
             int nextPageToWrite,
             string creationTime,
             string modificationTime, 
-            SortType sortType)
+            SortType sortType,
+            int numberOfElementOnPage)
         {
             Name = name;
             Path = path;
-            NumOfPages = numOfPages;
-            NextPageToWrite = nextPageToWrite;
+            NumOfPhysicalPages = numOfPages;
+            NextPhysicalPageToWrite = nextPageToWrite;
             CreationTime = creationTime;
             ModificationTime = modificationTime;
             Type = FolderContentType.Folder;
             SortType = sortType;
+            NumberOfElementPerPage = numberOfElementOnPage;
         }
 
         public FolderObj(string name, string path, DateTime creationTime, DateTime modificationTime) : this()
@@ -38,13 +33,14 @@ namespace CloudAppServer.Model
             ModificationTime = $"{modificationTime:G}";
         }
 
-        public FolderObj(string name, string path) : this()
+        public FolderObj(string name, string path, int numberOfElementOnPage) : this()
         {
             Name = name;
             Path = path;
             CreationTime = $"{DateTime.Now:G}";
             ModificationTime = $"{DateTime.Now:G}";
             SortType = SortType.Name;
+            NumberOfElementPerPage = numberOfElementOnPage;
         }
 
         public FolderObj()
@@ -52,17 +48,19 @@ namespace CloudAppServer.Model
             CreationTime = $"{DateTime.Now:G}";
             ModificationTime = $"{DateTime.Now:G}";
             Type = FolderContentType.Folder;
-            NumOfPages = NextPageToWrite = 1;
+            NumOfPhysicalPages = NextPhysicalPageToWrite = 1;
+            NumberOfElementPerPage = 20;
         }
 
         public string Name { get; set; }
         public string Path { get; set; }
         public FolderContentType Type { get; set; }
         public long Size { get; set; }
-        public int NumOfPages { get; set; }
-        public int NextPageToWrite { get; set; }
+        public int NumOfPhysicalPages { get; set; }
+        public int NextPhysicalPageToWrite { get; set; }
         public SortType SortType { get; set; }
         public string CreationTime { get; set; }
         public string ModificationTime { get; set; }
+        public int NumberOfElementPerPage { get; set; }
     }
 }

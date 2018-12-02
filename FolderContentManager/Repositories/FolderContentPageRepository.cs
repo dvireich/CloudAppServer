@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CloudAppServer.Model;
-using FolderContentHelper.Interfaces;
-using FolderContentHelper.Model;
-using FolderContentHelper.Model.RestObject;
+using FolderContentManager.Helpers;
+using FolderContentManager.Model;
+using FolderContentManager.Model.MappableObjects;
 using PostSharp.Extensibility;
 using PostSharp.Patterns.Diagnostics;
 
@@ -25,6 +24,17 @@ namespace FolderContentManager.Repositories
         public IFolderPage GetFolderPage(string name, string path, int pageNumber)
         {
             return GetByFullPath(CreateFolderPageJsonPath(name, path, pageNumber));
+        }
+
+        public IEnumerable<IFolderPage> GetAllFolderPages(string name, string path, int numberOfPages)
+        {
+            var result = new List<IFolderPage>();
+            for (var i = 1; i <= numberOfPages; i++)
+            {
+                result.Add(GetFolderPage(name, path, i));
+            }
+
+            return result;
         }
 
         public void CreateOrUpdateFolderPage(string name, string path, int pageNumber, IFolderPage folderPage)

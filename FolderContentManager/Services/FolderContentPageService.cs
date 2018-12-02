@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CloudAppServer.Model;
-using FolderContentHelper.Interfaces;
-using FolderContentHelper.Model;
 using FolderContentManager.Helpers;
+using FolderContentManager.Model;
 using FolderContentManager.Repositories;
 using PostSharp.Extensibility;
 using PostSharp.Patterns.Diagnostics;
@@ -28,7 +26,7 @@ namespace FolderContentManager.Services
         {
             if (folderToValidateIn == null) return;
 
-            for (var i = 1; i <= folderToValidateIn.NumOfPages; i++)
+            for (var i = 1; i <= folderToValidateIn.NumOfPhysicalPages; i++)
             {
                 var page = _folderContentPageRepository.GetFolderPage(folderToValidateIn.Name, folderToValidateIn.Path, i);
                 if (page.Content.Any(f => f.Name == folderContentToValidate.Name && f.Type == folderContentToValidate.Type))
@@ -46,13 +44,13 @@ namespace FolderContentManager.Services
 
         public int GetNextAvailablePageToWrite(IFolder folder)
         {
-            for (var i = 1; i <= folder.NumOfPages; i++)
+            for (var i = 1; i <= folder.NumOfPhysicalPages; i++)
             {
                 var page = _folderContentPageRepository.GetFolderPage(folder.Name, folder.Path, i);
                 if (page.Content.Length < _constance.MaxFolderContentOnPage) return i;
             }
 
-            return folder.NumOfPages + 1;
+            return folder.NumOfPhysicalPages + 1;
         }
 
         public void AddToFolderPage(IFolder folder, int pageNum, IFolderContent folderContent)
@@ -66,7 +64,10 @@ namespace FolderContentManager.Services
 
         public IFolderPage GetFolderPage(IFolder folder, int pageNum)
         {
-            return _folderContentPageRepository.GetFolderPage(folder.Name, folder.Path, pageNum);
+            var allPagesData = GetAllPagesOfFolder(folder).ToList();
+            allPagesData.Sort((folderContent1, folderContent2) => CompareFolderContent(folderContent1, folderContent1, folder.SortType));
+            var folderPageContent = allPagesData.Skip(folder.NumberOfElementPerPage * pageNum).Take(folder.NumberOfElementPerPage);
+            return new FolderPage(folder.Name, folder.Path, folderPageContent.ToArray());
         }
 
         public void DeletePage(IFolder folder, int pageNum)
@@ -109,7 +110,7 @@ namespace FolderContentManager.Services
 
         public void MovePagesToNewLocation(IFolder folder, string sourceName, string sourcePath, string destName, string destPath)
         {
-            for (var i = 1; i <= folder.NumOfPages; i++)
+            for (var i = 1; i <= folder.NumOfPhysicalPages; i++)
             {
                 var sourcePage = _folderContentPageRepository.GetFolderPage(sourceName, sourcePath, i);
                 sourcePage.Path = destPath;
@@ -121,7 +122,7 @@ namespace FolderContentManager.Services
 
         public void CopyPagesToNewLocation(IFolder folder, string sourceName, string sourcePath, string destName, string destPath)
         {
-            for (var i = 1; i <= folder.NumOfPages; i++)
+            for (var i = 1; i <= folder.NumOfPhysicalPages; i++)
             {
                 var sourcePage = _folderContentPageRepository.GetFolderPage(sourceName, sourcePath, i);
                 sourcePage.Path = destPath;
@@ -132,7 +133,7 @@ namespace FolderContentManager.Services
 
         public void RenameFolderContentInFolderPages(IFolder folder, string oldName, string newName, IFolderContent renamedObject)
         {
-            for (var i = 1; i <= folder.NumOfPages; i++)
+            for (var i = 1; i <= folder.NumOfPhysicalPages; i++)
             {
                 var page = GetFolderPage(folder, i);
                 if (page.Content == null) continue;
@@ -150,9 +151,24 @@ namespace FolderContentManager.Services
             }
         }
 
+        public int GetNumberOfPages(IFolder folder)
+        {
+            var numberOfElementsPerPage = folder.NumberOfElementPerPage > 0 ? folder.NumberOfElementPerPage : _constance.DefaultNumberOfElementOnPage;
+            var numOfElements = (folder.NumOfPhysicalPages - 1) * _constance.MaxFolderContentOnPage;
+            var lastFolderPage = GetFolderPage(folder, folder.NumOfPhysicalPages);
+            if (lastFolderPage != null)
+            {
+                numOfElements += lastFolderPage.Content.Length;
+            }
+
+            var numOfPages = (int)Math.Ceiling((double)numOfElements / numberOfElementsPerPage);
+            return numOfPages == 0 ? 1 : numOfPages;
+
+        }
+
         private void PerformPageCompression(IFolder folder)
         {
-            for (var i = 1; i <= folder.NumOfPages; i++)
+            for (var i = 1; i <= folder.NumOfPhysicalPages; i++)
             {
                 var page = GetFolderPage(folder, i);
                 if (page.Content.Length == _constance.MaxFolderContentOnPage) continue;
@@ -161,12 +177,12 @@ namespace FolderContentManager.Services
                 if (page.Content.Length == 0 && i != 1)
                 {
                     DeletePage(folder, i);
-                    folder.NumOfPages--;
+                    folder.NumOfPhysicalPages--;
                     continue;
                 }
 
                 //This is the last page and it is not full -> its ok
-                if (i == folder.NumOfPages) continue;
+                if (i == folder.NumOfPhysicalPages) continue;
 
                 var nextPage = GetFolderPage(folder, i + 1);
                 var numOfElementsToMove = _constance.MaxFolderContentOnPage - page.Content.Length;
@@ -193,6 +209,36 @@ namespace FolderContentManager.Services
 
                 //Save the current page
                 _folderContentPageRepository.CreateOrUpdateFolderPage(page.Name, page.Path, i, page);
+            }
+        }
+
+        private IEnumerable<IFolderContent> GetAllPagesOfFolder(IFolder folder)
+        {
+            var allFolderPages =
+                _folderContentPageRepository.GetAllFolderPages(folder.Name, folder.Path, folder.NumOfPhysicalPages);
+            var allFolderPagesContent = new List<IFolderContent>();
+            foreach (var folderPage in allFolderPages)
+            {
+                allFolderPagesContent.AddRange(folderPage.Content);
+            }
+
+            return allFolderPagesContent;
+        }
+
+        private int CompareFolderContent(IFolderContent folderContent1, IFolderContent folderContent2, SortType sortType)
+        {
+            switch (sortType)
+            {
+                case SortType.Name:
+                    return string.Compare(folderContent1.Name, folderContent2.Name, StringComparison.Ordinal);
+                case SortType.Type:
+                    return folderContent1.Type.CompareTo(folderContent2.Type);
+                case SortType.DateCreated:
+                    return string.Compare(folderContent1.CreationTime, folderContent2.CreationTime, StringComparison.Ordinal);
+                case SortType.DateModified:
+                    return string.Compare(folderContent1.ModificationTime, folderContent2.ModificationTime, StringComparison.Ordinal);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(sortType), sortType, null);
             }
         }
     }

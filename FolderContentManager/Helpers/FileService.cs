@@ -2,19 +2,11 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CloudAppServer.Model;
-using FolderContentHelper.Interfaces;
-using FolderContentManager;
-using FolderContentManager.Helpers;
-using FolderContentManager.Interfaces;
 using FolderContentManager.Model;
 using PostSharp.Extensibility;
 using PostSharp.Patterns.Diagnostics;
 
-namespace FolderContentHelper
+namespace FolderContentManager.Helpers
 {
     [Log(AttributeTargetElements = MulticastTargets.Method, AttributeTargetTypeAttributes = MulticastAttributes.Public, AttributeTargetMemberAttributes = MulticastAttributes.Public)]
     public sealed class FileService : IFileService

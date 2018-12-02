@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using CloudAppServer.Model;
-using FolderContentManager.Model;
-using FolderContentManager.Repositories;
+﻿using FolderContentManager.Repositories;
 
-namespace CloudAppServer.Model
+namespace FolderContentManager.Model.MappableObjects
 {
     public class MappableFolder: IMappable<IFolder>
     {
@@ -26,10 +18,11 @@ namespace CloudAppServer.Model
         public string CreationTime { get; set; }
         public string ModificationTime { get; set; }
         public SortType SortType { get; set; }
+        public int NumberOfElementOnPage { get; set; }
 
         public IFolder Map()
         {
-            return new FolderObj(Name, Path, NumOfPages, NextPageToWrite, CreationTime, ModificationTime, SortType);
+            return new FolderObj(Name, Path, NumOfPages, NextPageToWrite, CreationTime, ModificationTime, SortType, NumberOfElementOnPage);
         }
     }
 }

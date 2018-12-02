@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FolderContentHelper.Interfaces
+﻿namespace FolderContentManager.Helpers
 {
     public interface IConstance
     {
@@ -15,5 +9,7 @@ namespace FolderContentHelper.Interfaces
         int MaxFolderContentOnPage { get; }
 
         string BaseFolderPath { get; set; }
+
+        int DefaultNumberOfElementOnPage { get; set; }
     }
 }

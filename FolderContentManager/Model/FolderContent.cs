@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
-namespace CloudAppServer.Model
+namespace FolderContentManager.Model
 {
     public class FolderContent : IFolderContent
     {

@@ -50,10 +50,9 @@ C:\Users\dvire\source\repos\CloudAppServer\DBManager\bin\Debug\PostSharp.Pattern
 C:\Users\dvire\source\repos\CloudAppServer\DBManager\bin\Debug\PostSharp.Patterns.Diagnostics.xml
 C:\Users\dvire\source\repos\CloudAppServer\DBManager\bin\Debug\PostSharp.Patterns.Diagnostics.Backends.Log4Net.xml
 C:\Users\dvire\source\repos\CloudAppServer\DBManager\obj\Debug\DBManager.csproj.CoreCompileInputs.cache
-C:\Users\dvire\source\repos\CloudAppServer\DBManager\obj\Debug\DBManager.csproj.CopyComplete
 C:\Users\dvire\source\repos\CloudAppServer\DBManager\obj\Debug\PostSharp\touch
 C:\Users\dvire\source\repos\CloudAppServer\DBManager\obj\Debug\PostSharp\dependencies.txt
+C:\Users\dvire\source\repos\CloudAppServer\DBManager\obj\Debug\DBManager.csproj.CopyComplete
 C:\Users\dvire\source\repos\CloudAppServer\DBManager\obj\Debug\DBManager.dll
 C:\Users\dvire\source\repos\CloudAppServer\DBManager\obj\Debug\DBManager.pdb
 C:\Users\dvire\source\repos\CloudAppServer\DBManager\obj\Debug\PostSharp\postsharp.app.config
-C:\Users\dvire\source\repos\CloudAppServer\DBManager\obj\Debug\DBManager.csprojAssemblyReference.cache

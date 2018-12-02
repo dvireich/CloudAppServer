@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CloudAppServer.Model;
-using FolderContentManager.Interfaces;
-using FolderContentManager.Model;
+﻿using FolderContentManager.Model;
 
-namespace FolderContentHelper
+namespace FolderContentManager.Helpers
 {
     public interface IFileService
     {

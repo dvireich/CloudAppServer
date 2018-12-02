@@ -1,7 +1,4 @@
-﻿using System.Runtime.Serialization;
-using FolderContentHelper.Model;
-
-namespace CloudAppServer.Model
+﻿namespace FolderContentManager.Model
 {
     public interface IFolderContent: IFolderContentTrackInfo
     {

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using FolderContentManager.Repositories;
+﻿using FolderContentManager.Repositories;
 
-namespace CloudAppServer.Model
+namespace FolderContentManager.Model.MappableObjects
 {
     public class MappableFile : IMappable<IFile>
     {

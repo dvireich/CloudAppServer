@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CloudAppServer.Model;
-using FolderContentManager.Repositories;
+﻿using FolderContentManager.Repositories;
 
-namespace FolderContentHelper.Model.RestObject
+namespace FolderContentManager.Model.MappableObjects
 {
     public class MappableFolderPage : IMappable<IFolderPage>
     {

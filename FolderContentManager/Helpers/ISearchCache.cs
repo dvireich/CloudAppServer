@@ -1,11 +1,6 @@
-﻿using CloudAppServer.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FolderContentManager.Model;
 
-namespace FolderContentHelper.Interfaces
+namespace FolderContentManager.Helpers
 {
     public interface ISearchCache
     {

@@ -2,15 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CloudAppServer.Model;
-using FolderContentHelper;
-using FolderContentHelper.Interfaces;
-using FolderContentHelper.Model;
-using FolderContentManager.Interfaces;
+using FolderContentManager.Helpers;
 using FolderContentManager.Model;
-using FolderContentManager.Repositories;
 using PostSharp.Extensibility;
 using PostSharp.Patterns.Diagnostics;
 
@@ -106,7 +99,8 @@ namespace FolderContentManager.Services
             }
 
             var folder = _folderContentFolderService.GetFolder(name, path);
-            return folder?.NumOfPages ?? -1;
+            if (folder == null) return -1;
+            return _folderContentPageService.GetNumberOfPages(folder);
         }
 
         public void Rename(string name, string path, string typeStr, string newName)
@@ -196,7 +190,7 @@ namespace FolderContentManager.Services
 
         private void RecursiveSearch(string strToSearch, IFolder folder, List<IFolderContent> result)
         {
-            for (var i = 1; i <= folder.NumOfPages; i++)
+            for (var i = 1; i <= folder.NumOfPhysicalPages; i++)
             {
                 var page = _folderContentPageService.GetFolderPage(folder, i);
 

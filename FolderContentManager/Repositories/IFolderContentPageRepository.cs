@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FolderContentHelper.Model;
+using FolderContentManager.Model;
 
 namespace FolderContentManager.Repositories
 {
@@ -14,5 +14,7 @@ namespace FolderContentManager.Repositories
         void CreateOrUpdateFolderPage(string name, string path, int pageNumber, IFolderPage folderPage);
 
         void DeletePage(string name, string path, int pageNum);
+
+        IEnumerable<IFolderPage> GetAllFolderPages(string name, string path, int numberOfPages);
     }
 }

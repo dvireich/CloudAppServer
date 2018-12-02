@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using FolderContentHelper.Interfaces;
 using PostSharp.Extensibility;
 using PostSharp.Patterns.Diagnostics;
 using Directory = Pri.LongPath.Directory;

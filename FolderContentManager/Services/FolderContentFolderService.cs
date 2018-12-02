@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CloudAppServer.Model;
-using FolderContentHelper.Interfaces;
+using FolderContentManager.Helpers;
 using FolderContentManager.Model;
 using FolderContentManager.Repositories;
 using PostSharp.Extensibility;
@@ -59,7 +58,7 @@ namespace FolderContentManager.Services
                 path = new string(listOfChars.ToArray());
             }
             ValidatePath(name, path);
-            IFolder newFolder = new FolderObj(name, path);
+            IFolder newFolder = new FolderObj(name, path, _constance.DefaultNumberOfElementOnPage);
             var parent = GetParentFolder(newFolder);
             _folderContentPageService.ValidateUniquenessOnAllFolderPages(parent, newFolder);
             CreateFolder(newFolder);
@@ -70,7 +69,7 @@ namespace FolderContentManager.Services
             var folder = _folderContentFolderRepository.GetFolder(name, path);
             if (folder == null) return;
 
-            for (var i = 1; i <= folder.NumOfPages; i++)
+            for (var i = 1; i <= folder.NumOfPhysicalPages; i++)
             {
                 var folderPage = _folderContentPageService.GetFolderPage(folder, i);
                 foreach (var folderContent in folderPage.Content)
@@ -105,7 +104,7 @@ namespace FolderContentManager.Services
 
             _folderContentFolderRepository.CreateOrUpdateFolder(folder.Name, folder.Path, folder);
 
-            for (var i = 1; i <= folder.NumOfPages; i++)
+            for (var i = 1; i <= folder.NumOfPhysicalPages; i++)
             {
                 _folderContentPageService.UpdatePathOnPage(folder, i, oldPathPrefix, newPathPrefix);
                 var page = _folderContentPageService.GetFolderPage(folder, i);
@@ -130,11 +129,11 @@ namespace FolderContentManager.Services
 
         public void UpdateNextPageToWrite(IFolder folder)
         {
-            folder.NextPageToWrite = _folderContentPageService.GetNextAvailablePageToWrite(folder);
-            if (folder.NextPageToWrite > folder.NumOfPages)
+            folder.NextPhysicalPageToWrite = _folderContentPageService.GetNextAvailablePageToWrite(folder);
+            if (folder.NextPhysicalPageToWrite > folder.NumOfPhysicalPages)
             {
-                folder.NumOfPages++;
-                _folderContentPageService.AddNewFolderPageToFolder(folder.NextPageToWrite, folder);
+                folder.NumOfPhysicalPages++;
+                _folderContentPageService.AddNewFolderPageToFolder(folder.NextPhysicalPageToWrite, folder);
             }
             _folderContentFolderRepository.CreateOrUpdateFolder(folder.Name, folder.Path, folder);
         }
@@ -194,7 +193,7 @@ namespace FolderContentManager.Services
             _folderContentPageService.CopyPagesToNewLocation(folderToCopy, folderToCopy.Name , copyFromPath, folderToCopy.Name, copyFromNewPath);
             folderToCopy.Path = copyFromNewPath;
             UpdateFolder(folderToCopy);
-            _folderContentPageService.AddToFolderPage(folderToCopyTo, folderToCopyTo.NextPageToWrite, folderToCopy);
+            _folderContentPageService.AddToFolderPage(folderToCopyTo, folderToCopyTo.NextPhysicalPageToWrite, folderToCopy);
             UpdateFolderChildrenPath(folderToCopy, newPath, oldPath);
         }
 
@@ -211,7 +210,7 @@ namespace FolderContentManager.Services
             var parent = GetParentFolder(folder);
             if (parent == null) return;
             UpdateNextPageToWrite(parent);
-            _folderContentPageService.AddToFolderPage(parent, parent.NextPageToWrite, folder);
+            _folderContentPageService.AddToFolderPage(parent, parent.NextPhysicalPageToWrite, folder);
         }
 
         private void ValidatePath(string name, string path)

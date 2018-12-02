@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CloudAppServer.Model
+namespace FolderContentManager.Model
 {
     public class FileObj : FolderContent, IFile
     {

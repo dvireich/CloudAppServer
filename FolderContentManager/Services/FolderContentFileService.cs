@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CloudAppServer.Model;
-using FolderContentHelper.Interfaces;
+using FolderContentManager.Helpers;
+using FolderContentManager.Model;
 using FolderContentManager.Repositories;
 using PostSharp.Extensibility;
 using PostSharp.Patterns.Diagnostics;
@@ -44,7 +44,7 @@ namespace FolderContentManager.Services
             
             _folderContentFileRepository.Move(name, path, tmpCreationPath);
             _folderContentFolderService.UpdateNextPageToWrite(parent);
-            _folderContentPageService.AddToFolderPage(parent, parent.NextPageToWrite, file);
+            _folderContentPageService.AddToFolderPage(parent, parent.NextPhysicalPageToWrite, file);
         }
 
         public void DeleteFile(string name, string path, int page)
@@ -110,7 +110,7 @@ namespace FolderContentManager.Services
             }
             var copyFromNewPath = string.IsNullOrEmpty(folderToCopyTo.Path) ? folderToCopyTo.Name : $"{folderToCopyTo.Path}/{folderToCopyTo.Name}";
             fileToCopy.Path = copyFromNewPath;
-            _folderContentPageService.AddToFolderPage(folderToCopyTo, folderToCopyTo.NextPageToWrite, fileToCopy);
+            _folderContentPageService.AddToFolderPage(folderToCopyTo, folderToCopyTo.NextPhysicalPageToWrite, fileToCopy);
             UpdateFolderContentFile(fileToCopy);
             _folderContentFileRepository.Copy(copyFromName, copyFromNewPath, copyFromName, copyFromPath);
         }

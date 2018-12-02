@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CloudAppServer.Model;
-using FolderContentHelper;
-using FolderContentHelper.Interfaces;
-using FolderContentManager.Interfaces;
 using FolderContentManager.Model;
 using FolderContentManager.Services;
 
-namespace FolderContentManager
+namespace FolderContentManager.Helpers
 {
     public class FolderContentConcurrentManager : IFolderContentConcurrentManager
     {
@@ -115,7 +108,7 @@ namespace FolderContentManager
                 if (fc.Type != FolderContentType.Folder) return;
 
                 var folder = _folderContentFolderService.GetFolder(fc.Name, fc.Path);
-                for (var i = 1; (folder != null && i <= folder.NumOfPages); i++)
+                for (var i = 1; (folder != null && i <= folder.NumOfPhysicalPages); i++)
                 {
                     var page = _folderContentPageService.GetFolderPage(folder, i);
                     foreach (var content in page.Content)

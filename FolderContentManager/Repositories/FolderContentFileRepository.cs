@@ -4,8 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CloudAppServer.Model;
-using FolderContentHelper.Interfaces;
+using FolderContentManager.Helpers;
+using FolderContentManager.Model;
+using FolderContentManager.Model.MappableObjects;
 using PostSharp.Extensibility;
 using PostSharp.Patterns.Diagnostics;
 

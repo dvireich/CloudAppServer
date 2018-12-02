@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CloudAppServer.Model;
+using FolderContentManager.Model;
 
-namespace FolderContentManager.Interfaces
+namespace FolderContentManager.Helpers
 {
     public interface IFolderContentConcurrentManager
     {
