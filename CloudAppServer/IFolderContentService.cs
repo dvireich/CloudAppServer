@@ -63,6 +63,13 @@ namespace CloudAppServer
         [WebInvoke(
             Method = "POST",
             BodyStyle = WebMessageBodyStyle.Bare,
+            UriTemplate = "/FolderContent/GetNumberOfElementsOnPage")]
+        int GetNumberOfElementsOnPage(FolderContentObj folderContent);
+
+        [OperationContract]
+        [WebInvoke(
+            Method = "POST",
+            BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "/FolderContent/Search")]
         string Search(SearchRequest searchRequest);
 

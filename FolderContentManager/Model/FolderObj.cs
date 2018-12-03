@@ -7,8 +7,8 @@ namespace FolderContentManager.Model
         public FolderObj(
             string name, 
             string path, 
-            int numOfPages, 
-            int nextPageToWrite,
+            int numOfPhysicalPages, 
+            int nextPhysicalPageToWrite,
             string creationTime,
             string modificationTime, 
             SortType sortType,
@@ -16,8 +16,8 @@ namespace FolderContentManager.Model
         {
             Name = name;
             Path = path;
-            NumOfPhysicalPages = numOfPages;
-            NextPhysicalPageToWrite = nextPageToWrite;
+            NumOfPhysicalPages = numOfPhysicalPages;
+            NextPhysicalPageToWrite = nextPhysicalPageToWrite;
             CreationTime = creationTime;
             ModificationTime = modificationTime;
             Type = FolderContentType.Folder;

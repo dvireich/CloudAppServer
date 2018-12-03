@@ -74,7 +74,7 @@ namespace FolderContentManager.Services
         public IFolderPage GetFolderPage(string name, string path, int page)
         {
             var folder = _folderContentFolderService.GetFolder(name, path);
-            return _folderContentPageService.GetFolderPage(folder, page);
+            return _folderContentPageService.GetLogicalFolderPage(folder, page);
         }
 
         public int GetSortType(string name, string path)
@@ -93,7 +93,7 @@ namespace FolderContentManager.Services
                     throw new Exception($"The search string {path} does not appears in the searchCache!");
 
                 var results = _searchCache.GetFromCache(path);
-                var pages = (double)results.Length / _constance.MaxFolderContentOnPage;
+                var pages = (double)results.Length / _constance.DefaultNumberOfElementOnPage;
                 var pagesCeiling = (int)Math.Ceiling((decimal)pages);
                 return pagesCeiling == 0 ? 1 : pagesCeiling;
             }
@@ -162,6 +162,22 @@ namespace FolderContentManager.Services
             _folderContentFolderService.UpdateFolderMetaData(folderMetadata);
         }
 
+        public int GetNumberOfElementOnPage(string name, string path)
+        {
+            if (name.ToLower() == "search")
+            {
+                if (!_searchCache.Contains(path))
+                    throw new Exception($"The search string {path} does not appears in the searchCache!");
+
+                return _constance.DefaultNumberOfElementOnPage;
+            }
+
+            var folder = _folderContentFolderService.GetFolder(name, path);
+            if (folder == null) return -1;
+            var numberOfElementsPerPage = folder.NumberOfElementPerPage > 0 ? folder.NumberOfElementPerPage : _constance.DefaultNumberOfElementOnPage;
+            return numberOfElementsPerPage;
+        }
+
         public IFolderContent[] Search(string name, int page)
         {
             return _concurrentManager.PerformWithSynchronization(
@@ -169,11 +185,11 @@ namespace FolderContentManager.Services
                     {new FolderContent(_constance.HomeFolderName, _constance.HomeFolderPath, FolderContentType.Folder)},
                 () =>
                 {
-                    var numOfElementToSkip = (page - 1) * _constance.MaxFolderContentOnPage;
+                    var numOfElementToSkip = (page - 1) * _constance.DefaultNumberOfElementOnPage;
                     if (_searchCache.Contains(name))
                     {
                         var searchResult = _searchCache.GetFromCache(name);
-                        return searchResult.Skip(numOfElementToSkip).Take(_constance.MaxFolderContentOnPage).ToArray();
+                        return searchResult.Skip(numOfElementToSkip).Take(_constance.DefaultNumberOfElementOnPage).ToArray();
                     }
 
                     var result = new List<IFolderContent>();
@@ -182,7 +198,7 @@ namespace FolderContentManager.Services
 
                     _searchCache.AddToCache(name, result.ToArray());
 
-                    var resultPageArray = result.Skip(numOfElementToSkip).Take(_constance.MaxFolderContentOnPage)
+                    var resultPageArray = result.Skip(numOfElementToSkip).Take(_constance.DefaultNumberOfElementOnPage)
                         .ToArray();
                     return resultPageArray;
                 });
@@ -192,7 +208,7 @@ namespace FolderContentManager.Services
         {
             for (var i = 1; i <= folder.NumOfPhysicalPages; i++)
             {
-                var page = _folderContentPageService.GetFolderPage(folder, i);
+                var page = _folderContentPageService.GetPhysicalFolderPage(folder, i);
 
                 foreach (var folderContent in page.Content)
                 {
@@ -218,9 +234,7 @@ namespace FolderContentManager.Services
         {
             var homeFolder = _folderContentFolderService.GetFolder(_constance.HomeFolderName, string.Empty);
             if (homeFolder != null) return;
-            _folderContentFolderService.CreateFolder(_constance.HomeFolderName, string.Empty);
-            homeFolder = _folderContentFolderService.GetFolder(_constance.HomeFolderName, string.Empty);
-            _folderContentPageService.RemoveFolderContentFromPage(homeFolder, homeFolder, 1);
+            _folderContentFolderService.CreateFolder(_constance.HomeFolderName, _constance.HomeFolderPath);
         }
     }
 }

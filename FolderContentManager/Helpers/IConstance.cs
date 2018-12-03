@@ -6,7 +6,7 @@
 
         string HomeFolderPath { get; }
 
-        int MaxFolderContentOnPage { get; }
+        int MaxFolderContentOnPhysicalPage { get; }
 
         string BaseFolderPath { get; set; }
 

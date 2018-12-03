@@ -37,6 +37,8 @@ namespace FolderContentManager.Services
 
         public IFolder GetParentFolder(IFolderContent folder)
         {
+            if (folder.Name == _constance.HomeFolderName && folder.Path == _constance.HomeFolderPath) return null;
+
             var parentName = GetParentName(folder);
             var parentPath = GetParentPath(folder);
             return _folderContentFolderRepository.GetFolder(parentName, parentPath);
@@ -71,7 +73,7 @@ namespace FolderContentManager.Services
 
             for (var i = 1; i <= folder.NumOfPhysicalPages; i++)
             {
-                var folderPage = _folderContentPageService.GetFolderPage(folder, i);
+                var folderPage = _folderContentPageService.GetPhysicalFolderPage(folder, i);
                 foreach (var folderContent in folderPage.Content)
                 {
                     DeleteFolder(folderContent.Name, folderContent.Path, page);
@@ -107,7 +109,7 @@ namespace FolderContentManager.Services
             for (var i = 1; i <= folder.NumOfPhysicalPages; i++)
             {
                 _folderContentPageService.UpdatePathOnPage(folder, i, oldPathPrefix, newPathPrefix);
-                var page = _folderContentPageService.GetFolderPage(folder, i);
+                var page = _folderContentPageService.GetPhysicalFolderPage(folder, i);
 
                 foreach (var fc in page.Content)
                 {
@@ -124,6 +126,7 @@ namespace FolderContentManager.Services
         {
             var folder = _folderContentFolderRepository.GetFolder(folderMetadata.Name, folderMetadata.Path);
             folder.SortType = folderMetadata.SortType;
+            folder.NumberOfElementPerPage = folderMetadata.NumberOfPagesPerPage;
             _folderContentFolderRepository.CreateOrUpdateFolder(folderMetadata.Name, folderMetadata.Path, folder);
         }
 

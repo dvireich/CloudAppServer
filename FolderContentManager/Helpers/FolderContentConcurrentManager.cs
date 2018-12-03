@@ -110,7 +110,7 @@ namespace FolderContentManager.Helpers
                 var folder = _folderContentFolderService.GetFolder(fc.Name, fc.Path);
                 for (var i = 1; (folder != null && i <= folder.NumOfPhysicalPages); i++)
                 {
-                    var page = _folderContentPageService.GetFolderPage(folder, i);
+                    var page = _folderContentPageService.GetPhysicalFolderPage(folder, i);
                     foreach (var content in page.Content)
                     {
                         GetAllSubs(content, subs);

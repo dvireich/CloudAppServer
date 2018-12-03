@@ -56,3 +56,4 @@ C:\Users\dvire\source\repos\CloudAppServer\DBManager\obj\Debug\DBManager.csproj.
 C:\Users\dvire\source\repos\CloudAppServer\DBManager\obj\Debug\DBManager.dll
 C:\Users\dvire\source\repos\CloudAppServer\DBManager\obj\Debug\DBManager.pdb
 C:\Users\dvire\source\repos\CloudAppServer\DBManager\obj\Debug\PostSharp\postsharp.app.config
+C:\Users\dvire\source\repos\CloudAppServer\DBManager\obj\Debug\DBManager.csprojAssemblyReference.cache

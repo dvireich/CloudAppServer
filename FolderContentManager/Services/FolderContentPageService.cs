@@ -47,7 +47,7 @@ namespace FolderContentManager.Services
             for (var i = 1; i <= folder.NumOfPhysicalPages; i++)
             {
                 var page = _folderContentPageRepository.GetFolderPage(folder.Name, folder.Path, i);
-                if (page.Content.Length < _constance.MaxFolderContentOnPage) return i;
+                if (page.Content.Length < _constance.MaxFolderContentOnPhysicalPage) return i;
             }
 
             return folder.NumOfPhysicalPages + 1;
@@ -61,13 +61,28 @@ namespace FolderContentManager.Services
             page.Content = contentList.ToArray();
             _folderContentPageRepository.CreateOrUpdateFolderPage(folder.Name, folder.Path, pageNum, page);
         }
-
-        public IFolderPage GetFolderPage(IFolder folder, int pageNum)
+        /// <summary>
+        /// Return the pageNum*NumberOfElementPerPage elements from combination of all physical pages
+        /// </summary>
+        public IFolderPage GetLogicalFolderPage(IFolder folder, int pageNum)
         {
+            var numberOfElementsPerPage = folder.NumberOfElementPerPage > 0 ? folder.NumberOfElementPerPage : _constance.DefaultNumberOfElementOnPage;
             var allPagesData = GetAllPagesOfFolder(folder).ToList();
-            allPagesData.Sort((folderContent1, folderContent2) => CompareFolderContent(folderContent1, folderContent1, folder.SortType));
-            var folderPageContent = allPagesData.Skip(folder.NumberOfElementPerPage * pageNum).Take(folder.NumberOfElementPerPage);
+            allPagesData.Sort((folderContent1, folderContent2) => CompareFolderContent(folderContent1, folderContent2, folder.SortType));
+            var elementToSkip = numberOfElementsPerPage * (pageNum - 1);
+            var folderPageContent = allPagesData.Skip(elementToSkip).Take(numberOfElementsPerPage).ToArray();
             return new FolderPage(folder.Name, folder.Path, folderPageContent.ToArray());
+        }
+
+        /// <summary>
+        /// Return one part of the folder physical pages.
+        /// All folder-content that the folder contain are spitted in several json files because when the JavaScriptSerializer tried
+        /// to serialize big object he throw exception.
+        /// In order to avoid that I had to save the folder data in separated small json files.
+        /// </summary>
+        public IFolderPage GetPhysicalFolderPage(IFolder folder, int pageNum)
+        {
+            return _folderContentPageRepository.GetFolderPage(folder.Name, folder.Path, pageNum);
         }
 
         public void DeletePage(IFolder folder, int pageNum)
@@ -77,24 +92,32 @@ namespace FolderContentManager.Services
 
         public void RemoveFolderContentFromPage(IFolder folder, IFolderContent folderContentToRemove, int page)
         {
-            var folderPage = GetFolderPage(folder, page);
+            var possiblePhysicalPage = GetPossiblePhysicalPageFromLogicalPage(folder, page);
+            foreach (var physicalPage in possiblePhysicalPage)
+            {
+                var folderPage = GetPhysicalFolderPage(folder, physicalPage);
 
-            if (folderPage.Content == null) return;
+                if (folderPage.Content == null) continue;
+                if(!folderPage.Content.Any(fc => fc.Name == folderContentToRemove.Name &&
+                                                fc.Path == folderContentToRemove.Path &&
+                                                fc.Type == folderContentToRemove.Type)) continue;
 
-            var contentList = folderPage.Content.ToList();
-            contentList.RemoveAll(fc => fc.Name == folderContentToRemove.Name &&
-                                        fc.Path == folderContentToRemove.Path &&
-                                        fc.Type == folderContentToRemove.Type);
+                var contentList = folderPage.Content.ToList();
+                contentList.RemoveAll(fc => fc.Name == folderContentToRemove.Name &&
+                                            fc.Path == folderContentToRemove.Path &&
+                                            fc.Type == folderContentToRemove.Type);
 
-            folderPage.Content = contentList.ToArray();
-            _folderContentPageRepository.CreateOrUpdateFolderPage(folder.Name, folder.Path, page, folderPage);
-
-            PerformPageCompression(folder);
+                folderPage.Content = contentList.ToArray();
+                _folderContentPageRepository.CreateOrUpdateFolderPage(folder.Name, folder.Path, physicalPage, folderPage);
+                break;
+            }
+            
+            PerformPhysicalPageCompression(folder);
         }
 
         public void UpdatePathOnPage(IFolder folder, int pageNum, string oldPathPrefix, string newPathPrefix)
         {
-            var page = GetFolderPage(folder, pageNum);
+            var page = GetPhysicalFolderPage(folder, pageNum);
 
             if (page.Path.StartsWith(oldPathPrefix))
             {
@@ -135,7 +158,7 @@ namespace FolderContentManager.Services
         {
             for (var i = 1; i <= folder.NumOfPhysicalPages; i++)
             {
-                var page = GetFolderPage(folder, i);
+                var page = GetPhysicalFolderPage(folder, i);
                 if (page.Content == null) continue;
 
                 var contentList = page.Content.ToList();
@@ -154,8 +177,8 @@ namespace FolderContentManager.Services
         public int GetNumberOfPages(IFolder folder)
         {
             var numberOfElementsPerPage = folder.NumberOfElementPerPage > 0 ? folder.NumberOfElementPerPage : _constance.DefaultNumberOfElementOnPage;
-            var numOfElements = (folder.NumOfPhysicalPages - 1) * _constance.MaxFolderContentOnPage;
-            var lastFolderPage = GetFolderPage(folder, folder.NumOfPhysicalPages);
+            var numOfElements = (folder.NumOfPhysicalPages - 1) * _constance.MaxFolderContentOnPhysicalPage;
+            var lastFolderPage = GetPhysicalFolderPage(folder, folder.NumOfPhysicalPages);
             if (lastFolderPage != null)
             {
                 numOfElements += lastFolderPage.Content.Length;
@@ -166,12 +189,30 @@ namespace FolderContentManager.Services
 
         }
 
-        private void PerformPageCompression(IFolder folder)
+        /// <summary>
+        /// Transforms logical page to physical page.
+        /// The physical page is the way we store the folder content data in the file system
+        /// The logical page is number of all elements divided by the number of elements to show on page.
+        /// Because the numberOfElementsPerPage can be greater than the MaxFolderContentOnPhysicalPage, one logical page can span several physical pages.
+        /// So this method must return a range of physical pages that the logical page elements are in.
+        ///</summary>
+        private IEnumerable<int> GetPossiblePhysicalPageFromLogicalPage(IFolder folder, int page)
+        {
+            var numberOfElementsPerPage = folder.NumberOfElementPerPage > 0 ? folder.NumberOfElementPerPage : _constance.DefaultNumberOfElementOnPage;
+            var maxLogicalPage = (int) Math.Ceiling((page * numberOfElementsPerPage) /
+                                                 (double) _constance.MaxFolderContentOnPhysicalPage);
+            var minLogicalPage = (int)Math.Ceiling(((page - 1) * numberOfElementsPerPage) /
+                                                   (double)_constance.MaxFolderContentOnPhysicalPage);
+            minLogicalPage = minLogicalPage > 0 ? minLogicalPage : 1;
+            return Enumerable.Range(minLogicalPage, maxLogicalPage).ToArray();
+        }
+
+        private void PerformPhysicalPageCompression(IFolder folder)
         {
             for (var i = 1; i <= folder.NumOfPhysicalPages; i++)
             {
-                var page = GetFolderPage(folder, i);
-                if (page.Content.Length == _constance.MaxFolderContentOnPage) continue;
+                var page = GetPhysicalFolderPage(folder, i);
+                if (page.Content.Length == _constance.MaxFolderContentOnPhysicalPage) continue;
 
                 //Delete empty pages, but do not delete the first page
                 if (page.Content.Length == 0 && i != 1)
@@ -184,8 +225,8 @@ namespace FolderContentManager.Services
                 //This is the last page and it is not full -> its ok
                 if (i == folder.NumOfPhysicalPages) continue;
 
-                var nextPage = GetFolderPage(folder, i + 1);
-                var numOfElementsToMove = _constance.MaxFolderContentOnPage - page.Content.Length;
+                var nextPage = GetPhysicalFolderPage(folder, i + 1);
+                var numOfElementsToMove = _constance.MaxFolderContentOnPhysicalPage - page.Content.Length;
 
                 //Calculate the elements to move 
                 var elementToMove = new HashSet<IFolderContent>();

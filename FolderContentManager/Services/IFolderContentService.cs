@@ -33,5 +33,7 @@ namespace FolderContentManager.Services
         void Copy(string copyObjName, string copyObjPath, string copyObjTypeStr, string copyToName, string copyToPath);
 
         void UpdateFolderMetaData(FolderMetadata folderMetadata);
+
+        int GetNumberOfElementOnPage(string name, string path);
     }
 }

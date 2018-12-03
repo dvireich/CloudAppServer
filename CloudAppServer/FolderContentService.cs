@@ -110,6 +110,12 @@ namespace CloudAppServer
             return Perform(() => _folderContentManager.GetSortType(folderContent.Name, folderContent.Path));
         }
 
+        public int GetNumberOfElementsOnPage(FolderContentObj folderContent)
+        {
+            if (folderContent == null) return 0;
+            return Perform(() => _folderContentManager.GetNumberOfElementOnPage(folderContent.Name, folderContent.Path));
+        }
+
         [WcfLogging]
         public int GetRequestId()
         {

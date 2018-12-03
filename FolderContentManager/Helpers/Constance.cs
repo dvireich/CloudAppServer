@@ -4,7 +4,7 @@
     {
         public string HomeFolderName { get; } = "home";
         public string HomeFolderPath { get; } = "";
-        public int MaxFolderContentOnPage { get; } = 136;
+        public int MaxFolderContentOnPhysicalPage { get; } = 2;
         public string BaseFolderPath { get; set; } = "C:\\foldercontentmanager";
         public int DefaultNumberOfElementOnPage { get; set; } = 20;
     }

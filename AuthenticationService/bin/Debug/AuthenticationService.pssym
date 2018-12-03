@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Symbols LinesOfCode="119" PostSharpLinesOfCode="0" EnhancedTypesCount="3" SchemaVersion="1" PostSharpVersion="6.0.27.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
   <Class Class="#1=T:[PostSharp.Patterns.Diagnostics]PostSharp.Patterns.Diagnostics.LogAttribute">
-    <Instance Declaration="#2=A:AuthenticationService" Id="2c86456c37d60bd1">
+    <Instance Declaration="#2=A:AuthenticationService" Id="2c86456c92aa7dfd">
       <Target Target="#3=M:[AuthenticationService]AuthenticationService.AuthenticationManager::Authenticate(System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4=Adds logging" Ordinal="0" LinesAvoided="5" />
       </Target>

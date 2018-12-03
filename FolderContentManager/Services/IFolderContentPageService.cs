@@ -17,7 +17,9 @@ namespace FolderContentManager.Services
 
         void AddToFolderPage(IFolder folder, int pageNum, IFolderContent folderContent);
 
-        IFolderPage GetFolderPage(IFolder folder, int pageNum);
+        IFolderPage GetLogicalFolderPage(IFolder folder, int pageNum);
+
+        IFolderPage GetPhysicalFolderPage(IFolder folder, int pageNum);
 
         void DeletePage(IFolder folder, int pageNum);
 
