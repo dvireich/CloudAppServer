@@ -176,6 +176,7 @@ namespace FolderContentManager.Services
 
         public int GetNumberOfPages(IFolder folder)
         {
+            PerformPhysicalPageCompression(folder);
             var numberOfElementsPerPage = folder.NumberOfElementPerPage > 0 ? folder.NumberOfElementPerPage : _constance.DefaultNumberOfElementOnPage;
             var numOfElements = (folder.NumOfPhysicalPages - 1) * _constance.MaxFolderContentOnPhysicalPage;
             var lastFolderPage = GetPhysicalFolderPage(folder, folder.NumOfPhysicalPages);

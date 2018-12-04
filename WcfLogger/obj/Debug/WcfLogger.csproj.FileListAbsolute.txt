@@ -54,4 +54,3 @@ C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\obj\Debug\WcfLogger.csproj.
 C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\obj\Debug\WcfLogger.dll
 C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\obj\Debug\WcfLogger.pdb
 C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\obj\Debug\PostSharp\PostSharpHost.config
-C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\obj\Debug\WcfLogger.csprojAssemblyReference.cache

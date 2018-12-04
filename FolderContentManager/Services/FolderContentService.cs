@@ -35,6 +35,7 @@ namespace FolderContentManager.Services
 
         public void CreateFolder(string name, string path)
         {
+            ValidateReservedWord(name);
             _concurrentManager.PerformWithSynchronization(
                 new List<IFolderContent>() { new FolderContent(name, path, FolderContentType.Folder) }, () =>
                 {
@@ -105,6 +106,7 @@ namespace FolderContentManager.Services
 
         public void Rename(string name, string path, string typeStr, string newName)
         {
+            ValidateReservedWord(name);
             Enum.TryParse(typeStr, true, out FolderContentType type);
 
             _concurrentManager.PerformWithSynchronization(
@@ -125,6 +127,7 @@ namespace FolderContentManager.Services
 
         public void CreateFile(string name, string path, string fileType, string tmpCreationPath, long size)
         {
+            ValidateReservedWord(name);
             _searchCache.ClearCache();
             _folderContentFileService.CreateFile(name, path, fileType, tmpCreationPath, size);
             _concurrentManager.ReleaseSynchronization(new List<IFolderContent>() { new FolderContent(name, path, FolderContentType.File) });
@@ -222,6 +225,14 @@ namespace FolderContentManager.Services
                     var folderToCheck = _folderContentFolderService.GetFolder(folderContent.Name, folderContent.Path);
                     RecursiveSearch(strToSearch, folderToCheck, result);
                 }
+            }
+        }
+
+        private void ValidateReservedWord(string name)
+        {
+            foreach (var reservedWord in _constance.ReservedWords)
+            {
+                if(name.ToLower().StartsWith(reservedWord.ToLower())) throw new Exception($"The word '{reservedWord}' is reserved. The name cannot start with this word!");
             }
         }
 
