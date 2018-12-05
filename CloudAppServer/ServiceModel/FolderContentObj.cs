@@ -18,5 +18,7 @@ namespace CloudAppServer.ServiceModel
         public string Type;
         [DataMember]
         public int Page;
+        [DataMember]
+        public bool SearchMode;
     }
 }

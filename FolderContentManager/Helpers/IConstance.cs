@@ -11,7 +11,5 @@
         string BaseFolderPath { get; set; }
 
         int DefaultNumberOfElementOnPage { get; set; }
-
-        string[] ReservedWords { get; set; }
     }
 }

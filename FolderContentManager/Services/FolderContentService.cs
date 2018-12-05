@@ -35,7 +35,6 @@ namespace FolderContentManager.Services
 
         public void CreateFolder(string name, string path)
         {
-            ValidateReservedWord(name);
             _concurrentManager.PerformWithSynchronization(
                 new List<IFolderContent>() { new FolderContent(name, path, FolderContentType.Folder) }, () =>
                 {
@@ -86,18 +85,9 @@ namespace FolderContentManager.Services
             return (int)folder.SortType;
         }
 
-        public int GetNumOfFolderPages(string name, string path)
+        public int GetNumOfFolderPages(string name, string path, bool searchMode)
         {
-            if (name.ToLower() == "search")
-            {
-                if (!_searchCache.Contains(path))
-                    throw new Exception($"The search string {path} does not appears in the searchCache!");
-
-                var results = _searchCache.GetFromCache(path);
-                var pages = (double)results.Length / _constance.DefaultNumberOfElementOnPage;
-                var pagesCeiling = (int)Math.Ceiling((decimal)pages);
-                return pagesCeiling == 0 ? 1 : pagesCeiling;
-            }
+            if (searchMode) return GetNumOfFolderPagesOnSearchMode(name);
 
             var folder = _folderContentFolderService.GetFolder(name, path);
             if (folder == null) return -1;
@@ -106,7 +96,6 @@ namespace FolderContentManager.Services
 
         public void Rename(string name, string path, string typeStr, string newName)
         {
-            ValidateReservedWord(name);
             Enum.TryParse(typeStr, true, out FolderContentType type);
 
             _concurrentManager.PerformWithSynchronization(
@@ -127,7 +116,6 @@ namespace FolderContentManager.Services
 
         public void CreateFile(string name, string path, string fileType, string tmpCreationPath, long size)
         {
-            ValidateReservedWord(name);
             _searchCache.ClearCache();
             _folderContentFileService.CreateFile(name, path, fileType, tmpCreationPath, size);
             _concurrentManager.ReleaseSynchronization(new List<IFolderContent>() { new FolderContent(name, path, FolderContentType.File) });
@@ -165,9 +153,9 @@ namespace FolderContentManager.Services
             _folderContentFolderService.UpdateFolderMetaData(folderMetadata);
         }
 
-        public int GetNumberOfElementOnPage(string name, string path)
+        public int GetNumberOfElementOnPage(string name, string path, bool searchMode)
         {
-            if (name.ToLower() == "search")
+            if (searchMode)
             {
                 if (!_searchCache.Contains(path))
                     throw new Exception($"The search string {path} does not appears in the searchCache!");
@@ -228,12 +216,15 @@ namespace FolderContentManager.Services
             }
         }
 
-        private void ValidateReservedWord(string name)
+        private int GetNumOfFolderPagesOnSearchMode(string name)
         {
-            foreach (var reservedWord in _constance.ReservedWords)
-            {
-                if(name.ToLower().StartsWith(reservedWord.ToLower())) throw new Exception($"The word '{reservedWord}' is reserved. The name cannot start with this word!");
-            }
+            if (!_searchCache.Contains(name))
+                throw new Exception($"The search string {name} does not appears in the searchCache!");
+
+            var results = _searchCache.GetFromCache(name);
+            var pages = (double)results.Length / _constance.DefaultNumberOfElementOnPage;
+            var pagesCeiling = (int)Math.Ceiling((decimal)pages);
+            return pagesCeiling == 0 ? 1 : pagesCeiling;
         }
 
         private void InitializeBaseFolder()

@@ -14,5 +14,7 @@ namespace CloudAppServer.ServiceModel
         public string Name;
         [DataMember]
         public string Path;
+        [DataMember]
+        public bool SerachMode;
     }
 }

@@ -20,7 +20,7 @@ namespace FolderContentManager.Services
 
         IFolderPage GetFolderPage(string name, string path, int page);
 
-        int GetNumOfFolderPages(string name, string path);
+        int GetNumOfFolderPages(string name, string path, bool searchMode);
 
         void Rename(string name, string path, string typeStr, string newName);
 
@@ -34,6 +34,6 @@ namespace FolderContentManager.Services
 
         void UpdateFolderMetaData(FolderMetadata folderMetadata);
 
-        int GetNumberOfElementOnPage(string name, string path);
+        int GetNumberOfElementOnPage(string name, string path, bool searchMode);
     }
 }

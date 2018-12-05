@@ -100,7 +100,7 @@ namespace CloudAppServer
         public int GetNumberOfPage(NumberOfPageRequest numberOfPageRequest)
         {
             if (numberOfPageRequest == null) return -1;
-            return Perform(() => _folderContentManager.GetNumOfFolderPages(numberOfPageRequest.Name, numberOfPageRequest.Path));
+            return Perform(() => _folderContentManager.GetNumOfFolderPages(numberOfPageRequest.Name, numberOfPageRequest.Path, numberOfPageRequest.SerachMode));
         }
 
         [WcfLogging]
@@ -113,7 +113,7 @@ namespace CloudAppServer
         public int GetNumberOfElementsOnPage(FolderContentObj folderContent)
         {
             if (folderContent == null) return 0;
-            return Perform(() => _folderContentManager.GetNumberOfElementOnPage(folderContent.Name, folderContent.Path));
+            return Perform(() => _folderContentManager.GetNumberOfElementOnPage(folderContent.Name, folderContent.Path, folderContent.SearchMode));
         }
 
         [WcfLogging]
