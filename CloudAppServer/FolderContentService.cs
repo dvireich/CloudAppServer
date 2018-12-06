@@ -100,7 +100,7 @@ namespace CloudAppServer
         public int GetNumberOfPage(NumberOfPageRequest numberOfPageRequest)
         {
             if (numberOfPageRequest == null) return -1;
-            return Perform(() => _folderContentManager.GetNumOfFolderPages(numberOfPageRequest.Name, numberOfPageRequest.Path, numberOfPageRequest.SerachMode));
+            return Perform(() => _folderContentManager.GetNumOfFolderPages(numberOfPageRequest.Name, numberOfPageRequest.Path, numberOfPageRequest.SearchMode));
         }
 
         [WcfLogging]
