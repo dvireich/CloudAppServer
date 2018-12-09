@@ -63,8 +63,8 @@ namespace ServiceLoader
         private static ServiceHost InitializeCORESServiceReferences<TC, TI>(string endpointName)
         {
             //Put Public ip of the server computer
-            var endpoint = $"http://192.168.1.27:80/{endpointName}";
-            //var endpoint = $"http://localhost:80/{endpointName}";
+            //var endpoint = $"http://192.168.1.27:80/{endpointName}";
+            var endpoint = $"http://localhost:80/{endpointName}";
             var uri = new Uri(endpoint);
 
             var serviceHost = new CorsEnabledServiceHost(typeof(TC), new []{uri});

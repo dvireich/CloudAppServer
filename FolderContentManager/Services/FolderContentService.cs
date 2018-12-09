@@ -116,9 +116,15 @@ namespace FolderContentManager.Services
 
         public void CreateFile(string name, string path, string fileType, string tmpCreationPath, long size)
         {
-            _searchCache.ClearCache();
-            _folderContentFileService.CreateFile(name, path, fileType, tmpCreationPath, size);
-            _concurrentManager.ReleaseSynchronization(new List<IFolderContent>() { new FolderContent(name, path, FolderContentType.File) });
+            try
+            {
+                _searchCache.ClearCache();
+                _folderContentFileService.CreateFile(name, path, fileType, tmpCreationPath, size);
+            }
+            finally
+            {
+                _concurrentManager.ReleaseSynchronization(new List<IFolderContent>() { new FolderContent(name, path, FolderContentType.File) });
+            } 
         }
 
         public void Copy(string copyObjName, string copyObjPath, string copyObjTypeStr, string copyToName, string copyToPath)
