@@ -85,6 +85,7 @@ namespace FolderContentManager.Services
         {
             var folderContentFile = GetFolderContentFile(oldName, path);
             if (folderContentFile == null) throw new Exception("file does not exists!");
+            ValidateFileNewNameInParentData(folderContentFile, newName);
             folderContentFile.Name = newName;
             folderContentFile.ModificationTime = $"{DateTime.Now:G}";
             UpdateFolderContentFile(folderContentFile);
@@ -121,6 +122,15 @@ namespace FolderContentManager.Services
             if (!folderContentFile.Path.StartsWith(oldPathPrefix)) return;
             folderContentFile.Path = folderContentFile.Path.ReplacePrefixInString(oldPathPrefix, newPathPrefix);
             UpdateFolderContentFile(folderContentFile);
+        }
+
+        private void ValidateFileNewNameInParentData(IFolderContent file, string newName)
+        {
+            var parent = _folderContentFolderService.GetParentFolder(file);
+            var oldName = file.Name;
+            file.Name = newName;
+            _folderContentPageService.ValidateUniquenessOnAllFolderPages(parent, file);
+            file.Name = oldName;
         }
     }
 }

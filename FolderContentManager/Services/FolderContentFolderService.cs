@@ -155,7 +155,7 @@ namespace FolderContentManager.Services
         {
             var folder = GetFolder(name, path);
             if (folder == null) throw new Exception("folder does not exists!");
-
+            ValidateFolderNewNameInParentData(folder, newName);
             var oldName = folder.Name;
             var oldPath = $"{folder.Path}/{oldName}";
             var newPath = $"{folder.Path}/{newName}";
@@ -187,7 +187,7 @@ namespace FolderContentManager.Services
             {
                 throw new Exception("The folder you are trying to copy does not exists!");
             }
-            
+
             _folderContentPageService.ValidateUniquenessOnAllFolderPages(folderToCopyTo, folderToCopy);
             var copyFromNewPath = string.IsNullOrEmpty(folderToCopyTo.Path) ? folderToCopyTo.Name : $"{folderToCopyTo.Path}/{folderToCopyTo.Name}";
             var oldPath = $"{folderToCopy.Path}/{folderToCopy.Name}";
@@ -198,6 +198,15 @@ namespace FolderContentManager.Services
             UpdateFolder(folderToCopy);
             _folderContentPageService.AddToFolderPage(folderToCopyTo, folderToCopyTo.NextPhysicalPageToWrite, folderToCopy);
             UpdateFolderChildrenPath(folderToCopy, newPath, oldPath);
+        }
+
+        private void ValidateFolderNewNameInParentData(IFolderContent folder, string newName)
+        {
+            var parent = GetParentFolder(folder);
+            var oldName = folder.Name;
+            folder.Name = newName;
+            _folderContentPageService.ValidateUniquenessOnAllFolderPages(parent, folder);
+            folder.Name = oldName;
         }
 
         private void CreateFolder(IFolder folder)
