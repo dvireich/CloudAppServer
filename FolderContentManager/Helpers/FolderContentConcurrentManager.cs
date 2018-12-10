@@ -67,8 +67,7 @@ namespace FolderContentManager.Helpers
         {
             lock (this)
             {
-                if (!folderContents.All(fc => CanAcquire(fc.Name, fc.Path, fc.Type)))
-                    throw new Exception(ConcurrentMessageError);
+                if (!folderContents.All(fc => CanAcquire(fc.Name, fc.Path, fc.Type))) throw new Exception(ConcurrentMessageError);
                 foreach (var fc in folderContents)
                 {
                     //Get all the sub children of the folder content because we may updates the children folder content in changes on the parent folder
