@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Symbols LinesOfCode="1388" PostSharpLinesOfCode="0" EnhancedTypesCount="12" SchemaVersion="1" PostSharpVersion="6.0.27.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
+<Symbols LinesOfCode="1389" PostSharpLinesOfCode="0" EnhancedTypesCount="12" SchemaVersion="1" PostSharpVersion="6.0.27.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
   <Class Class="#1=T:[PostSharp.Patterns.Diagnostics]PostSharp.Patterns.Diagnostics.LogAttribute">
-    <Instance Declaration="#2=T:[FolderContentManager]FolderContentManager.Repositories.FolderContentFileRepository" Id="2fa06dc525450dcf">
+    <Instance Declaration="#2=T:[FolderContentManager]FolderContentManager.Repositories.FolderContentFileRepository" Id="2fa06dc53df74b08">
       <Target Target="#3=M:[FolderContentManager]FolderContentManager.Repositories.FolderContentFileRepository::GetFolderContentFile(System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4=Adds logging" Ordinal="6" LinesAvoided="5" />
       </Target>
@@ -24,7 +24,7 @@
         <JoinPoint Advising="#1" Description="#4" Ordinal="12" LinesAvoided="5" />
       </Target>
     </Instance>
-    <Instance Declaration="#11=T:[FolderContentManager]FolderContentManager.Repositories.FolderContentFolderRepository" Id="2fa06dc5e8dc4dcc">
+    <Instance Declaration="#11=T:[FolderContentManager]FolderContentManager.Repositories.FolderContentFolderRepository" Id="2fa06dc53b7318df">
       <Target Target="#12=M:[FolderContentManager]FolderContentManager.Repositories.FolderContentFolderRepository::GetFolder(System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="13" LinesAvoided="5" />
       </Target>
@@ -47,7 +47,7 @@
         <JoinPoint Advising="#1" Description="#4" Ordinal="19" LinesAvoided="5" />
       </Target>
     </Instance>
-    <Instance Declaration="#19=T:[FolderContentManager]FolderContentManager.Repositories.FolderContentPageRepository" Id="2fa06dc51c759468">
+    <Instance Declaration="#19=T:[FolderContentManager]FolderContentManager.Repositories.FolderContentPageRepository" Id="2fa06dc5e04e9b73">
       <Target Target="#20=M:[FolderContentManager]FolderContentManager.Repositories.FolderContentPageRepository::GetFolderPage(System.String, System.String, System.Int32)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="20" LinesAvoided="5" />
       </Target>
@@ -61,7 +61,7 @@
         <JoinPoint Advising="#1" Description="#4" Ordinal="23" LinesAvoided="5" />
       </Target>
     </Instance>
-    <Instance Declaration="#24=T:[FolderContentManager]FolderContentManager.Repositories.GenericFolderContentRepository{TModel,TMappable}" Id="2fa06dc5216a5f4b">
+    <Instance Declaration="#24=T:[FolderContentManager]FolderContentManager.Repositories.GenericFolderContentRepository{TModel,TMappable}" Id="2fa06dc56bb5fc4f">
       <Target Target="#25=M:[FolderContentManager]FolderContentManager.Repositories.GenericFolderContentRepository{TModel,TMappable}::GetByFullPath(System.String, System.String, [FolderContentManager]FolderContentManager.Model.FolderContentType)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="0" LinesAvoided="5" />
       </Target>
@@ -81,7 +81,7 @@
         <JoinPoint Advising="#1" Description="#4" Ordinal="5" LinesAvoided="5" />
       </Target>
     </Instance>
-    <Instance Declaration="#31=T:[FolderContentManager]FolderContentManager.Services.FolderContentFileService" Id="2fa06dc55d848807">
+    <Instance Declaration="#31=T:[FolderContentManager]FolderContentManager.Services.FolderContentFileService" Id="2fa06dc516f430fa">
       <Target Target="#32=M:[FolderContentManager]FolderContentManager.Services.FolderContentFileService::CreateFile(System.String, System.String, System.String, System.String, System.Int64)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="24" LinesAvoided="5" />
       </Target>
@@ -110,7 +110,7 @@
         <JoinPoint Advising="#1" Description="#4" Ordinal="32" LinesAvoided="5" />
       </Target>
     </Instance>
-    <Instance Declaration="#41=T:[FolderContentManager]FolderContentManager.Services.FolderContentService" Id="2fa06dc571caba04">
+    <Instance Declaration="#41=T:[FolderContentManager]FolderContentManager.Services.FolderContentService" Id="2fa06dc587ef77ef">
       <Target Target="#42=M:[FolderContentManager]FolderContentManager.Services.FolderContentService::CreateFolder(System.String, System.String)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="33" LinesAvoided="5" />
       </Target>
@@ -151,7 +151,7 @@
         <JoinPoint Advising="#1" Description="#4" Ordinal="45" LinesAvoided="5" />
       </Target>
     </Instance>
-    <Instance Declaration="#55=T:[FolderContentManager]FolderContentManager.Services.FolderContentFolderService" Id="2fa06dc532c40469">
+    <Instance Declaration="#55=T:[FolderContentManager]FolderContentManager.Services.FolderContentFolderService" Id="2fa06dc5bf24e315">
       <Target Target="#56=M:[FolderContentManager]FolderContentManager.Services.FolderContentFolderService::GetParentFolder([FolderContentManager]FolderContentManager.Model.IFolderContent)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="46" LinesAvoided="5" />
       </Target>
@@ -189,7 +189,7 @@
         <JoinPoint Advising="#1" Description="#4" Ordinal="57" LinesAvoided="5" />
       </Target>
     </Instance>
-    <Instance Declaration="#68=T:[FolderContentManager]FolderContentManager.Services.FolderContentPageService" Id="2fa06dc58a36f3f8">
+    <Instance Declaration="#68=T:[FolderContentManager]FolderContentManager.Services.FolderContentPageService" Id="2fa06dc5abda5dd8">
       <Target Target="#69=M:[FolderContentManager]FolderContentManager.Services.FolderContentPageService::ValidateUniquenessOnAllFolderPages([FolderContentManager]FolderContentManager.Model.IFolder, [FolderContentManager]FolderContentManager.Model.IFolderContent)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="58" LinesAvoided="5" />
       </Target>
@@ -230,7 +230,7 @@
         <JoinPoint Advising="#1" Description="#4" Ordinal="70" LinesAvoided="5" />
       </Target>
     </Instance>
-    <Instance Declaration="#82=T:[FolderContentManager]FolderContentManager.Helpers.DirectoryManager" Id="2fa06dc5ddebac65">
+    <Instance Declaration="#82=T:[FolderContentManager]FolderContentManager.Helpers.DirectoryManager" Id="2fa06dc54a39adc3">
       <Target Target="#83=M:[FolderContentManager]FolderContentManager.Helpers.DirectoryManager::Delete(System.String, System.Boolean)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="71" LinesAvoided="5" />
       </Target>
@@ -244,7 +244,7 @@
         <JoinPoint Advising="#1" Description="#4" Ordinal="74" LinesAvoided="5" />
       </Target>
     </Instance>
-    <Instance Declaration="#87=T:[FolderContentManager]FolderContentManager.Helpers.FileService" Id="2fa06dc522afb646">
+    <Instance Declaration="#87=T:[FolderContentManager]FolderContentManager.Helpers.FileService" Id="2fa06dc5b1261555">
       <Target Target="#88=M:[FolderContentManager]FolderContentManager.Helpers.FileService::CreateFile(System.Int32, [FolderContentManager]FolderContentManager.Model.ITmpFile)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="75" LinesAvoided="5" />
       </Target>
@@ -270,7 +270,7 @@
         <JoinPoint Advising="#1" Description="#4" Ordinal="82" LinesAvoided="5" />
       </Target>
     </Instance>
-    <Instance Declaration="#96=T:[FolderContentManager]FolderContentManager.Helpers.FileManager" Id="2fa06dc538d85d86">
+    <Instance Declaration="#96=T:[FolderContentManager]FolderContentManager.Helpers.FileManager" Id="2fa06dc55bd18df5">
       <Target Target="#97=M:[FolderContentManager]FolderContentManager.Helpers.FileManager::GetFile(System.String)">
         <JoinPoint Advising="#1" Description="#4" Ordinal="83" LinesAvoided="5" />
       </Target>
@@ -299,7 +299,7 @@
         <JoinPoint Advising="#1" Description="#4" Ordinal="91" LinesAvoided="5" />
       </Target>
     </Instance>
-    <Instance Declaration="#106=T:[FolderContentManager]FolderContentManager.Helpers.SearchCache" Id="2fa06dc505f0e049">
+    <Instance Declaration="#106=T:[FolderContentManager]FolderContentManager.Helpers.SearchCache" Id="2fa06dc51afab435">
       <Target Target="#107=M:[FolderContentManager]FolderContentManager.Helpers.SearchCache::AddToCache(System.String, [FolderContentManager]FolderContentManager.Model.IFolderContent[])">
         <JoinPoint Advising="#1" Description="#4" Ordinal="92" LinesAvoided="5" />
       </Target>

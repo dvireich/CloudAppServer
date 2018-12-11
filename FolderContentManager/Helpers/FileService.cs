@@ -11,6 +11,7 @@ namespace FolderContentManager.Helpers
     [Log(AttributeTargetElements = MulticastTargets.Method, AttributeTargetTypeAttributes = MulticastAttributes.Public, AttributeTargetMemberAttributes = MulticastAttributes.Public)]
     public sealed class FileService : IFileService
     {
+        
 
         public FileService(IFolderContentConcurrentManager concurrentManager)
         {
@@ -21,7 +22,7 @@ namespace FolderContentManager.Helpers
             this._requestIdToFiles = new ConcurrentDictionary<int, ITmpFile>();
             _requestIdToBinaryWriter = new ConcurrentDictionary<int, BinaryWriter>();
         }
-
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly ConcurrentDictionary<int, ITmpFile> _requestIdToFiles;
         private readonly ConcurrentDictionary<int, FileDownloadData> _requestIdToFileStream;
         private readonly ConcurrentDictionary<int, BinaryWriter> _requestIdToBinaryWriter;
@@ -64,7 +65,7 @@ namespace FolderContentManager.Helpers
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Could not CreateOrUpdate request id: {requestId} for file value content with the following exception: {e.Message}");
+                Log.Debug($"Could not CreateOrUpdate request id: {requestId} for file value content with the following exception: {e.Message}");
             }
         }
 
@@ -77,7 +78,7 @@ namespace FolderContentManager.Helpers
             catch (Exception e)
             {
                 var message = $"Could not find the file for request id: {requestId}... with the following error: {e.Message}";
-                Console.WriteLine(message);
+                Log.Debug(message);
                 return null;
             }
             
@@ -85,7 +86,7 @@ namespace FolderContentManager.Helpers
 
         public void Finish(int requestId)
         {
-            Console.WriteLine($"Finishing upload by removing the request id: {requestId}");
+            Log.Debug($"Finishing upload by removing the request id: {requestId}");
             _requestIdToFiles.TryRemove(requestId, out var file);
         }
 
