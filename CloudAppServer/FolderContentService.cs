@@ -110,6 +110,7 @@ namespace CloudAppServer
             return Perform(() => _folderContentManager.GetSortType(folderContent.Name, folderContent.Path));
         }
 
+        [WcfLogging]
         public int GetNumberOfElementsOnPage(FolderContentObj folderContent)
         {
             if (folderContent == null) return 0;
@@ -189,6 +190,7 @@ namespace CloudAppServer
             });
         }
 
+        [WcfLogging(LogArguments = false)]
         public void UpdateFileContent(FolderContentFileObj folderContent)
         {
             Perform(() =>
