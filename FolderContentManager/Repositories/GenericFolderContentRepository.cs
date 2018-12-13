@@ -50,11 +50,13 @@ namespace FolderContentManager.Repositories
 
         public void Delete(string name, string path, FolderContentType type)
         {
+            if(!FileManager.Exists(CreateJsonPath(name, path, type))) return;
             FileManager.Delete(CreateJsonPath(name, path, type));
         }
 
         public void Delete(string fullPath)
         {
+            if (!FileManager.Exists(fullPath)) return;
             FileManager.Delete(fullPath);
         }
 

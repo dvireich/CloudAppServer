@@ -70,8 +70,6 @@ namespace FolderContentManager.Services
 
         public void MoveFileToNewLocation(string sourceName, string sourcePath, string destName, string destPath)
         {
-            var sourceFolderContentFile = _folderContentFileRepository.GetFolderContentFile(sourceName, sourcePath);
-            _folderContentFileRepository.CreateOrUpdateFolderContentFile(destName, destPath, sourceFolderContentFile);
             _folderContentFileRepository.Move(destName, destPath, sourceName, sourcePath);
             _folderContentFileRepository.Delete(sourceName, sourcePath);
         }
@@ -85,7 +83,7 @@ namespace FolderContentManager.Services
         {
             var folderContentFile = GetFolderContentFile(oldName, path);
             if (folderContentFile == null) throw new Exception("file does not exists!");
-            ValidateFileNewNameInParentData(folderContentFile, newName);
+            ValidateFileNameInParentData(folderContentFile, newName);
             folderContentFile.Name = newName;
             folderContentFile.ModificationTime = $"{DateTime.Now:G}";
             UpdateFolderContentFile(folderContentFile);
@@ -109,6 +107,8 @@ namespace FolderContentManager.Services
             {
                 throw new Exception("The file you are trying to copy does not exists!");
             }
+
+            _folderContentPageService.ValidateUniquenessOnAllFolderPages(folderToCopyTo, fileToCopy);
             var copyFromNewPath = string.IsNullOrEmpty(folderToCopyTo.Path) ? folderToCopyTo.Name : $"{folderToCopyTo.Path}/{folderToCopyTo.Name}";
             fileToCopy.Path = copyFromNewPath;
             _folderContentPageService.AddToFolderPage(folderToCopyTo, folderToCopyTo.NextPhysicalPageToWrite, fileToCopy);
@@ -124,7 +124,7 @@ namespace FolderContentManager.Services
             UpdateFolderContentFile(folderContentFile);
         }
 
-        private void ValidateFileNewNameInParentData(IFolderContent file, string newName)
+        private void ValidateFileNameInParentData(IFolderContent file, string newName)
         {
             var parent = _folderContentFolderService.GetParentFolder(file);
             var oldName = file.Name;
