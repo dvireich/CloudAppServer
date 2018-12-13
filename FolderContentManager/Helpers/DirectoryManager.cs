@@ -43,6 +43,8 @@ namespace FolderContentManager.Helpers
 
         public void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
         {
+            if(destDirName.StartsWith(sourceDirName)) throw new Exception("Could not copy parent folder into child folder. This will cause infinite recursive copy");
+
             // Get the subdirectories for the specified directory.
             DirectoryInfo dir = new DirectoryInfo(sourceDirName);
 
@@ -69,13 +71,11 @@ namespace FolderContentManager.Helpers
             }
 
             // If copying subdirectories, copy them and their contents to new location.
-            if (copySubDirs)
+            if (!copySubDirs) return;
+            foreach (DirectoryInfo subdir in dirs)
             {
-                foreach (DirectoryInfo subdir in dirs)
-                {
-                    string temppath = _pathManager.Combine(destDirName, subdir.Name);
-                    DirectoryCopy(subdir.FullName, temppath, copySubDirs);
-                }
+                string temppath = _pathManager.Combine(destDirName, subdir.Name);
+                DirectoryCopy(subdir.FullName, temppath, true);
             }
         }
     }
