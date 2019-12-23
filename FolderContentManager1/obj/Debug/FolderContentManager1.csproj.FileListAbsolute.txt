@@ -1,0 +1,9 @@
+C:\Private repositories\CloudAppServer\FolderContentManager1\bin\Debug\FolderContentManager1.exe.config
+C:\Private repositories\CloudAppServer\FolderContentManager1\bin\Debug\FolderContentManager1.exe
+C:\Private repositories\CloudAppServer\FolderContentManager1\bin\Debug\FolderContentManager1.pdb
+C:\Private repositories\CloudAppServer\FolderContentManager1\bin\Debug\Pri.LongPath.dll
+C:\Private repositories\CloudAppServer\FolderContentManager1\obj\Debug\FolderContentManager1.csproj.CoreCompileInputs.cache
+C:\Private repositories\CloudAppServer\FolderContentManager1\obj\Debug\FolderContentManager1.csproj.CopyComplete
+C:\Private repositories\CloudAppServer\FolderContentManager1\obj\Debug\FolderContentManager1.exe
+C:\Private repositories\CloudAppServer\FolderContentManager1\obj\Debug\FolderContentManager1.pdb
+C:\Private repositories\CloudAppServer\FolderContentManager1\obj\Debug\FolderContentManager1.csprojAssemblyReference.cache

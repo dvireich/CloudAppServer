@@ -15,3 +15,20 @@ C:\Users\dvire\source\repos\CloudAppServer\ServiceLoadTaskQueue\obj\Debug\Servic
 C:\Users\dvire\source\repos\CloudAppServer\ServiceLoadTaskQueue\obj\Debug\ServiceLoadTaskQueue.csproj.CopyComplete
 C:\Users\dvire\source\repos\CloudAppServer\ServiceLoadTaskQueue\obj\Debug\ServiceLoadTaskQueue.dll
 C:\Users\dvire\source\repos\CloudAppServer\ServiceLoadTaskQueue\obj\Debug\ServiceLoadTaskQueue.pdb
+C:\Private repositories\CloudAppServer\ServiceLoadTaskQueue\bin\Debug\ServiceLoadTaskQueue.dll.config
+C:\Private repositories\CloudAppServer\ServiceLoadTaskQueue\bin\Debug\ServiceLoadTaskQueue.dll
+C:\Private repositories\CloudAppServer\ServiceLoadTaskQueue\bin\Debug\ServiceLoadTaskQueue.pdb
+C:\Private repositories\CloudAppServer\ServiceLoadTaskQueue\bin\Debug\log4net.dll
+C:\Private repositories\CloudAppServer\ServiceLoadTaskQueue\bin\Debug\PostSharp.dll
+C:\Private repositories\CloudAppServer\ServiceLoadTaskQueue\bin\Debug\PostSharp.Patterns.Common.dll
+C:\Private repositories\CloudAppServer\ServiceLoadTaskQueue\bin\Debug\PostSharp.Patterns.Diagnostics.Backends.Log4Net.dll
+C:\Private repositories\CloudAppServer\ServiceLoadTaskQueue\bin\Debug\PostSharp.Patterns.Diagnostics.dll
+C:\Private repositories\CloudAppServer\ServiceLoadTaskQueue\bin\Debug\log4net.xml
+C:\Private repositories\CloudAppServer\ServiceLoadTaskQueue\bin\Debug\PostSharp.xml
+C:\Private repositories\CloudAppServer\ServiceLoadTaskQueue\bin\Debug\PostSharp.Patterns.Common.xml
+C:\Private repositories\CloudAppServer\ServiceLoadTaskQueue\bin\Debug\PostSharp.Patterns.Diagnostics.xml
+C:\Private repositories\CloudAppServer\ServiceLoadTaskQueue\bin\Debug\PostSharp.Patterns.Diagnostics.Backends.Log4Net.xml
+C:\Private repositories\CloudAppServer\ServiceLoadTaskQueue\obj\Debug\ServiceLoadTaskQueue.csproj.CoreCompileInputs.cache
+C:\Private repositories\CloudAppServer\ServiceLoadTaskQueue\obj\Debug\ServiceLoadTaskQueue.csproj.CopyComplete
+C:\Private repositories\CloudAppServer\ServiceLoadTaskQueue\obj\Debug\ServiceLoadTaskQueue.dll
+C:\Private repositories\CloudAppServer\ServiceLoadTaskQueue\obj\Debug\ServiceLoadTaskQueue.pdb

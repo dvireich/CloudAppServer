@@ -1,39 +1,42 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using FolderContentManager.Helpers;
+using ContentManager.Helpers;
+using ContentManager.Helpers.Configuration;
+using ContentManager.Helpers.Directory_helpers;
+using ContentManager.Helpers.File_helpers;
+using ContentManager.Helpers.Path_helpers;
+using PathManager = ContentManager.Helpers.Path_helpers.PathManager;
 
 namespace CloudAppServer
 {
-    public class FolderContentManagerToClient
+    public class ClientConfiguration
     {
         #region Singelton
 
-        private static FolderContentManagerToClient _instance = null;
+        private static ClientConfiguration _instance = null;
         private static readonly object Padlock = new object();
 
-        private FolderContentManagerToClient()
+        private ClientConfiguration()
         {
-            _fileServiceToClient = new ConcurrentDictionary<string, FileService>();
             _clientToNumberOfLogins = new ConcurrentDictionary<string, long>();
             _clientToRemoveAction = new ConcurrentDictionary<string, Action>();
-            _folderContentManagerToClient = new ConcurrentDictionary<string, FolderContentManager.Services.IFolderContentService>();
+            _folderContentManagerToClient = new ConcurrentDictionary<string, IConfiguration>();
         }
 
-        public static FolderContentManagerToClient Instance
+        public static ClientConfiguration Instance
         {
             get
             {
                 lock (Padlock)
                 {
-                    return _instance ?? (_instance = new FolderContentManagerToClient());
+                    return _instance ?? (_instance = new ClientConfiguration());
                 }
             }
         }
 
         #endregion Singelton
 
-        private readonly ConcurrentDictionary<string, FolderContentManager.Services.IFolderContentService> _folderContentManagerToClient;
-        private readonly ConcurrentDictionary<string, FileService> _fileServiceToClient;
+        private readonly ConcurrentDictionary<string, IConfiguration> _folderContentManagerToClient;
         private readonly ConcurrentDictionary<string, Action> _clientToRemoveAction;
         private readonly ConcurrentDictionary<string, long> _clientToNumberOfLogins;
 
@@ -47,11 +50,9 @@ namespace CloudAppServer
             _clientToNumberOfLogins[id]++;;
             if (_clientToNumberOfLogins[id] > 1) return;
 
-            var folderContentManagerConstance = new Constance();
-            folderContentManagerConstance.BaseFolderPath = $"{folderContentManagerConstance.BaseFolderPath}\\{id}";
-            var folderContentConcurrentManager = new FolderContentConcurrentManager(folderContentManagerConstance);
-            _folderContentManagerToClient[id] = new FolderContentManager.Services.FolderContentService(folderContentManagerConstance, folderContentConcurrentManager);
-            _fileServiceToClient[id] = new FileService(folderContentConcurrentManager);
+            var configuration = new Configuration {BaseFolderName = id};
+            configuration.HomeFolderPath = $"{configuration.BaseFolderPath}\\{configuration.BaseFolderName}";
+            _folderContentManagerToClient[id] = configuration;
         }
 
         public void AddOnRemoveCallBack(string id, Action onRemove)
@@ -71,19 +72,13 @@ namespace CloudAppServer
             }
 
             _folderContentManagerToClient.TryRemove(id, out var folderContentManager);
-            _fileServiceToClient.TryRemove(id, out var fileService);
             var onRemove = _clientToRemoveAction[id];
             onRemove?.Invoke();
         }
 
-        public FolderContentManager.Services.IFolderContentService GetFolderContentManager(string id)
+        public IConfiguration GetConfiguration(string id)
         {
             return _folderContentManagerToClient[id];
-        }
-
-        public FileService GetFileService(string id)
-        {
-            return _fileServiceToClient[id];
         }
 
         public bool NeedToCreateService(string id)

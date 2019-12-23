@@ -1,2 +1,2 @@
 C:\ProgramData\PostSharp\6.0.18\bin.Release\net471\PostSharp.Compiler.Engine.dll
-C:\Users\dvire\source\repos\CloudAppServer\WcfLogger\obj\Debug\PostSharp\postsharp.config
+C:\Private repositories\CloudAppServer\WcfLogger\obj\Debug\PostSharp\postsharp.config

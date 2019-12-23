@@ -19,3 +19,25 @@ C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\obj\Debug\Folder
 C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\obj\Debug\FolderContentManager.dll
 C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\obj\Debug\FolderContentManager.pdb
 C:\Users\dvire\source\repos\CloudAppServer\FolderContentManager\obj\Debug\PostSharp\postsharp.app.config
+C:\Private repositories\CloudAppServer\FolderContentManager\bin\Debug\FolderContentManager.pssym
+C:\Private repositories\CloudAppServer\FolderContentManager\bin\Debug\FolderContentManager.dll
+C:\Private repositories\CloudAppServer\FolderContentManager\bin\Debug\FolderContentManager.pdb
+C:\Private repositories\CloudAppServer\FolderContentManager\bin\Debug\log4net.dll
+C:\Private repositories\CloudAppServer\FolderContentManager\bin\Debug\PostSharp.dll
+C:\Private repositories\CloudAppServer\FolderContentManager\bin\Debug\PostSharp.Patterns.Common.dll
+C:\Private repositories\CloudAppServer\FolderContentManager\bin\Debug\PostSharp.Patterns.Diagnostics.Backends.Log4Net.dll
+C:\Private repositories\CloudAppServer\FolderContentManager\bin\Debug\PostSharp.Patterns.Diagnostics.dll
+C:\Private repositories\CloudAppServer\FolderContentManager\bin\Debug\Pri.LongPath.dll
+C:\Private repositories\CloudAppServer\FolderContentManager\bin\Debug\log4net.xml
+C:\Private repositories\CloudAppServer\FolderContentManager\bin\Debug\PostSharp.xml
+C:\Private repositories\CloudAppServer\FolderContentManager\bin\Debug\PostSharp.Patterns.Common.xml
+C:\Private repositories\CloudAppServer\FolderContentManager\bin\Debug\PostSharp.Patterns.Diagnostics.xml
+C:\Private repositories\CloudAppServer\FolderContentManager\bin\Debug\PostSharp.Patterns.Diagnostics.Backends.Log4Net.xml
+C:\Private repositories\CloudAppServer\FolderContentManager\obj\Debug\FolderContentManager.csproj.CoreCompileInputs.cache
+C:\Private repositories\CloudAppServer\FolderContentManager\obj\Debug\FolderContentManager.csproj.CopyComplete
+C:\Private repositories\CloudAppServer\FolderContentManager\obj\Debug\PostSharp\touch
+C:\Private repositories\CloudAppServer\FolderContentManager\obj\Debug\PostSharp\dependencies.txt
+C:\Private repositories\CloudAppServer\FolderContentManager\obj\Debug\FolderContentManager.dll
+C:\Private repositories\CloudAppServer\FolderContentManager\obj\Debug\FolderContentManager.pdb
+C:\Private repositories\CloudAppServer\FolderContentManager\obj\Debug\PostSharp\postsharp.app.config
+C:\Private repositories\CloudAppServer\FolderContentManager\obj\Debug\FolderContentManager.csprojAssemblyReference.cache

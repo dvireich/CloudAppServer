@@ -2,7 +2,7 @@
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using CloudAppServer.ServiceModel;
-using FolderContentManager.Model;
+using ContentManager.Model;
 using FolderMetadata = CloudAppServer.ServiceModel.FolderMetadata;
 
 namespace CloudAppServer
@@ -36,7 +36,7 @@ namespace CloudAppServer
             Method = "POST",
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "/FolderContent/GetPage")]
-        string GetFolderContent(PageRequest pageRequest);
+        string GetPage(PageRequest pageRequest);
 
         [OperationContract]
         [WebInvoke(
@@ -50,7 +50,7 @@ namespace CloudAppServer
             Method = "POST",
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "/FolderContent/GetNumberOfPages")]
-        int GetNumberOfPage(NumberOfPageRequest numberOfPageRequest);
+        long GetNumberOfPage(NumberOfPageRequest numberOfPageRequest);
 
         [OperationContract]
         [WebInvoke(
@@ -72,14 +72,6 @@ namespace CloudAppServer
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "/FolderContent/Search")]
         string Search(SearchRequest searchRequest);
-
-        [OperationContract]
-        [WebGet(
-            ResponseFormat = WebMessageFormat.Json,
-            BodyStyle = WebMessageBodyStyle.Bare,
-            RequestFormat = WebMessageFormat.Json,
-            UriTemplate = "/FolderContent/RequestId")]
-        int GetRequestId();
 
         [OperationContract]
         [WebInvoke(
@@ -123,6 +115,12 @@ namespace CloudAppServer
         [WebInvoke(
             Method = "POST",
             BodyStyle = WebMessageBodyStyle.Bare,
+            UriTemplate = "/FolderContent/FinishUpload")]
+        void FinishUpload(FolderContentFileObj folderContent);
+
+        [WebInvoke(
+            Method = "POST",
+            BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "/FolderContent/UpdateFileContent")]
         void UpdateFileContent(FolderContentFileObj folderContent);
 
@@ -130,23 +128,19 @@ namespace CloudAppServer
             Method = "POST",
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "/FolderContent/ClearUpload")]
-        void ClearUpload(int requestId);
+        void ClearUpload(FolderContentFileObj folderContent);
 
         [WebInvoke(
             Method = "POST",
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "/FolderContent/CancelUpload")]
-        void CancelUpload(int requestId);
+        void CancelUpload(FolderContentFileObj folderContent);
 
+        [OperationContract]
         [WebInvoke(
             Method = "POST",
             BodyStyle = WebMessageBodyStyle.Bare,
-            UriTemplate = "/FolderContent/GetFileRequestId")]
-        int GetFileRequestId(GetFileRequest getFileRequest);
-
-        [OperationContract]
-        [WebGet(
-            UriTemplate = "/FolderContent/GetFile/requestId={requestId}")]
-        Stream GetFile(string requestId);
+            UriTemplate = "/FolderContent/GetFile")]
+        Stream GetFile(FolderContentFileObj folderContent);
     }
 }
