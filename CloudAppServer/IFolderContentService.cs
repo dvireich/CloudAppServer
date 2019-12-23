@@ -136,7 +136,6 @@ namespace CloudAppServer
             UriTemplate = "/FolderContent/CancelUpload")]
         void CancelUpload(FolderContentFileObj folderContent);
 
-        [OperationContract]
         [WebInvoke(
             Method = "POST",
             BodyStyle = WebMessageBodyStyle.Bare,
