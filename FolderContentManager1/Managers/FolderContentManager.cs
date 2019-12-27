@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Threading.Tasks;
 using ContentManager.Helpers.Configuration;
 using ContentManager.Helpers.Directory_helpers;
@@ -12,8 +9,9 @@ using ContentManager.Helpers.Result.InternalTypes;
 using ContentManager.Model;
 using ContentManager.Model.Enums;
 using ContentManager.Model.FolderProviders;
+using ContentManager.Model.Folders;
 
-namespace ContentManager
+namespace ContentManager.Managers
 {
     public class FolderContentManager : ContentManager<Folder>
     {
@@ -39,15 +37,30 @@ namespace ContentManager
             CreateFolderAsync(configuration.TemporaryFileFolderName, configuration.HomeFolderPath).Wait();
         }
 
+        public FolderContentManager(
+            IConfiguration configuration,
+            IFolderProvider<Folder> folderProvider) :
+            base(folderProvider, new PathManager())
+        {
+            CreateFolderAsync(configuration.BaseFolderName, configuration.BaseFolderPath).Wait();
+            CreateFolderAsync(configuration.HomeFolderName, configuration.HomeFolderPath).Wait();
+            CreateFolderAsync(configuration.TemporaryFileFolderName, configuration.HomeFolderPath).Wait();
+        }
+
         #endregion
 
         #region Public methods
 
         public async Task<IResult<Void>> DeleteFolderAsync(string name, string path)
         {
-            var parentFolder = FolderProvider.GetFolder(path);
+            var parentFolderResult = FolderProvider.GetFolder(path);
 
-            var folderToDeleteResult = await parentFolder.GetChildFolderAsync(name);
+            if (!parentFolderResult.IsSuccess)
+            {
+                return new FailureResult(parentFolderResult.Exception);
+            }
+
+            var folderToDeleteResult = await parentFolderResult.Data.GetChildFolderAsync(name);
 
             if (!folderToDeleteResult.IsSuccess)
             {
@@ -66,9 +79,14 @@ namespace ContentManager
 
         public async Task<IResult<Void>> DeleteFileAsync(string name, string path)
         {
-            var parentFolder = FolderProvider.GetFolder(path);
+            var parentFolderResult = FolderProvider.GetFolder(path);
 
-            var fileToDeleteResult = await parentFolder.GetChildFileAsync(name);
+            if (!parentFolderResult.IsSuccess)
+            {
+                return new FailureResult(parentFolderResult.Exception);
+            }
+
+            var fileToDeleteResult = await parentFolderResult.Data.GetChildFileAsync(name);
 
             if (!fileToDeleteResult.IsSuccess)
             {
@@ -87,8 +105,14 @@ namespace ContentManager
 
         public async Task<IResult<Stream>> GetFileStreamAsync(string name, string path)
         {
-            var folder = FolderProvider.GetFolder(path);
-            var fileResult = await folder.GetChildFileAsync(name);
+            var folderResult = FolderProvider.GetFolder(path);
+
+            if (!folderResult.IsSuccess)
+            {
+                return new FailureResult<Stream>(folderResult.Exception);
+            }
+
+            var fileResult = await folderResult.Data.GetChildFileAsync(name);
 
             if (!fileResult.IsSuccess)
             {
@@ -107,15 +131,21 @@ namespace ContentManager
                 return new FailureResult<Folder>(relativePathResult.Exception);
             }
 
-            var folder = FolderProvider.GetFolder(relativePathResult.Data);
-            var loadPageResult = await folder.LoadFolderPageAsync(pageNumber);
+            var folderResult = FolderProvider.GetFolder(relativePathResult.Data);
+
+            if (!folderResult.IsSuccess)
+            {
+                return new FailureResult<Folder>(folderResult.Exception);
+            }
+
+            var loadPageResult = await folderResult.Data.LoadFolderPageAsync(pageNumber);
 
             if (!loadPageResult.IsSuccess)
             {
                 return new FailureResult<Folder>(loadPageResult.Exception);
             }
 
-            return new SuccessResult<Folder>(folder);
+            return new SuccessResult<Folder>(folderResult.Data);
 
         }
 
@@ -128,9 +158,14 @@ namespace ContentManager
                 return new FailureResult<SortType>(relativePathResult.Exception);
             }
 
-            var folder = FolderProvider.GetFolder(relativePathResult.Data);
+            var folderResult = FolderProvider.GetFolder(relativePathResult.Data);
 
-            return new SuccessResult<SortType>(folder.SortType);
+            if (!folderResult.IsSuccess)
+            {
+                return new FailureResult<SortType>(folderResult.Exception);
+            }
+
+            return new SuccessResult<SortType>(folderResult.Data.SortType);
         }
 
         public IResult<int> GetNumberOfElementToShowOnPage(string name, string path)
@@ -142,9 +177,14 @@ namespace ContentManager
                 return new FailureResult<int>(relativePathResult.Exception);
             }
 
-            var folder = FolderProvider.GetFolder(relativePathResult.Data);
+            var folderResult = FolderProvider.GetFolder(relativePathResult.Data);
 
-            return new SuccessResult<int>(folder.NumberOfElementToShowOnPage);
+            if (!folderResult.IsSuccess)
+            {
+                return new FailureResult<int>(folderResult.Exception);
+            }
+
+            return new SuccessResult<int>(folderResult.Data.NumberOfElementToShowOnPage);
         }
 
         public virtual async Task<IResult<long>> GetNumOfFolderPagesAsync(string name, string path)
@@ -156,16 +196,26 @@ namespace ContentManager
                 return new FailureResult<long>(relativePathResult.Exception);
             }
 
-            var folder = FolderProvider.GetFolder(relativePathResult.Data);
+            var folderResult = FolderProvider.GetFolder(relativePathResult.Data);
 
-            return await folder.GetNumOfFolderPagesAsync();
+            if (!folderResult.IsSuccess)
+            {
+                return new FailureResult<long>(folderResult.Exception);
+            }
+
+            return await folderResult.Data.GetNumOfFolderPagesAsync();
         }
 
         public async Task<IResult<Void>> RenameFileAsync(string name, string path, string newName)
         {
-            var parentFolder = FolderProvider.GetFolder(path);
+            var parentFolderResult = FolderProvider.GetFolder(path);
 
-            var fileResult = await parentFolder.GetChildFileAsync(name);
+            if (!parentFolderResult.IsSuccess)
+            {
+                return new FailureResult(parentFolderResult.Exception);
+            }
+
+            var fileResult = await parentFolderResult.Data.GetChildFileAsync(name);
 
             if (!fileResult.IsSuccess)
             {
@@ -177,9 +227,14 @@ namespace ContentManager
 
         public async Task<IResult<Void>> RenameFolderAsync(string name, string path, string newName)
         {
-            var parentFolder = FolderProvider.GetFolder(path);
+            var parentFolderResult = FolderProvider.GetFolder(path);
 
-            var folderResult = await parentFolder.GetChildFolderAsync(name);
+            if (!parentFolderResult.IsSuccess)
+            {
+                return new FailureResult(parentFolderResult.Exception);
+            }
+
+            var folderResult = await parentFolderResult.Data.GetChildFolderAsync(name);
 
             if (!folderResult.IsSuccess)
             {
@@ -191,12 +246,18 @@ namespace ContentManager
 
         public async Task<IResult<Void>> CreateFileAsync(string name, string path, Stream content)
         {
-            var folder = FolderProvider.GetFolder(path);
-            var fileResult = await folder.AddFileAsync(content, name);
+            var folderResult = FolderProvider.GetFolder(path);
+
+            if (!folderResult.IsSuccess)
+            {
+                return new FailureResult(folderResult.Exception);
+            }
+
+            var fileResult = await folderResult.Data.AddFileAsync(content, name);
 
             if (!fileResult.IsSuccess)
             {
-                return new FailureResult<Void>(fileResult.Exception);
+                return new FailureResult(fileResult.Exception);
             }
 
             return new SuccessResult();
@@ -208,16 +269,28 @@ namespace ContentManager
             string destPath,
             string destName)
         {
-            var parentFolder = FolderProvider.GetFolder(sourcePath);
-            var sourceFolderResult = await parentFolder.GetChildFolderAsync(sourceFolderName);
+            var parentFolderResult = FolderProvider.GetFolder(sourcePath);
+
+            if (!parentFolderResult.IsSuccess)
+            {
+                return new FailureResult(parentFolderResult.Exception);
+            }
+
+            var sourceFolderResult = await parentFolderResult.Data.GetChildFolderAsync(sourceFolderName);
 
             if (!sourceFolderResult.IsSuccess)
             {
                 return new FailureResult(sourceFolderResult.Exception);
             }
 
-            var destParentFolder = FolderProvider.GetFolder(destPath);
-            var destFolderResult = await destParentFolder.GetChildFolderAsync(destName);
+            var destParentFolderResult = FolderProvider.GetFolder(destPath);
+
+            if (!destParentFolderResult.IsSuccess)
+            {
+                return new FailureResult(destParentFolderResult.Exception);
+            }
+
+            var destFolderResult = await destParentFolderResult.Data.GetChildFolderAsync(destName);
 
             if (!destFolderResult.IsSuccess)
             {
@@ -240,16 +313,28 @@ namespace ContentManager
             string destPath,
             string destName)
         {
-            var parentFolder = FolderProvider.GetFolder(sourcePath);
-            var sourceFileResult = await parentFolder.GetChildFileAsync(sourceFileName);
+            var parentFolderResult = FolderProvider.GetFolder(sourcePath);
+
+            if (!parentFolderResult.IsSuccess)
+            {
+                return new FailureResult(parentFolderResult.Exception);
+            }
+
+            var sourceFileResult = await parentFolderResult.Data.GetChildFileAsync(sourceFileName);
 
             if (!sourceFileResult.IsSuccess)
             {
                 return new FailureResult(sourceFileResult.Exception);
             }
 
-            var destParentFolder = FolderProvider.GetFolder(destPath);
-            var destFolderResult = await destParentFolder.GetChildFolderAsync(destName);
+            var destParentFolderResult = FolderProvider.GetFolder(destPath);
+
+            if (!destParentFolderResult.IsSuccess)
+            {
+                return new FailureResult(destParentFolderResult.Exception);
+            }
+
+            var destFolderResult = await destParentFolderResult.Data.GetChildFolderAsync(destName);
 
             if (!destFolderResult.IsSuccess)
             {
@@ -282,11 +367,17 @@ namespace ContentManager
                 return new FailureResult(pathResult.Exception);
             }
 
-            var folder = FolderProvider.GetFolder(pathResult.Data);
-            folder.SortType = folderMetadata.SortType;
-            folder.NumberOfElementToShowOnPage = folderMetadata.NumberOfPagesPerPage;
+            var folderResult = FolderProvider.GetFolder(pathResult.Data);
 
-            return await folder.SaveAsync();
+            if (!folderResult.IsSuccess)
+            {
+                return new FailureResult(folderResult.Exception);
+            }
+
+            folderResult.Data.SortType = folderMetadata.SortType;
+            folderResult.Data.NumberOfElementToShowOnPage = folderMetadata.NumberOfPagesPerPage;
+
+            return await folderResult.Data.SaveAsync();
         }
 
         #endregion

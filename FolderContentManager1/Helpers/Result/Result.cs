@@ -17,7 +17,7 @@ namespace ContentManager.Helpers.Result
         public T Data { get; }
     }
 
-    public class Result : IResult<InternalTypes.Void>
+    public class Result : IResult<Void>
     {
         public Result(bool isSuccess, Exception exception)
         {

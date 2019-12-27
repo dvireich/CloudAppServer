@@ -1,7 +1,9 @@
-﻿namespace ContentManager.Model.FolderProviders
+﻿using ContentManager.Helpers.Result;
+
+namespace ContentManager.Model.FolderProviders
 {
     public interface IFolderProvider<T>
     {
-        T GetFolder(string path);
+        IResult<T> GetFolder(string path);
     }
 }

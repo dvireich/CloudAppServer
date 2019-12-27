@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using ContentManager.Helpers.Configuration;
 using ContentManager.Helpers.Directory_helpers;
@@ -11,7 +8,7 @@ using ContentManager.Helpers.Path_helpers;
 using ContentManager.Helpers.Result;
 using Void = ContentManager.Helpers.Result.InternalTypes.Void;
 
-namespace ContentManager.Model
+namespace ContentManager.Model.Folders
 {
     public class BufferedFolder : Folder
     {

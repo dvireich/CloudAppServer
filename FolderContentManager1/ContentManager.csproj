@@ -51,10 +51,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContentManager.cs" />
-    <Compile Include="UploadFileManager.cs" />
-    <Compile Include="FolderContentManager.cs" />
-    <Compile Include="FolderContentSearchManager.cs" />
+    <Compile Include="Managers\CacheFolderContentManager.cs" />
+    <Compile Include="Managers\ContentManager.cs" />
+    <Compile Include="Helpers\Exceptions\CacheMissException.cs" />
+    <Compile Include="Model\FolderProviders\CacheFolderProvider.cs" />
+    <Compile Include="Model\Folders\CacheFolder.cs" />
+    <Compile Include="Managers\UploadFileManager.cs" />
+    <Compile Include="Managers\FolderContentManager.cs" />
+    <Compile Include="Managers\FolderContentSearchManager.cs" />
     <Compile Include="Helpers\Directory helpers\DirectoryManagerAsync.cs" />
     <Compile Include="Helpers\Directory helpers\IDirectoryManagerAsync.cs" />
     <Compile Include="Helpers\File helpers\FileManagerAsync.cs" />
@@ -72,7 +76,7 @@
     <Compile Include="Model\Folders\SearchFolder.cs" />
     <Compile Include="Model\FolderProviders\SearchFolderProvider.cs" />
     <Compile Include="Model\SystemFile.cs" />
-    <Compile Include="Model\SystemFolder.cs" />
+    <Compile Include="Model\Folders\SystemFolder.cs" />
     <Compile Include="Model\SystemContentBase.cs" />
     <Compile Include="Helpers\Configuration\Configuration.cs" />
     <Compile Include="Helpers\Directory helpers\DirectoryManager.cs" />

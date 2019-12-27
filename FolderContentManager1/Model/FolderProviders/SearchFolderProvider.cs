@@ -2,6 +2,8 @@
 using ContentManager.Helpers.Directory_helpers;
 using ContentManager.Helpers.File_helpers;
 using ContentManager.Helpers.Path_helpers;
+using ContentManager.Helpers.Result;
+using ContentManager.Model.Folders;
 
 namespace ContentManager.Model.FolderProviders
 {
@@ -32,9 +34,10 @@ namespace ContentManager.Model.FolderProviders
 
         #endregion
 
-        public SearchFolder GetFolder(string path)
+        public IResult<SearchFolder> GetFolder(string path)
         {
-            return new SearchFolder(_directoryManager, _pathManager, _fileManager, path, _configuration);
+            return new SuccessResult<SearchFolder>(
+                new SearchFolder(_directoryManager, _pathManager, _fileManager, path, _configuration));
         }
     }
 }

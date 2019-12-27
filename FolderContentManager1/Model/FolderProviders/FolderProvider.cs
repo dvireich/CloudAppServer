@@ -2,6 +2,8 @@
 using ContentManager.Helpers.Directory_helpers;
 using ContentManager.Helpers.File_helpers;
 using ContentManager.Helpers.Path_helpers;
+using ContentManager.Helpers.Result;
+using ContentManager.Model.Folders;
 
 namespace ContentManager.Model.FolderProviders
 {
@@ -34,9 +36,10 @@ namespace ContentManager.Model.FolderProviders
 
         #region Public methods
 
-        public Folder GetFolder(string path)
+        public virtual IResult<Folder> GetFolder(string path)
         {
-            return new Folder(_directoryManager, _pathManager, _fileManager, path, _configuration);
+            return new SuccessResult<Folder>(
+                new Folder(_directoryManager, _pathManager, _fileManager, path, _configuration));
         }
 
         #endregion

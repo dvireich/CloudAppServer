@@ -9,6 +9,7 @@ using System.Web.Script.Serialization;
 using CloudAppServer.ServiceModel;
 using ContentManager;
 using ContentManager.Helpers.Result;
+using ContentManager.Managers;
 using ContentManager.Model.Enums;
 using WcfLogger;
 using FolderMetadata = CloudAppServer.ServiceModel.FolderMetadata;

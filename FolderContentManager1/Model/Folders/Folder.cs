@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -14,7 +13,7 @@ using ContentManager.Helpers.Result;
 using ContentManager.Model.Enums;
 using Void = ContentManager.Helpers.Result.InternalTypes.Void;
 
-namespace ContentManager.Model
+namespace ContentManager.Model.Folders
 {
     public class Folder : SystemFolder
     {
@@ -84,7 +83,7 @@ namespace ContentManager.Model
 
         #region Public methods
 
-        public async Task<IResult<Void>> LoadFolderPageAsync(int pageNumber)
+        public virtual async Task<IResult<Void>> LoadFolderPageAsync(int pageNumber)
         {
             var allChildrenResult = await GetAllChildrenAsync();
 
@@ -103,7 +102,7 @@ namespace ContentManager.Model
                     .Skip(NumberOfElementToShowOnPage * (pageNumber - 1))
                     .Take(NumberOfElementToShowOnPage).ToList();
 
-                CurrentPage = new ContentPage();
+                CurrentPage = new ContentPage(pageNumber);
                 CurrentPage.AddRange(page);
 
                 return new SuccessResult();

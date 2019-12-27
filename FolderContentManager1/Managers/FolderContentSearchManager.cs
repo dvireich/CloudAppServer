@@ -4,10 +4,10 @@ using ContentManager.Helpers.Directory_helpers;
 using ContentManager.Helpers.File_helpers;
 using ContentManager.Helpers.Path_helpers;
 using ContentManager.Helpers.Result;
-using ContentManager.Model;
 using ContentManager.Model.FolderProviders;
+using ContentManager.Model.Folders;
 
-namespace ContentManager
+namespace ContentManager.Managers
 {
     public class FolderContentSearchManager
     {
@@ -54,16 +54,21 @@ namespace ContentManager
                 return new FailureResult<Folder>(homePathResult.Exception);
             }
 
-            var homeFolder = _folderProvider.GetFolder(homePathResult.Data);
+            var homeFolderResult = _folderProvider.GetFolder(homePathResult.Data);
 
-            var loadSearchResults = await homeFolder.LoadSearchPageAsync(nameToSearch, page);
+            if (!homeFolderResult.IsSuccess)
+            {
+                return new FailureResult<Folder>(homeFolderResult.Exception);
+            }
+
+            var loadSearchResults = await homeFolderResult.Data.LoadSearchPageAsync(nameToSearch, page);
 
             if (!loadSearchResults.IsSuccess)
             {
                 return new FailureResult<Folder>(loadSearchResults.Exception);
             }
 
-            return new SuccessResult<Folder>(homeFolder);
+            return new SuccessResult<Folder>(homeFolderResult.Data);
         }
 
         public async Task<IResult<long>> GetNumOfFolderPagesAsync(string name, string path)
@@ -75,15 +80,21 @@ namespace ContentManager
                 return new FailureResult<long>(homePathResult.Exception);
             }
 
-            var homeFolder = _folderProvider.GetFolder(homePathResult.Data);
-            var searchResult = await homeFolder.LoadSearchPageAsync(name, 1);
+            var homeFolderResult = _folderProvider.GetFolder(homePathResult.Data);
+
+            if (!homeFolderResult.IsSuccess)
+            {
+                return new FailureResult<long>(homeFolderResult.Exception);
+            }
+
+            var searchResult = await homeFolderResult.Data.LoadSearchPageAsync(name, 1);
 
             if (!searchResult.IsSuccess)
             {
                 return new FailureResult<long>(searchResult.Exception);
             }
 
-            return await homeFolder.GetNumOfFolderPagesAsync();
+            return await homeFolderResult.Data.GetNumOfFolderPagesAsync();
         }
 
         #endregion

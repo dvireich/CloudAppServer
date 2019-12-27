@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using ContentManager.Helpers.Configuration;
 using ContentManager.Helpers.Directory_helpers;
@@ -11,7 +9,7 @@ using ContentManager.Helpers.Result;
 using ContentManager.Model.Enums;
 using Void = ContentManager.Helpers.Result.InternalTypes.Void;
 
-namespace ContentManager.Model
+namespace ContentManager.Model.Folders
 {
     public class SearchFolder : Folder
     {
@@ -64,7 +62,7 @@ namespace ContentManager.Model
                     .Skip(Configuration.DefaultNumberOfElementToShowOnPage * (pageNumber - 1))
                     .Take(Configuration.DefaultNumberOfElementToShowOnPage).ToList();
 
-                CurrentPage = new ContentPage();
+                CurrentPage = new ContentPage(pageNumber);
                 CurrentPage.AddRange(searchPage);
 
                 return new SuccessResult();

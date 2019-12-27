@@ -9,8 +9,9 @@ using ContentManager.Helpers.File_helpers;
 using ContentManager.Helpers.Path_helpers;
 using ContentManager.Helpers.Result;
 using ContentManager.Model.Enums;
+using Void = ContentManager.Helpers.Result.InternalTypes.Void;
 
-namespace ContentManager.Model
+namespace ContentManager.Model.Folders
 {
     public class SystemFolder : SystemContentBase
     {
@@ -46,7 +47,7 @@ namespace ContentManager.Model
 
         #region SystemFolder methods
 
-        public async Task<IResult<Helpers.Result.InternalTypes.Void>> CreateAsync()
+        public async Task<IResult<Void>> CreateAsync()
         {
             var isExistsResult = await FileManager.ExistsAsync(FullPath);
 
@@ -63,7 +64,7 @@ namespace ContentManager.Model
             return new SuccessResult();
         }
 
-        public async Task<IResult<SystemFolder>> GetChildFolderAsync(string name)
+        public virtual async Task<IResult<SystemFolder>> GetChildFolderAsync(string name)
         {
             var pathResult = PathManager.Combine(FullPath, name);
 
@@ -84,7 +85,7 @@ namespace ContentManager.Model
             return new SuccessResult<SystemFolder>(folder);
         }
 
-        public async Task<IResult<SystemFolder>> AddChildFolderAsync(string name)
+        public virtual async Task<IResult<SystemFolder>> AddChildFolderAsync(string name)
         {
             var pathResult = PathManager.Combine(FullPath, name);
 
@@ -105,7 +106,7 @@ namespace ContentManager.Model
             return new SuccessResult<SystemFolder>(folder);
         }
 
-        public async Task<IResult<IEnumerable<SystemFolder>>> GetAllChildFolderAsync()
+        public virtual async Task<IResult<IEnumerable<SystemFolder>>> GetAllChildFolderAsync()
         {
             var directoriesResult = await DirectoryManager.GetAllDirectoriesAsync(FullPath);
 
@@ -131,7 +132,7 @@ namespace ContentManager.Model
             return new SuccessResult<IEnumerable<SystemFolder>>(allChildren);
         }
 
-        public async Task<IResult<IEnumerable<SystemFile>>> GetAllChildFilesAsync()
+        public virtual async Task<IResult<IEnumerable<SystemFile>>> GetAllChildFilesAsync()
         {
             var filesResult = await DirectoryManager.GetAllFilesAsync(FullPath);
 
@@ -157,7 +158,7 @@ namespace ContentManager.Model
             return new SuccessResult<IEnumerable<SystemFile>>(allChildren);
         }
 
-        public async Task<IResult<IEnumerable<ContentBase>>> GetAllChildrenAsync()
+        public virtual async Task<IResult<IEnumerable<ContentBase>>> GetAllChildrenAsync()
         {
             
             var allChildren = new List<ContentBase>();
@@ -183,12 +184,12 @@ namespace ContentManager.Model
 
         }
 
-        public async Task<IResult<Helpers.Result.InternalTypes.Void>> DeleteAsync()
+        public virtual async Task<IResult<Void>> DeleteAsync()
         {
             return await DirectoryManager.DeleteDirectoryAsync(FullPath, true);
         }
 
-        public async Task<IResult<Helpers.Result.InternalTypes.Void>> RenameAsync(string newFolderName)
+        public virtual async Task<IResult<Void>> RenameAsync(string newFolderName)
         {
             var basePath = PathManager.GetParent(FullPath);
 
@@ -202,7 +203,7 @@ namespace ContentManager.Model
             return await DirectoryManager.RenameDirectoryAsync(basePath.Data, oldName, newFolderName);
         }
 
-        public async Task<IResult<Helpers.Result.InternalTypes.Void>> CopyToAsync(SystemFolder destFolder)
+        public virtual async Task<IResult<Void>> CopyToAsync(SystemFolder destFolder)
         {
             // Copy folder
             var sourceFolderInDestFolderResult = await destFolder.AddChildFolderAsync(Name);
@@ -255,7 +256,7 @@ namespace ContentManager.Model
 
         #region SystemFile methods
 
-        public async Task<IResult<SystemFile>> AddFileAsync(Stream stream, string name, bool leaveOpen = false)
+        public virtual async Task<IResult<SystemFile>> AddFileAsync(Stream stream, string name, bool leaveOpen = false)
         {
             var pathResult = PathManager.Combine(FullPath, name);
 
@@ -277,7 +278,7 @@ namespace ContentManager.Model
 
         }
 
-        public async Task<IResult<SystemFile>> GetChildFileAsync(string name)
+        public virtual async Task<IResult<SystemFile>> GetChildFileAsync(string name)
         {
             var pathResult = PathManager.Combine(FullPath, name);
 

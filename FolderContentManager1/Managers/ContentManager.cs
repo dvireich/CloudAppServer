@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ContentManager.Helpers.Path_helpers;
 using ContentManager.Helpers.Result;
-using ContentManager.Model;
 using ContentManager.Model.FolderProviders;
+using ContentManager.Model.Folders;
 using Void = ContentManager.Helpers.Result.InternalTypes.Void;
 
-namespace ContentManager
+namespace ContentManager.Managers
 {
     public class ContentManager<T> where T : Folder
     {
@@ -34,9 +30,14 @@ namespace ContentManager
 
         public async Task<IResult<Void>> CreateFolderAsync(string name, string path)
         {
-            var folder = FolderProvider.GetFolder(path);
+            var folderResult = FolderProvider.GetFolder(path);
 
-            var addChildFolderResult = await folder.AddChildFolderAsync(name);
+            if (!folderResult.IsSuccess)
+            {
+                return new FailureResult(folderResult.Exception);
+            }
+
+            var addChildFolderResult = await folderResult.Data.AddChildFolderAsync(name);
 
             if (!addChildFolderResult.IsSuccess)
             {

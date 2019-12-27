@@ -7,6 +7,7 @@ using ContentManager.Helpers.File_helpers;
 using ContentManager.Helpers.Path_helpers;
 using ContentManager.Helpers.Result;
 using ContentManager.Model.Enums;
+using ContentManager.Model.Folders;
 using Void = ContentManager.Helpers.Result.InternalTypes.Void;
 
 namespace ContentManager.Model

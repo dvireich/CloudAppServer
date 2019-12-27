@@ -6,11 +6,11 @@ using ContentManager.Helpers.Directory_helpers;
 using ContentManager.Helpers.File_helpers;
 using ContentManager.Helpers.Path_helpers;
 using ContentManager.Helpers.Result;
-using ContentManager.Model;
 using ContentManager.Model.FolderProviders;
+using ContentManager.Model.Folders;
 using Void = ContentManager.Helpers.Result.InternalTypes.Void;
 
-namespace ContentManager
+namespace ContentManager.Managers
 {
     public class UploadFileManager : ContentManager<BufferedFolder>
     {
@@ -99,8 +99,14 @@ namespace ContentManager
                 return new FailureResult(streamResult.Exception);
             }
 
-            var destinationFolder = FolderProvider.GetFolder(path);
-            var addFileResult = await destinationFolder.AddFileAsync(streamResult.Data, name);
+            var destinationFolderResult = FolderProvider.GetFolder(path);
+
+            if (!destinationFolderResult.IsSuccess)
+            {
+                return new FailureResult(destinationFolderResult.Exception);
+            }
+
+            var addFileResult = await destinationFolderResult.Data.AddFileAsync(streamResult.Data, name);
 
             if (!addFileResult.IsSuccess)
             {
@@ -156,7 +162,14 @@ namespace ContentManager
                 return new FailureResult(pathResult.Exception);
             }
 
-            _uploadFolder = FolderProvider.GetFolder(pathResult.Data);
+            var uploadFolderResult = FolderProvider.GetFolder(pathResult.Data);
+
+            if (!uploadFolderResult.IsSuccess)
+            {
+                return new FailureResult(uploadFolderResult.Exception);
+            }
+
+            _uploadFolder = uploadFolderResult.Data;
 
             return new SuccessResult();
         }
