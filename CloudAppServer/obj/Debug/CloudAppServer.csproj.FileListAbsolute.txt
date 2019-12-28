@@ -47,3 +47,5 @@ C:\Private repositories\CloudAppServer\CloudAppServer\obj\Debug\CloudAppServer.p
 C:\Private repositories\CloudAppServer\CloudAppServer\bin\Debug\ContentManager.dll
 C:\Private repositories\CloudAppServer\CloudAppServer\bin\Debug\ContentManager.pdb
 C:\Private repositories\CloudAppServer\CloudAppServer\bin\Debug\ContentManager.dll.config
+C:\Private repositories\CloudAppServer\CloudAppServer\bin\Debug\Newtonsoft.Json.dll
+C:\Private repositories\CloudAppServer\CloudAppServer\bin\Debug\Newtonsoft.Json.xml

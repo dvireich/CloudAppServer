@@ -32,3 +32,4 @@ C:\Private repositories\CloudAppServer\ServiceLoadTaskQueue\obj\Debug\ServiceLoa
 C:\Private repositories\CloudAppServer\ServiceLoadTaskQueue\obj\Debug\ServiceLoadTaskQueue.csproj.CopyComplete
 C:\Private repositories\CloudAppServer\ServiceLoadTaskQueue\obj\Debug\ServiceLoadTaskQueue.dll
 C:\Private repositories\CloudAppServer\ServiceLoadTaskQueue\obj\Debug\ServiceLoadTaskQueue.pdb
+C:\Private repositories\CloudAppServer\ServiceLoadTaskQueue\obj\Debug\ServiceLoadTaskQueue.csprojAssemblyReference.cache

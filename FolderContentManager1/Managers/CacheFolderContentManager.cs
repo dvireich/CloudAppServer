@@ -8,16 +8,30 @@ using ContentManager.Helpers.Directory_helpers;
 using ContentManager.Helpers.File_helpers;
 using ContentManager.Helpers.Path_helpers;
 using ContentManager.Model.FolderProviders;
+using ContentManager.Model.FolderProviders.CacheProvider;
 using ContentManager.Model.Folders;
 
 namespace ContentManager.Managers
 {
-    public class CacheFolderContentManager : FolderContentManager
+    public class CacheFolderContentManager : FolderContentManagerBase<CacheFolder>
     {
         public CacheFolderContentManager(
-            IConfiguration configuration) 
-            : base(configuration, 
-                new CacheFolderProvider(new DirectoryManagerAsync(), new PathManager(), new FileManagerAsync(), configuration))
+            IPathManager pathManager,
+            IConfiguration configuration,
+            IFolderProvider<CacheFolder> folderProvider) :
+            base(pathManager, configuration, folderProvider)
+        {
+        }
+
+        public CacheFolderContentManager(
+            IConfiguration configuration) :
+            base(
+                configuration,
+                new CacheFolderProvider(
+                    new DirectoryManagerAsync(), 
+                    new PathManager(), 
+                    new FileManagerAsync(), 
+                    configuration))
         {
         }
     }

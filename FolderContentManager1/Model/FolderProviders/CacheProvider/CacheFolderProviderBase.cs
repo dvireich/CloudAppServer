@@ -7,48 +7,39 @@ using ContentManager.Helpers.Path_helpers;
 using ContentManager.Helpers.Result;
 using ContentManager.Model.Folders;
 
-namespace ContentManager.Model.FolderProviders
+namespace ContentManager.Model.FolderProviders.CacheProvider
 {
-    public class CacheFolderProvider : IFolderProvider<Folder>
+    public abstract class CacheFolderProviderBase<T> : CacheFolderProviderRootBase,  IFolderProvider<T> where T : CacheFolder
     {
-        #region Members
-
-        private readonly CacheFolder _root;
-
-        #endregion
-
         #region Ctor
 
-        public CacheFolderProvider(
+        protected CacheFolderProviderBase(
             IDirectoryManagerAsync directoryManager,
             IPathManager pathManager,
             IFileManagerAsync fileManager,
             IConfiguration configuration)
         {
-            var pathManager1 = pathManager;
-            var configuration1 = configuration;
-
-            var homeFolderPathResult = pathManager1.Combine(configuration1.HomeFolderPath, configuration1.HomeFolderName);
+            var homeFolderPathResult = pathManager.Combine(configuration.HomeFolderPath, configuration.HomeFolderName);
 
             if (!homeFolderPathResult.IsSuccess)
             {
                 throw homeFolderPathResult.Exception;
             }
 
-            _root = new CacheFolder(
-                directoryManager, 
-                pathManager1, 
-                fileManager, 
-                homeFolderPathResult.Data,
-                configuration1, 
-                null);
+            Root = new CacheFolder(
+                        directoryManager,
+                        pathManager,
+                        fileManager,
+                        homeFolderPathResult.Data,
+                        configuration,
+                        null);
         }
 
         #endregion
 
         #region Public
 
-        public IResult<Folder> GetFolder(string path)
+        public virtual IResult<T> GetFolder(string path)
         {
             var parentFolderNames = path
                 .Trim('\\')
@@ -61,9 +52,9 @@ namespace ContentManager.Model.FolderProviders
 
         #region Private
 
-        private IResult<Folder> FindInCacheFolderTree(IEnumerable<string> parentFolderNames)
+        private IResult<T> FindInCacheFolderTree(IEnumerable<string> parentFolderNames)
         {
-            var current = _root;
+            var current = Root;
 
             foreach (var parentFolderName in parentFolderNames)
             {
@@ -71,12 +62,12 @@ namespace ContentManager.Model.FolderProviders
 
                 if (!childFolderResult.IsSuccess)
                 {
-                    return new FailureResult<Folder>(childFolderResult.Exception);
+                    return new FailureResult<T>(childFolderResult.Exception);
                 }
 
                 if (!(childFolderResult.Data is CacheFolder cacheFolder))
                 {
-                    return new FailureResult<Folder>(
+                    return new FailureResult<T>(
                         new Exception(
                             $"Folder '{childFolderResult.Data.Name}' in path '{childFolderResult.Data.RelativePath}' is not CacheFolder"));
                 }
@@ -84,7 +75,7 @@ namespace ContentManager.Model.FolderProviders
                 current = cacheFolder;
             }
 
-            return new SuccessResult<Folder>(current);
+            return new SuccessResult<T>((T) current);
         }
 
         #endregion

@@ -37,6 +37,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Pri.LongPath, Version=2.0.47.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Pri.LongPath.2.0.47\lib\net45\Pri.LongPath.dll</HintPath>
     </Reference>
@@ -54,10 +57,13 @@
     <Compile Include="Managers\CacheFolderContentManager.cs" />
     <Compile Include="Managers\ContentManager.cs" />
     <Compile Include="Helpers\Exceptions\CacheMissException.cs" />
-    <Compile Include="Model\FolderProviders\CacheFolderProvider.cs" />
+    <Compile Include="Managers\FolderContentManager.cs" />
+    <Compile Include="Model\FolderProviders\CacheProvider\CacheFolderProvider.cs" />
+    <Compile Include="Model\FolderProviders\CacheProvider\CacheFolderProviderBase.cs" />
+    <Compile Include="Model\FolderProviders\CacheProvider\CacheFolderProviderRootBase.cs" />
     <Compile Include="Model\Folders\CacheFolder.cs" />
     <Compile Include="Managers\UploadFileManager.cs" />
-    <Compile Include="Managers\FolderContentManager.cs" />
+    <Compile Include="Managers\FolderContentManagerBase.cs" />
     <Compile Include="Managers\FolderContentSearchManager.cs" />
     <Compile Include="Helpers\Directory helpers\DirectoryManagerAsync.cs" />
     <Compile Include="Helpers\Directory helpers\IDirectoryManagerAsync.cs" />
@@ -73,8 +79,9 @@
     <Compile Include="Model\FolderProviders\FolderProvider.cs" />
     <Compile Include="Model\FolderMetadata.cs" />
     <Compile Include="Model\FolderProviders\IFolderProvider.cs" />
+    <Compile Include="Model\Folders\ICacheFolderClone.cs" />
     <Compile Include="Model\Folders\SearchFolder.cs" />
-    <Compile Include="Model\FolderProviders\SearchFolderProvider.cs" />
+    <Compile Include="Model\FolderProviders\CacheProvider\CacheSearchFolderProvider.cs" />
     <Compile Include="Model\SystemFile.cs" />
     <Compile Include="Model\Folders\SystemFolder.cs" />
     <Compile Include="Model\SystemContentBase.cs" />

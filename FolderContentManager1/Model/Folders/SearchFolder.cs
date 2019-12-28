@@ -11,7 +11,7 @@ using Void = ContentManager.Helpers.Result.InternalTypes.Void;
 
 namespace ContentManager.Model.Folders
 {
-    public class SearchFolder : Folder
+    public class SearchFolder : CacheFolder
     {
         #region Consts
 
@@ -33,8 +33,9 @@ namespace ContentManager.Model.Folders
             IPathManager pathManager,
             IFileManagerAsync fileManager,
             string relativePath,
-            IConfiguration configuration)
-            : base(directoryManager, pathManager, fileManager, relativePath, configuration)
+            IConfiguration configuration,
+            CacheFolder parent)
+            : base(directoryManager, pathManager, fileManager, relativePath, configuration, parent)
         {
             CreationTime = ModificationTime = $"{DateTime.Now:G}";
             Name = FolderName;

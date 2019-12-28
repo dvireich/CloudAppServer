@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,11 +11,12 @@ using ContentManager.Helpers.Exceptions;
 using ContentManager.Helpers.File_helpers;
 using ContentManager.Helpers.Path_helpers;
 using ContentManager.Helpers.Result;
+using Newtonsoft.Json;
 using Void = ContentManager.Helpers.Result.InternalTypes.Void;
 
 namespace ContentManager.Model.Folders
 {
-    public class CacheFolder : Folder
+    public class CacheFolder : Folder, ICacheFolderClone
     {
         #region Members
 
@@ -271,6 +273,12 @@ namespace ContentManager.Model.Folders
             return new SuccessResult();
         }
 
+        public T Clone<T>() where T : CacheFolder
+        {
+            var deserializeSettings = new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace };
+            return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(this), deserializeSettings);
+        }
+
         #endregion
 
         #region Private
@@ -325,6 +333,5 @@ namespace ContentManager.Model.Folders
         }
 
         #endregion
-
     }
 }

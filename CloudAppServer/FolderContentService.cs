@@ -19,7 +19,7 @@ namespace CloudAppServer
 {
     public class FolderContentService : IFolderContentService
     {
-        private readonly FolderContentManager _folderContentManager;
+        private readonly CacheFolderContentManager _folderContentManager;
         private readonly FolderContentSearchManager _folderContentSearchManager;
         private readonly UploadFileManager _uploadFileManager;
         private readonly JavaScriptSerializer _serializer = new JavaScriptSerializer();
@@ -29,7 +29,7 @@ namespace CloudAppServer
             var endpoint = OperationContext.Current.EndpointDispatcher.EndpointAddress.ToString();
             var userId = endpoint.Split('/').Last();
             var configuration  = ClientConfiguration.Instance.GetConfiguration(userId);
-            _folderContentManager = new FolderContentManager(configuration);
+            _folderContentManager = new CacheFolderContentManager(configuration);
             _folderContentSearchManager = new FolderContentSearchManager(configuration);
             _uploadFileManager = new UploadFileManager(configuration);
         }

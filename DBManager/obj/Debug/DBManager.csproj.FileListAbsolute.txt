@@ -77,3 +77,4 @@ C:\Private repositories\CloudAppServer\DBManager\obj\Debug\PostSharp\dependencie
 C:\Private repositories\CloudAppServer\DBManager\obj\Debug\DBManager.dll
 C:\Private repositories\CloudAppServer\DBManager\obj\Debug\DBManager.pdb
 C:\Private repositories\CloudAppServer\DBManager\obj\Debug\PostSharp\postsharp.app.config
+C:\Private repositories\CloudAppServer\DBManager\obj\Debug\DBManager.csprojAssemblyReference.cache

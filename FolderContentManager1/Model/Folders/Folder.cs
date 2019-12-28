@@ -155,7 +155,7 @@ namespace ContentManager.Model.Folders
 
         private async Task<IResult<FolderMetadata>> LoadMetaDataAsync()
         {
-            var getMetaDataResult = await GetChildFileAsync(MetaDataFile);
+            var getMetaDataResult = await base.GetChildFileAsync(MetaDataFile);
 
             if (!getMetaDataResult.IsSuccess)
             {
@@ -208,7 +208,7 @@ namespace ContentManager.Model.Folders
             var byteArray = Encoding.ASCII.GetBytes(serializeFolderMetaData);
             var stream = new MemoryStream(byteArray);
 
-            var addFileResult =  await AddFileAsync(stream, MetaDataFile);
+            var addFileResult =  await base.AddFileAsync(stream, MetaDataFile);
 
             if (!addFileResult.IsSuccess)
             {

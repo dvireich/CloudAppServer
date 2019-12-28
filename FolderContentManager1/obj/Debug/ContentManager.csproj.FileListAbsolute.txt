@@ -7,3 +7,5 @@ C:\Private repositories\CloudAppServer\FolderContentManager1\obj\Debug\ContentMa
 C:\Private repositories\CloudAppServer\FolderContentManager1\obj\Debug\ContentManager.csproj.CopyComplete
 C:\Private repositories\CloudAppServer\FolderContentManager1\obj\Debug\ContentManager.dll
 C:\Private repositories\CloudAppServer\FolderContentManager1\obj\Debug\ContentManager.pdb
+C:\Private repositories\CloudAppServer\FolderContentManager1\bin\Debug\Newtonsoft.Json.dll
+C:\Private repositories\CloudAppServer\FolderContentManager1\bin\Debug\Newtonsoft.Json.xml

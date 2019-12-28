@@ -5,6 +5,7 @@ using ContentManager.Helpers.File_helpers;
 using ContentManager.Helpers.Path_helpers;
 using ContentManager.Helpers.Result;
 using ContentManager.Model.FolderProviders;
+using ContentManager.Model.FolderProviders.CacheProvider;
 using ContentManager.Model.Folders;
 
 namespace ContentManager.Managers
@@ -29,7 +30,7 @@ namespace ContentManager.Managers
         {
             _pathManager = pathManager;
             _configuration = configuration;
-            _folderProvider = new SearchFolderProvider(directoryManager, pathManager, fileManager, configuration);
+            _folderProvider = new CacheSearchFolderProvider(directoryManager, pathManager, fileManager, configuration);
         }
 
         public FolderContentSearchManager(IConfiguration configuration)
@@ -38,7 +39,7 @@ namespace ContentManager.Managers
             _pathManager = new PathManager();
             var directoryManager = new DirectoryManagerAsync();
             var fileManager = new FileManagerAsync();
-            _folderProvider = new SearchFolderProvider(directoryManager, _pathManager, fileManager, configuration);
+            _folderProvider = new CacheSearchFolderProvider(directoryManager, _pathManager, fileManager, configuration);
         }
 
         #endregion

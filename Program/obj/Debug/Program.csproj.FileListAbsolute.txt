@@ -83,3 +83,5 @@ C:\Private repositories\CloudAppServer\Program\obj\Debug\PostSharp\postsharp.app
 C:\Private repositories\CloudAppServer\Program\bin\Debug\ContentManager.dll
 C:\Private repositories\CloudAppServer\Program\bin\Debug\ContentManager.pdb
 C:\Private repositories\CloudAppServer\Program\bin\Debug\ContentManager.dll.config
+C:\Private repositories\CloudAppServer\Program\bin\Debug\Newtonsoft.Json.dll
+C:\Private repositories\CloudAppServer\Program\bin\Debug\Newtonsoft.Json.xml
