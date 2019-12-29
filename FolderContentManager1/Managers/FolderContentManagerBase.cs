@@ -17,23 +17,14 @@ namespace ContentManager.Managers
 
         protected FolderContentManagerBase(
             IPathManager pathManager,
-            IConfiguration configuration,
             IFolderProvider<T> folderProvider) :
             base(folderProvider, pathManager)
         {
-            CreateFolderAsync(configuration.BaseFolderName, configuration.BaseFolderPath).Wait();
-            CreateFolderAsync(configuration.HomeFolderName, configuration.HomeFolderPath).Wait();
-            CreateFolderAsync(configuration.TemporaryFileFolderName, configuration.HomeFolderPath).Wait();
         }
 
-        protected FolderContentManagerBase(
-            IConfiguration configuration,
-            IFolderProvider<T> folderProvider) :
+        protected FolderContentManagerBase(IFolderProvider<T> folderProvider) :
             base(folderProvider, new PathManager())
         {
-            CreateFolderAsync(configuration.BaseFolderName, configuration.BaseFolderPath).Wait();
-            CreateFolderAsync(configuration.HomeFolderName, configuration.HomeFolderPath).Wait();
-            CreateFolderAsync(configuration.TemporaryFileFolderName, configuration.HomeFolderPath).Wait();
         }
 
         #endregion

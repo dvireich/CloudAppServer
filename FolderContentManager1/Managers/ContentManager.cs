@@ -28,9 +28,14 @@ namespace ContentManager.Managers
 
         #region Public
 
-        public async Task<IResult<Void>> CreateFolderAsync(string name, string path)
+        public async Task<IResult<Void>> CreateFolderAsync(
+            string name, 
+            string path, 
+            IFolderProvider<T> folderProvider = null)
         {
-            var folderResult = FolderProvider.GetFolder(path);
+            folderProvider = folderProvider ?? FolderProvider;
+
+            var folderResult = folderProvider.GetFolder(path);
 
             if (!folderResult.IsSuccess)
             {

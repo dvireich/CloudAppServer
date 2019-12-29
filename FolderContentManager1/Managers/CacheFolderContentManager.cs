@@ -15,24 +15,43 @@ namespace ContentManager.Managers
 {
     public class CacheFolderContentManager : FolderContentManagerBase<CacheFolder>
     {
+        #region Ctor
+
         public CacheFolderContentManager(
             IPathManager pathManager,
             IConfiguration configuration,
-            IFolderProvider<CacheFolder> folderProvider) :
-            base(pathManager, configuration, folderProvider)
+            IFolderProvider<CacheFolder> cacheFolderProvider) :
+            base(pathManager, cacheFolderProvider)
         {
+            CreateFolders(configuration);
         }
 
         public CacheFolderContentManager(
             IConfiguration configuration) :
-            base(
-                configuration,
-                new CacheFolderProvider(
-                    new DirectoryManagerAsync(), 
-                    new PathManager(), 
-                    new FileManagerAsync(), 
-                    configuration))
+            base(new CacheFolderProvider(
+                new DirectoryManagerAsync(),
+                new PathManager(),
+                new FileManagerAsync(),
+                configuration))
         {
+            CreateFolders(configuration);
         }
+
+        #endregion
+
+        #region Private
+
+        private void CreateFolders(IConfiguration configuration)
+        {
+            var folderProvider = new EntryPointCacheFolderProvider(configuration);
+
+            CreateFolderAsync(configuration.BaseFolderName, configuration.BaseFolderPath, folderProvider).Wait();
+            CreateFolderAsync(configuration.HomeFolderName, configuration.HomeFolderPath, folderProvider).Wait();
+            CreateFolderAsync(configuration.TemporaryFileFolderName, configuration.HomeFolderPath, folderProvider).Wait();
+        }
+
+        #endregion
     }
+
+    
 }

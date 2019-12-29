@@ -16,7 +16,7 @@ namespace ContentManager.Model
         protected readonly IFileManagerAsync FileManager;
         protected readonly IPathManager PathManager;
         protected readonly IConfiguration Configuration;
-        protected readonly string FullPath;
+        public readonly string FullPath;
         
         #endregion
 

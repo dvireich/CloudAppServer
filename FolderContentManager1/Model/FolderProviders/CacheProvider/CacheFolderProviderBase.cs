@@ -19,18 +19,18 @@ namespace ContentManager.Model.FolderProviders.CacheProvider
             IFileManagerAsync fileManager,
             IConfiguration configuration)
         {
-            var homeFolderPathResult = pathManager.Combine(configuration.HomeFolderPath, configuration.HomeFolderName);
+            //var homeFolderPathResult = pathManager.Combine(configuration.HomeFolderPath, configuration.HomeFolderName);
 
-            if (!homeFolderPathResult.IsSuccess)
-            {
-                throw homeFolderPathResult.Exception;
-            }
+            //if (!homeFolderPathResult.IsSuccess)
+            //{
+            //    throw homeFolderPathResult.Exception;
+            //}
 
-            Root = new CacheFolder(
+            Root = Root ?? new CacheFolder(
                         directoryManager,
                         pathManager,
                         fileManager,
-                        homeFolderPathResult.Data,
+                        configuration.HomeFolderPath,
                         configuration,
                         null);
         }

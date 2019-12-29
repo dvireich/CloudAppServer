@@ -21,8 +21,8 @@ namespace ContentManager.Model.Folders
         #region Members
 
         private readonly ConcurrentDictionary<int, ContentPage> _pageNumberToContentPage = new ConcurrentDictionary<int, ContentPage>();
-        private readonly ConcurrentDictionary<string, CacheFolder> _childFolderNameToCacheFolder;
-        private readonly ConcurrentDictionary<string, SystemFile> _childFileNameToFile;
+        private ConcurrentDictionary<string, CacheFolder> _childFolderNameToCacheFolder;
+        private ConcurrentDictionary<string, SystemFile> _childFileNameToFile;
         private long _numberOfPages = -1;
         private readonly CacheFolder _parent;
 
@@ -41,33 +41,7 @@ namespace ContentManager.Model.Folders
         {
             _parent = parent;
 
-            var allChildFilesResult = base.GetAllChildFilesAsync().Result;
-
-            if (!allChildFilesResult.IsSuccess)
-            {
-                throw allChildFilesResult.Exception;
-            }
-
-            var allChildFoldersResult = base.GetAllChildFolderAsync().Result;
-
-            if (!allChildFoldersResult.IsSuccess)
-            {
-                throw allChildFoldersResult.Exception;
-            }
-
-            _childFileNameToFile = new ConcurrentDictionary<string, SystemFile>(allChildFilesResult.Data
-                .ToDictionary(file => file.Name, file => file));
-
-            _childFolderNameToCacheFolder = new ConcurrentDictionary<string, CacheFolder>(allChildFoldersResult.Data
-                .ToDictionary(
-                    folder => folder.Name, 
-                    folder => new CacheFolder(
-                        directoryManager,
-                        pathManager,
-                        fileManager,
-                        folder.RelativePath,
-                        configuration,
-                        this)));
+            LoadCache(directoryManager, pathManager, fileManager, configuration);
         }
 
         #endregion
@@ -119,6 +93,11 @@ namespace ContentManager.Model.Folders
 
         public override Task<IResult<SystemFolder>> AddChildFolderAsync(string name)
         {
+            if (_childFolderNameToCacheFolder == null)
+            {
+                return base.AddChildFolderAsync(name);
+            }
+
             if (_childFolderNameToCacheFolder.TryGetValue(name, out var childFolder))
             {
                 return Success<SystemFolder>(childFolder);
@@ -139,6 +118,8 @@ namespace ContentManager.Model.Folders
                         this);
 
                     _childFolderNameToCacheFolder.TryAdd(name, childCacheFolder);
+
+                    ClearPageCache();
                 }
             });
 
@@ -148,6 +129,7 @@ namespace ContentManager.Model.Folders
         public override Task<IResult<Void>> DeleteAsync()
         {
             _parent._childFolderNameToCacheFolder.TryRemove(this.Name, out var child);
+            _parent.ClearPageCache();
 
             ClearCache();
 
@@ -168,6 +150,8 @@ namespace ContentManager.Model.Folders
                 if (addFileResult.IsSuccess)
                 {
                     _childFileNameToFile.TryAdd(name, addFileResult.Data);
+
+                    ClearPageCache();
                 }
             });
 
@@ -176,6 +160,11 @@ namespace ContentManager.Model.Folders
 
         public override Task<IResult<SystemFolder>> GetChildFolderAsync(string name)
         {
+            if (_childFolderNameToCacheFolder == null)
+            {
+                return base.GetChildFolderAsync(name);
+            }
+
             if (_childFolderNameToCacheFolder.TryGetValue(name, out var childFolder))
             {
                 return Success<SystemFolder>(childFolder);
@@ -185,16 +174,16 @@ namespace ContentManager.Model.Folders
             {
                 var childFolderResult = await base.GetChildFolderAsync(name);
 
-                var childCacheFolder = new CacheFolder(
-                    DirectoryManager,
-                    PathManager,
-                    FileManager,
-                    childFolderResult.Data.RelativePath,
-                    Configuration,
-                    this);
-
                 if (childFolderResult.IsSuccess)
                 {
+                    var childCacheFolder = new CacheFolder(
+                        DirectoryManager,
+                        PathManager,
+                        FileManager,
+                        childFolderResult.Data.RelativePath,
+                        Configuration,
+                        this);
+
                     _childFolderNameToCacheFolder.TryAdd(name, childCacheFolder);
                 }
             });
@@ -204,6 +193,11 @@ namespace ContentManager.Model.Folders
 
         public override Task<IResult<SystemFile>> GetChildFileAsync(string name)
         {
+            if (_childFileNameToFile == null)
+            {
+                return base.GetChildFileAsync(name);
+            }
+
             if (_childFileNameToFile.TryGetValue(name, out var childFile))
             {
                 return Success(childFile);
@@ -234,10 +228,10 @@ namespace ContentManager.Model.Folders
 
         public override Task<IResult<IEnumerable<ContentBase>>> GetAllChildrenAsync()
         {
-            var childFolders = GetAllChildFilesAsync().Result.Data;
-            var childFiles = GetAllChildFilesAsync().Result.Data;
+            var childFolders = (IEnumerable<ContentBase>)GetAllChildFolderAsync().Result.Data;
+            var childFiles = (IEnumerable<ContentBase>)GetAllChildFilesAsync().Result.Data;
 
-            return Success<IEnumerable<ContentBase>>(childFolders.Union(childFiles));
+            return Success(childFolders.Concat(childFiles));
         }
 
         public override Task<IResult<Void>> CopyToAsync(SystemFolder destFolder)
@@ -256,6 +250,7 @@ namespace ContentManager.Model.Folders
                 if (copyToResult.IsSuccess)
                 {
                     destCacheFolder._childFolderNameToCacheFolder.TryAdd(Name, this);
+                    destCacheFolder.ClearPageCache();
                 }
             });
 
@@ -330,6 +325,46 @@ namespace ContentManager.Model.Folders
             return folderToLookIn._childFolderNameToCacheFolder.Values
                 .Select(childFolder => GetMatchedCacheFolder(folderToFind, childFolder))
                 .FirstOrDefault();
+        }
+
+        private void ClearPageCache()
+        {
+            _pageNumberToContentPage.Clear();
+        }
+
+        private void LoadCache(
+            IDirectoryManagerAsync directoryManager, 
+            IPathManager pathManager, 
+            IFileManagerAsync fileManager,
+            IConfiguration configuration)
+        {
+            var allChildFilesResult = base.GetAllChildFilesAsync().Result;
+
+            if (!allChildFilesResult.IsSuccess)
+            {
+                throw allChildFilesResult.Exception;
+            }
+
+            var allChildFoldersResult = base.GetAllChildFolderAsync().Result;
+
+            if (!allChildFoldersResult.IsSuccess)
+            {
+                throw allChildFoldersResult.Exception;
+            }
+
+            _childFileNameToFile = new ConcurrentDictionary<string, SystemFile>(allChildFilesResult.Data
+                .ToDictionary(file => file.Name, file => file));
+
+            _childFolderNameToCacheFolder = new ConcurrentDictionary<string, CacheFolder>(allChildFoldersResult.Data
+                .ToDictionary(
+                    folder => folder.Name,
+                    folder => new CacheFolder(
+                        directoryManager,
+                        pathManager,
+                        fileManager,
+                        folder.FullPath,
+                        configuration,
+                        this)));
         }
 
         #endregion

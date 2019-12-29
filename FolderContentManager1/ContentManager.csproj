@@ -61,6 +61,7 @@
     <Compile Include="Model\FolderProviders\CacheProvider\CacheFolderProvider.cs" />
     <Compile Include="Model\FolderProviders\CacheProvider\CacheFolderProviderBase.cs" />
     <Compile Include="Model\FolderProviders\CacheProvider\CacheFolderProviderRootBase.cs" />
+    <Compile Include="Model\FolderProviders\CacheProvider\EntryPointCacheFolderProvider.cs" />
     <Compile Include="Model\Folders\CacheFolder.cs" />
     <Compile Include="Managers\UploadFileManager.cs" />
     <Compile Include="Managers\FolderContentManagerBase.cs" />
